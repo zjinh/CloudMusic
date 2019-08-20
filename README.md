@@ -16,10 +16,9 @@ C-Music是一款简洁的音乐播放器。
 - 💾 支持断点下载歌曲/MV
 - 🔔 传输任务完成通知提醒
 - ✨ 每日歌曲推荐
-- ✨ 视频文件在线查看
-- ✨ 图片文件在线查看
-- ✨ pdf文件在线查看
-- ✨ 多种开发文件在线查看，支持代码高亮
+- ✨ MV在线播放
+- ✨ 音乐在线搜索
+- ✨ 本地音乐播放
 
 ## 🛠 使用的技术栈
 - [Electron](https://electronjs.org/)
@@ -35,12 +34,12 @@ C-Music是一款简洁的音乐播放器。
 
 ### 克隆代码
 ```bash
-git clone https://github.com/zjinh/CloudDisk.git
+git clone https://github.com/zjinh/CloudMusic.git
 ```
 
 ### 安装依赖
 ```bash
-cd CloudDisk
+cd CloudMusic
 npm i
 ```
 ### 淘宝的npm源
