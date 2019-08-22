@@ -4,16 +4,21 @@
         <section class="cm-right">
             <MusicHeader></MusicHeader>
         </section>
+        <PlayerControl></PlayerControl>
+        <section class="cm-main-background-container" style="">
+            <div class="cm-main-background"></div>
+        </section>
     </div>
 </template>
 
 <script>
     import MusicClassify from "./MusicWindow/MusicClassify"
     import MusicHeader from "./MusicWindow/MusicHeader"
+    import PlayerControl from "./MusicWindow/PlayerControl"
     export default {
         name: "MusicWindow",
         components:{
-            MusicClassify,MusicHeader
+            MusicClassify,MusicHeader,PlayerControl
         },
         data(){
             return{
@@ -24,24 +29,45 @@
 </script>
 
 <style scoped>
-    .cm-main-background{
+    .cm-main-background-container{
+        width: 100%;
+        height: 60px;
+        left: 0;
+        bottom: 0;
         position: absolute;
-        left: -50%;
-        top: -50%;
+        z-index: 2;
+        border-radius: 5px 0 5px 5px;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-image: url("http://p1.music.126.net/oCnACmhB6CM5oZyWmNfmTg==/109951163051142326.jpg");
+        overflow:hidden;
+    }
+    .cm-main-background-container::before{
+        content:'';
+        position:absolute;
         width: 200%;
-        height: 200%;
-        -webkit-filter: blur(65px);
-        filter: blur(65px);
+        height: 120px;
+        top:-30px;
+        left:-50%;
+        z-index:-1;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: 50%;
+        background-image: url("http://p1.music.126.net/oCnACmhB6CM5oZyWmNfmTg==/109951163051142326.jpg");
+        -webkit-filter: blur(15px);
+        filter: blur(15px);
+    }
+    /*.cm-main-background{
+        width: 200%;
+        height: 120px;
+
         opacity: .6;
         background-color: rgba(0,0,0,.35);
         -webkit-transform: translateZ(0);
         transform: translateZ(0);
         z-index: 1;
-        background-image: url("../../../static/img/bg2.jpg");
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-position: 50%;
-    }
+
+    }*/
     .cm-main-poster{
         position: absolute;
         top: 0;
@@ -53,4 +79,11 @@
         background-position: 50%;
         z-index: 0;
     }
+    .cm-head{
+        width: 100%;
+        height: 60px;
+        background: #e56464;
+        border-bottom: 1px solid #3d4f4f;
+    }
+
 </style>

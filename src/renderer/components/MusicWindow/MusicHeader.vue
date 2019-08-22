@@ -162,6 +162,8 @@
         padding: 20px 0 10px;
         background: #fff;
         -webkit-app-region: drag;
+        border-radius: 0 5px 0 0;
+        border-bottom: 1px solid #eee;
     }
     /*顶部导航*/
     .cm-right-menu{
@@ -270,10 +272,9 @@
         cursor: pointer;
     }
     .window-actions li:hover{
-        background: #eee;
+        background: rgba(0,0,0,.1);
     }
     .window-actions:hover{
-        color: #4d515a;
         -webkit-transition: all .35s;
         -moz-transition: all .35s;
         -o-transition: all .35s

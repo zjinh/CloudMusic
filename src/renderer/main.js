@@ -61,6 +61,7 @@ let ipc=require('electron').ipcRenderer;
 Vue.path = Vue.prototype.$path = path;//path接口
 Vue.ipc = Vue.prototype.$ipc = ipc;//ipc接口
 Vue.api = Vue.prototype.$Api = Api;//请求接口
+Vue.static = Vue.prototype.$static = path.join(__static);//static
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'));
 Vue.Notify = Vue.prototype.$Notify =(msg)=>{
   new Notification('CloudMusic',{

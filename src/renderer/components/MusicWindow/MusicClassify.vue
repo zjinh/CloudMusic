@@ -1,21 +1,21 @@
 <template>
     <section class="cm-left">
         <div class="cm-left-head">
-            <img draggable="false" class="logo" :src="static+'/img/bar/music.png'" alt="">
-            <span><img class="logo-text" :src="static+'/img/logo/c-music.png'" alt=""></span>
-            <p></p>
+            <img draggable="false" class="logo" :src="$static+'/img/bar/music.png'" alt="">
+            <span><img class="logo-text" :src="$static+'/img/logo/c-music.png'" alt=""></span>
+            <p>啦啦啦啦啦啦啦</p>
         </div>
         <ul class="cm-left-menu">
             <li v-for="(item,index) in ClassifyMenuData" ripple :class="item.active" @click="change(index)">
                 <i :class="item.icon"></i>{{item.name}}<div v-show="item.count>0">{{item.count}}</div>
             </li>
         </ul>
-        <div class="cm-left-bottom">
+        <!--<div class="cm-left-bottom">
             <div class="tower" :style="{background:'url('+TowerSrc+')'}"></div>
             <section v-show="show">
                 <div class="cm-select-tips"></div>
             </section>
-        </div>
+        </div>-->
     </section>
 </template>
 
@@ -23,9 +23,6 @@
     export default {
         name: "MusicClassify",
         props:{
-            type:{
-                type:String
-            },
             DiskData:{
                 type:Object
             },
@@ -39,30 +36,86 @@
                 this.background();
             }, 1000);
         },
-        watch:{
-            type: {
-                handler() {
-                    this.UpdateData();
-                },
-                deep: true
-            },
-        },
-        computed:{
-            static(){
-                return this.$path.join(__static)
-            },
-        },
         data(){
             return{
                 TypeData:[
-                    {"name":"本地音乐","icon":"sf-icon-music","data":"normal","active":"active"},
-                    {"name":"下载管理","icon":"sf-icon-download","data":"picture","active":""},
-                    {"name":"视频","icon":"sf-icon-video","data":"video","active":""},
-                    {"name":"文档","icon":"sf-icon-file-alt","data":"document","active":""},
-                    {"name":"音乐","icon":"sf-icon-music","data":"music","active":""},
-                    {"name":"种子","icon":"sf-icon-magnet","data":"torrent","active":""},
-                    {"name":"其他","icon":"sf-icon-puzzle-piece","data":"other","active":""},
-                    {"name":"回收站","icon":"sf-icon-trash","data":"trash","active":""},
+                    {
+                        name:"发现音乐",
+                        icon:"sf-icon-music",
+                        active:'active'
+                    },
+                    {
+                        name:"私人FM",
+                        icon:" sf-icon-scrubber",
+                        active:''
+                    },
+                    {
+                        name:"本地音乐",
+                        icon:"sf-icon-music",
+                        active:''
+                    },
+                    {
+                        name:"下载管理",
+                        icon:"sf-icon-download",
+                        active:''
+                    },
+                    {
+                        name:"播放历史",
+                        icon:"sf-icon-redo",
+                        active:''
+                    },
+                    {
+                        name:"我喜欢的音乐",
+                        icon:"sf-icon-heart-o",
+                        active:''
+                    }
+                ],
+                MenuData:[
+                    {
+                        name:"探索",
+                        children:[
+                            {
+                                name:"发现音乐",
+                                icon:"sf-icon-music",
+                                active:'active'
+                            },
+                            {
+                                name:"私人FM",
+                                icon:"sf-icon-music",
+                                active:'active'
+                            }
+                        ],
+                    },
+                    {
+                        name:"我的音乐",
+                        children:[
+                            {
+                                name:"本地音乐",
+                                icon:"sf-icon-music",
+                                active:'active'
+                            },
+                            {
+                                name:"下载管理",
+                                icon:"sf-icon-music",
+                                active:'active'
+                            },
+                            {
+                                name:"播放历史",
+                                icon:"sf-icon-music",
+                                active:'active'
+                            }
+                        ],
+                    },
+                    {
+                        name:"我的歌单",
+                        children:[
+                            {
+                                name:"我喜欢的音乐",
+                                icon:"sf-icon-music",
+                                active:'active'
+                            }
+                        ],
+                    },
                 ],
                 ClassifyMenuData:[],
                 /*自动切换背景*/
@@ -96,24 +149,6 @@
                 }
                 this.TowerSrc = require('../../../../static/img/bg/'+ season + '-bottom-' + tag +  '.png');
             },
-            UpdateData(){
-                switch (this.type) {
-                    case 'disk':
-                        this.ClassifyMenuData=this.TypeData;
-                        break;
-                    case 'share':
-                        this.ClassifyMenuData=this.ShareData;
-                        break;
-                    case 'trans':
-                        this.ClassifyMenuData=this.TransData;
-                        break;
-                }
-                this.ClassifyMenuData.forEach((item)=>{
-                    if(item.active){
-                        this.$emit("change", this.type,item)
-                    }
-                });
-            },
             change(index) {
                 this.ClassifyMenuData.forEach(function (item) {
                     item.active = false
@@ -130,7 +165,7 @@
     .cm-left{
         float: left;
         width:200px;
-        height: 100%;
+        height: calc(100% - 60px);
         font-weight: 600;
         color: #4d515a;
         background: #f4f5f7;
@@ -139,7 +174,11 @@
     }
     .cm-left-head{
         width: 100%;
-        padding:20px 0 30px 20px;
+        padding:10px 0 30px 20px;
+        height: 60px;
+        margin-bottom: 10px;
+        background: #fff;
+        border-bottom: 1px solid #eee;
     }
     .cm-left-head *{
         float: left;
@@ -163,7 +202,6 @@
     .cm-left-head p{
         margin-left: 11px;
         font-size: 10px;
-        color: #4f4f4f;
         font-weight: normal;
     }
     /*左侧菜单*/
@@ -175,18 +213,19 @@
         z-index: 2;
     }
     .cm-left-menu li{
-        width: 168px;
+        width: 100%;
         height: 35px;
         line-height: 35px;
         cursor: pointer;
         font-size: 14px;
         margin: 8px auto;
-        border-radius: 3px;
-        margin-top: 0;
+        color: #39585a;
+        border-left: 4px solid rgba(0,0,0,0);
     }
     .cm-left-menu li:hover,.cm-left-menu .active{
-        color: #d42626!important;
+        color: #009594!important;
         background-color: #EAECF0;
+        border-left: 4px solid #009594;
     }
     .cm-left-menu i{
         float: left;
@@ -218,17 +257,5 @@
         -moz-transition: background 0.4s ease-in-out;
         -o-transition: background 0.4s ease-in-out;
         transition: background 0.4s ease-in-out;
-    }
-    /*文件选择提示*/
-    .cm-select-tips{
-        width: 100%;
-        height: 25px;
-        line-height: 25px;
-        font-size: 12px;
-        padding: 0 5px;
-        color: #505050;
-        position: absolute;
-        bottom:1px;
-        text-align: right;
     }
 </style>

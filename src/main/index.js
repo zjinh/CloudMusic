@@ -169,10 +169,10 @@ let MusicSystem= {
       url:'main',
       data:data,
       title:'CloudMusic',
-      width: 1024,
-      minWidth:1024,
-      minHeight:670,
-      height: 670,
+      width: 950,
+      minWidth:800,
+      minHeight:560,
+      height: 610,
       transparent:true,
       onclose:()=>{
         MainWindow=null;
