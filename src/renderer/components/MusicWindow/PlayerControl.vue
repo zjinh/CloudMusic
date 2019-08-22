@@ -24,7 +24,7 @@
                 </div>
             </div>
         </div>
-        <canvas width="350" height="60" id="canvas"></canvas>
+        <canvas width="350" height="60" id="canvas" style="zoom: 40%"></canvas>
         <ul class="cm-play-mode">
             <li class="sf-icon-random active"></li>
             <li class="sf-icon-repeat"></li>
@@ -54,15 +54,15 @@
                 let canvas = document.getElementById('canvas'),
                     cwidth = canvas.width,
                     cheight = canvas.height,
-                    meterWidth = 5, //width of the meters in the spectrum
+                    meterWidth = 10, //width of the meters in the spectrum
                     capHeight = 2,
-                    capStyle = '#009594',
-                    meterNum = 200 / (0.4 + 5), //count of the meters
+                    capStyle = '#5b5bea',
+                    meterNum = 800 / (10 + 2), //count of the meters
                     capYPositionArray = []; ////store the vertical position of hte caps for the preivous frame
                 ctx = canvas.getContext('2d');
-                let gradient = ctx.createLinearGradient(0, 0, 0, 7.5);
-                gradient.addColorStop(0.4, '#009594');
-                gradient.addColorStop(0.5, '#009594');
+                let gradient = ctx.createLinearGradient(0, 0, 0, 300);
+                gradient.addColorStop(1, '#8140ff');
+                gradient.addColorStop(0.5, '#5b5bea');
                 gradient.addColorStop(0, '#fff');
                 function renderFrame() {
                     let array = new Uint8Array(analyser.frequencyBinCount);
