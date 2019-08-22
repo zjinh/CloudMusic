@@ -7,7 +7,7 @@ if (process.env.NODE_ENV !== 'development') {
   global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
 }
 let version=require("../../package.json").version;
-let LoginWindow,MainWindow,DiskInfo,MusicPlayer,VideoPlayer,PictureViewer,PdfWindow,AccountWindow,AboutWindow,FileWindow,FeedBackWindow,SettingWindow,PopupWindow;
+let MainWindow,PopupWindow,AboutWindow,AccountWindow,FeedBackWindow;
 /*播放按钮*/
 let PlayerIcon = path.join(__static, '/img/player');
 let NextBtn = nativeImage.createFromPath(path.join(PlayerIcon, 'next.png'));
@@ -19,21 +19,21 @@ let MusicButtons = [
     tooltip: '上一首',
     icon: PrevBtn,
     click: () => {
-      MusicPlayer.webContents.send('Prev');
+      MainWindow.webContents.send('Prev');
     }
   },
   {
     tooltip: '播放',
     icon: PlayBtn,
     click: () => {
-      MusicPlayer.webContents.send('Play');
+      MainWindow.webContents.send('Play');
     }
   },
   {
     tooltip: '下一首',
     icon:NextBtn,
     click: () => {
-      MusicPlayer.webContents.send('Next');
+      MainWindow.webContents.send('Next');
     }
   }
 ];
@@ -116,27 +116,6 @@ function FileObject(item,state){
   }
 }
 let MusicSystem= {
-  LoginWindow:(flag)=>{
-    if(LoginWindow){
-      return WindowControl.Active(LoginWindow,flag);
-    }
-    LoginWindow=WindowControl.New({
-      url:'/',
-      data:flag,
-      title:'CloudMusic-欢迎',
-      width: 850,
-      height: 550,
-      alwaysOnTop:true,
-      maximizable:false,
-      resizable:false,
-      onclose:()=>{
-        LoginWindow=null;
-      },
-      callback:()=>{
-        BindIpc();
-      }
-    });
-  },
   MainWindow:(data)=>{
     if(MainWindow){
       return WindowControl.Active(MainWindow,data);
@@ -155,9 +134,7 @@ let MusicSystem= {
       },
       {
         label: '系统设置',//菜单显示文本项
-        click: function () {
-          MusicSystem.SettingWindow();
-        }
+        click: function () {}
       },
       {
         label: '反馈',//菜单显示文本项
@@ -192,10 +169,11 @@ let MusicSystem= {
       url:'main',
       data:data,
       title:'CloudMusic',
-      width: 950,
-      minWidth:800,
-      minHeight:560,
-      height: 610,
+      width: 1024,
+      minWidth:1024,
+      minHeight:670,
+      height: 670,
+      transparent:true,
       onclose:()=>{
         MainWindow=null;
         let wins=BrowserWindow.getAllWindows();
@@ -205,14 +183,11 @@ let MusicSystem= {
           }
         }
         appTray.destroy();
-        if(!LoginWindow) {
+        if(!MainWindow) {
           app.quit();
         }
         session.defaultSession.removeAllListeners('will-download');
       },
-      callback:()=>{
-        LoginWindow?LoginWindow.close():"";
-      }
     });
   },
   AboutWindow:()=>{
@@ -246,24 +221,6 @@ let MusicSystem= {
       resizable:false,
       onclose:()=>{
         AccountWindow=null;
-      }
-    });
-  },
-  SettingWindow:()=>{
-    if(SettingWindow){
-      return WindowControl.Active(SettingWindow);
-    }
-    SettingWindow=WindowControl.New({
-      url:'disk-setting',
-      title:'系统设置',
-      width: 600,
-      height: 400,
-      minHeight:350,
-      minWidth:500,
-      maximizable:false,
-      resizable:false,
-      onclose:()=>{
-        SettingWindow=null;
       }
     });
   },
@@ -340,7 +297,6 @@ let MusicSystem= {
     });
   },
   logoff:()=>{
-    MusicSystem.LoginWindow(false);
     MainWindow.webContents.send('exit');
     MainWindow.close();
   },
@@ -399,7 +355,7 @@ function BindIpc() {
       MusicButtons[1].icon =PlayBtn;
       MusicButtons[1].tooltip='播放'
     }
-    MusicPlayer.setThumbarButtons(MusicButtons);
+    MainWindow.setThumbarButtons(MusicButtons);
   });
   /*下载事件控制*/
   ipcMain.on('download',(event,type,data)=>{
@@ -449,11 +405,6 @@ if (!gotTheLock) {
   app.quit()
 } else {
   app.on('second-instance', () => {
-    if(LoginWindow){
-      LoginWindow.show();
-      LoginWindow.restore();
-      LoginWindow.focus()
-    }
     if (MainWindow) {
       MainWindow.show();
       MainWindow.restore();
@@ -462,7 +413,7 @@ if (!gotTheLock) {
   });
   app.on('ready', function (){
     app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required');
-    MusicSystem.LoginWindow(true);
+    MusicSystem.MainWindow(true);
   });
 }
 app.on('window-all-closed', () => {
@@ -471,7 +422,7 @@ app.on('window-all-closed', () => {
   }
 });
 app.on('activate', () => {
-  if (LoginWindow === null) {
-    MusicSystem.LoginWindow(true)
+  if (MainWindow === null) {
+    MusicSystem.MainWindow(true)
   }
 });

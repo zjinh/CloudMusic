@@ -1,4 +1,4 @@
-#Cloud-Disk{
+#Cloud-Music{
 	height: 100%;
 	background: none!important;
 }
@@ -139,7 +139,7 @@ button[disabled="disabled"]{
 	cursor: no-drop!important;
 }
 /*按钮*/
-.cd-button{
+.cm-button{
 	padding: 0 12px;
 	height: 32px;
 	border-radius: 3px;
@@ -149,13 +149,13 @@ button[disabled="disabled"]{
 	margin-left: 5px;
 	font-size: 13px;
 }
-.cd-cancel-button{
+.cm-cancel-button{
 	background: none;
 }
-.cd-button:hover{
+.cm-button:hover{
 	border: 1px solid #5b5bea;
 }
-.cd-purple-button{
+.cm-purple-button{
 	padding: 0 12px;
 	height: 32px;
 	border-radius: 3px;
@@ -166,16 +166,17 @@ button[disabled="disabled"]{
 	font-size: 13px;
 }
 /*通用*/
-.cd-main{
+.cm-main{
 	width: 100%;
 	height: 100%;
 }
-.cd-right{
+.cm-right{
 	float: left;
 	width: calc(100% - 200px);
 	height: 100%;
+	background: #fff;
 }
-.cd-bottom{
+.cm-bottom{
 	width: calc(100% - 30px);
 	margin: 2px auto;
 	margin: 0 15px;
@@ -371,7 +372,7 @@ button[disabled="disabled"]{
 	color: #FFF;
 }
 /*头部*/
-.cd-drag-head-big{
+.cm-drag-head-big{
 	width: 100%;
 	height: 50px;
 	background: url("../../../../static/img/login/right-bg.png");
@@ -381,16 +382,16 @@ button[disabled="disabled"]{
 	-webkit-app-region: drag;
 	background-color: #3b54a8;
 }
-.cd-drag-head-big *{
+.cm-drag-head-big *{
 	float: left;
 }
-.cd-drag-head-big img{
+.cm-drag-head-big img{
 	margin: 8px;
 	width: 32px;
 	height: 32px;
 	border-radius: 100%;
 }
-.cd-drag-head-big i{
+.cm-drag-head-big i{
 	float: left;
 	font-size: 30px;
 	color: #fff;
@@ -398,15 +399,15 @@ button[disabled="disabled"]{
 	margin: 0 15px;
 	margin-right: 10px;
 }
-.cd-drag-head-big p{
+.cm-drag-head-big p{
 	font-size: 14px;
 	line-height: 50px;
 	color: #fff;
 }
-.cd-drag-head-big .sf-icon-minus{
+.cm-drag-head-big .sf-icon-minus{
 	font-size: 12px;
 }
-.cd-drag-head-big button{
+.cm-drag-head-big button{
 	float: right;
 	width: 30px;
 	height: 30px;
@@ -418,6 +419,6 @@ button[disabled="disabled"]{
 	margin: 9px 6px 9px 0;
 	border-radius:5px;
 }
-.cd-drag-head-big button:hover{
+.cm-drag-head-big button:hover{
 	background: rgba(255,255,255,.1);
 }
