@@ -188,6 +188,11 @@ button[disabled="disabled"]{
 	overflow-y: auto;
 	position: relative;
 }
+.cm-page-main{
+	width: 100%;
+	height: 100%;
+	padding: 15px;
+}
 /*滚动条*/
 *::-webkit-scrollbar{
 	width:7px;

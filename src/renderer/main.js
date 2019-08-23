@@ -55,6 +55,9 @@ Vue.prototype.InputConfrim=(options)=>{
   }).catch(() => {
   });
 };
+/*公用组件*/
+import PageHeader from "./components/MusicCom/PageHeader.vue"
+Vue.component('PageHeader',PageHeader);
 //引入electron接口
 const path = require('path');
 let ipc=require('electron').ipcRenderer;

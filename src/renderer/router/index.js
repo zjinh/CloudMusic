@@ -16,6 +16,16 @@ export default new Router({
           name: 'main',
           component: require('@/components/MusicPage/DiscoverMusic.vue').default
         },
+        {
+          path: '/fm',
+          name: 'main',
+          component: require('@/components/MusicPage/FmMusic.vue').default
+        },
+        {
+          path: '/local',
+          name: 'main',
+          component: require('@/components/MusicPage/LocalMusic.vue').default
+        },
       ]
     },
 

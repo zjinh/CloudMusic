@@ -32,8 +32,8 @@
             <li class="sf-icon-repeat"></li>
             <li class=" sf-icon-list"></li>
         </ul>
-        <canvas width="350" height="240" id="canvas"></canvas>
-        <audio autoplay src="http://m10.music.126.net/20190822175838/e17be00438798490eb79c281a396c689/ymusic/7649/385a/3e35/4a4539ebfbb7b9f8d95ab9fb111471ed.mp3" ref="audio"
+        <canvas width="600" height="240" id="canvas"></canvas>
+        <audio src="E:\音乐\林俊杰 - 醉赤壁.flac" ref="audio"
                @ended="PlayerCommend('next')"
                @timeupdate="MusicProcess"
                @error="PlayerCommend('next')"
@@ -48,10 +48,12 @@
     import Media from '../../api/media';
     export default {
         name: "PlayerControl",
-        prop:{
+        props:{
             PlayList:{
                 type:Array,
-                default:[]
+                default:function () {
+                    return []
+                }
             }
         },
         data(){
@@ -60,9 +62,6 @@
                 TimeText:"00:00",
                 PlayButtonState:'sf-icon-play',
             }
-        },
-        mounted(){
-            this.Visual()
         },
         methods:{
             PlayerCommend(commend){
@@ -92,6 +91,7 @@
                         break;
                     case 'play':
                         let media=this.$refs.audio;
+                        console.log(media.paused)
                         if(media.paused){
                             media.play();
                             this.PlayButtonState='sf-icon-pause';
@@ -227,6 +227,7 @@
         float: left;
         width: 150px;
         height: calc(100% - 3px);
+        margin-top: 3px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -241,6 +242,7 @@
         line-height: 36px;
         border-radius: 100%;
         cursor: pointer;
+        margin-top: -3px;
     }
     .cm-control-button li i{
         font-size: 16px;
@@ -262,7 +264,7 @@
         background: #636363;
         border-radius: 10px;
         float: left;
-        margin-top: 25px;
+        margin-top: 26px;
         cursor: pointer;
         position: relative;
         z-index: 1;
@@ -309,6 +311,7 @@
         float: right;
         width: 150px;
         height: calc(100% - 3px);
+        margin-top: 3px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -325,6 +328,7 @@
         text-align: center;
         margin: 0 5px;
         cursor: pointer;
+        margin-top: -3px;
     }
     .cm-play-mode li:hover ,.cm-play-mode .active{
         background: #009493;

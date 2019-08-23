@@ -10,12 +10,12 @@
                 <i :class="item.icon"></i>{{item.name}}<div v-show="item.count>0">{{item.count}}</div>
             </li>
         </ul>
-        <!--<div class="cm-left-bottom">
+        <div class="cm-left-bottom">
             <div class="tower" :style="{background:'url('+TowerSrc+')'}"></div>
             <section v-show="show">
                 <div class="cm-select-tips"></div>
             </section>
-        </div>-->
+        </div>
     </section>
 </template>
 
@@ -31,45 +31,12 @@
             }
         },
         beforeMount(){
-            this.ClassifyMenuData=this.TypeData;
             setInterval(() => {
                 this.background();
             }, 1000);
         },
         data(){
             return{
-                TypeData:[
-                    {
-                        name:"发现音乐",
-                        icon:"sf-icon-music",
-                        active:'active'
-                    },
-                    {
-                        name:"私人FM",
-                        icon:" sf-icon-scrubber",
-                        active:''
-                    },
-                    {
-                        name:"本地音乐",
-                        icon:"sf-icon-music",
-                        active:''
-                    },
-                    {
-                        name:"下载管理",
-                        icon:"sf-icon-download",
-                        active:''
-                    },
-                    {
-                        name:"播放历史",
-                        icon:"sf-icon-redo",
-                        active:''
-                    },
-                    {
-                        name:"我喜欢的音乐",
-                        icon:"sf-icon-heart-o",
-                        active:''
-                    }
-                ],
                 MenuData:[
                     {
                         name:"探索",
@@ -117,7 +84,41 @@
                         ],
                     },
                 ],
-                ClassifyMenuData:[],
+                ClassifyMenuData:[
+                    {
+                        name:"发现音乐",
+                        icon:"sf-icon-music",
+                        data:"/discover",
+                        active:'active'
+                    },
+                    {
+                        name:"私人FM",
+                        icon:" sf-icon-scrubber",
+                        data:"/fm",
+                        active:''
+                    },
+                    {
+                        name:"本地音乐",
+                        icon:"sf-icon-music",
+                        data:"/local",
+                        active:''
+                    },
+                    {
+                        name:"下载管理",
+                        icon:"sf-icon-download",
+                        active:''
+                    },
+                    {
+                        name:"播放历史",
+                        icon:"sf-icon-redo",
+                        active:''
+                    },
+                    {
+                        name:"我喜欢的音乐",
+                        icon:"sf-icon-heart-o",
+                        active:''
+                    }
+                ],
                 /*自动切换背景*/
                 TowerSrc: require('../../../../static/img/bg/Autumn-bottom-1.png'),
             }
@@ -154,7 +155,9 @@
                     item.active = false
                 });
                 this.ClassifyMenuData[index].active = 'active';
-                this.$emit("callback", this.type,this.ClassifyMenuData[index])
+                this.$router.push({
+                    path:this.ClassifyMenuData[index].data
+                });
             }
         }
     }

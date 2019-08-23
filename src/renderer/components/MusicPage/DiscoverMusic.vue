@@ -3,8 +3,12 @@
 </template>
 
 <script>
+    const fs =require('fs');
     export default {
-        name: "DiscoverMusic"
+        name: "DiscoverMusic",
+        mounted() {
+
+        }
     }
 </script>
 
