@@ -147,7 +147,7 @@ button[disabled="disabled"]{
 	padding: 0 12px;
 	height: 32px;
 	border-radius: 3px;
-	color: #5b5bea;
+	color: #009594;
 	background-color: #EAECF0;
 	border: 1px solid rgba(0,0,0,0);
 	margin-left: 5px;
@@ -157,14 +157,14 @@ button[disabled="disabled"]{
 	background: none;
 }
 .cm-button:hover{
-	border: 1px solid #5b5bea;
+	border: 1px solid #009594;
 }
 .cm-purple-button{
 	padding: 0 12px;
 	height: 32px;
 	border-radius: 3px;
 	color: #EAECF0;
-	background-color: #5b5bea;
+	background-color: #009594;
 	border: 1px solid rgba(0,0,0,0);
 	margin-left: 5px;
 	font-size: 13px;
@@ -355,24 +355,24 @@ button[disabled="disabled"]{
 	padding: 10px 14px 18px;
 }
 .el-input.is-active .el-input__inner, .el-input__inner:focus{
-	border-color: #5b5bea;
+	border-color: #009594;
 }
 .el-button{
 	border: none;
 	background: none!important;
 }
 .el-button:focus, .el-button:hover {
-	color: #5b5bea;
+	color: #009594;
 	border-color: #c6e2ff;
 	background-color: #ecf5ff;
 }
 .el-button--primary{
-	background: #5b5bea!important;
-	border-color: #5b5bea!important;
+	background: #009594!important;
+	border-color: #009594!important;
 }
 .el-button--primary:focus, .el-button--primary:hover {
-	background: #5b5bea!important;
-	border-color: #5b5bea!important;
+	background: #009594!important;
+	border-color: #009594!important;
 	color: #FFF;
 }
 /*头部*/

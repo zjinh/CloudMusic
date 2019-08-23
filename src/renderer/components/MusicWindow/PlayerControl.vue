@@ -6,42 +6,124 @@
             <p class="singer">S.H.E</p>
         </section>
         <ul class="cm-control-button">
-            <li ripple="">
+            <li ripple="" @click="PlayerCommend('prev')">
                 <i class="sf-icon-step-backward"></i>
             </li>
-            <li ripple="">
-                <i class="sf-icon-pause"></i>
+            <li ripple="" @click="PlayerCommend('play')">
+                <i :class="PlayButtonState"></i>
             </li>
-            <li ripple="">
+            <li ripple="" @click="PlayerCommend('next')">
                 <i class="sf-icon-step-forward"></i>
             </li>
         </ul>
-        <div class="slider-bar-container">
-            <div class="slider-bar">
+        <div class="cm-volume-container"  @mousedown="ChangeVolume" ref="volume">
+            <div class="cm-volume-slider"></div>
+        </div>
+        <div class="slider-bar-container" @mousedown="TimeChange" ref="slider">
+            <div class="slider-bar" :style="{width:ProcessWidth}">
                 <div class="container">
-                    <span>00:52</span>
+                    <span>{{TimeText}}</span>
                     <div class="lighter"></div>
                 </div>
             </div>
         </div>
-        <canvas width="350" height="60" id="canvas" style="zoom: 40%"></canvas>
         <ul class="cm-play-mode">
             <li class="sf-icon-random active"></li>
             <li class="sf-icon-repeat"></li>
             <li class=" sf-icon-list"></li>
         </ul>
-        <audio autoplay src="http://m10.music.126.net/20190822175838/e17be00438798490eb79c281a396c689/ymusic/7649/385a/3e35/4a4539ebfbb7b9f8d95ab9fb111471ed.mp3" ref="audio"></audio>
+        <canvas width="350" height="240" id="canvas"></canvas>
+        <audio autoplay src="http://m10.music.126.net/20190822175838/e17be00438798490eb79c281a396c689/ymusic/7649/385a/3e35/4a4539ebfbb7b9f8d95ab9fb111471ed.mp3" ref="audio"
+               @ended="PlayerCommend('next')"
+               @timeupdate="MusicProcess"
+               @error="PlayerCommend('next')"
+               @durationchange="PlayButtonState='sf-icon-pause'"
+               @seeking="PlayButtonState='sf-icon-circle-notch sf-spin'"
+               @canplay="PlayerCommend('play')"
+        ></audio>
     </section>
 </template>
 
 <script>
+    import Media from '../../api/media';
     export default {
         name: "PlayerControl",
+        prop:{
+            PlayList:{
+                type:Array,
+                default:[]
+            }
+        },
+        data(){
+            return{
+                ProcessWidth:'0%',
+                TimeText:"00:00",
+                PlayButtonState:'sf-icon-play',
+            }
+        },
         mounted(){
-
             this.Visual()
         },
         methods:{
+            PlayerCommend(commend){
+                if(!this.PlayList.length){
+                    return
+                }
+                let NowCount=0;
+                let AllCount=this.PlayList.length;
+                switch (commend) {
+                    case 'prev':
+                        if(NowCount!==0){
+                            this.PlayList.forEach((item)=>{
+                                item.play=false;
+                            });
+                            this.PlayList[NowCount-1].play='active'
+                        }
+                        break;
+                    case 'next':
+                        if(NowCount!==AllCount-1){
+                            this.PlayList.forEach((item)=>{
+                                item.play=false;
+                            });
+                            this.PlayList[NowCount+1].play='active'
+                        }else{
+                            this.PlayerCommend('play');
+                        }
+                        break;
+                    case 'play':
+                        let media=this.$refs.audio;
+                        if(media.paused){
+                            media.play();
+                            this.PlayButtonState='sf-icon-pause';
+                            this.$ipc.send('player-control','pause')
+                        }else{
+                            media.pause();
+                            this.PlayButtonState='sf-icon-play';
+                            this.$ipc.send('player-control','play')
+                        }
+                        //this.header.title=this.NowPlay.disk_name;
+                        if(this.VisualState) {
+                            this.Visual();
+                        }
+                        break;
+                }
+            },
+            ChangeVolume(){
+                let media=this.$refs.audio;
+                let volume=this.$refs.volume;
+                Media.MediaControl(media,'volume','x',volume,event)
+            },
+            TimeChange(){
+                let media=this.$refs.audio;
+                let slider=this.$refs.slider;
+                Media.MediaControl(media,'play','x',slider,event);
+                this.PlayerCommend('play')
+            },
+            MusicProcess(){
+                let media=this.$refs.audio;
+                this.TimeText=Media.secondDeal(media.currentTime);
+                this.ProcessWidth=Math.round(media.currentTime) / Math.round(media.duration) * 100 + "%";
+            },
             Visual(){
                 window.AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext;
                 let audio =this.$refs.audio;
@@ -56,13 +138,13 @@
                     cheight = canvas.height,
                     meterWidth = 10, //width of the meters in the spectrum
                     capHeight = 2,
-                    capStyle = '#5b5bea',
+                    capStyle = '#009493',
                     meterNum = 800 / (10 + 2), //count of the meters
                     capYPositionArray = []; ////store the vertical position of hte caps for the preivous frame
                 ctx = canvas.getContext('2d');
                 let gradient = ctx.createLinearGradient(0, 0, 0, 300);
-                gradient.addColorStop(1, '#8140ff');
-                gradient.addColorStop(0.5, '#5b5bea');
+                gradient.addColorStop(1, '#009493');
+                gradient.addColorStop(0.5, '#506c6f');
                 gradient.addColorStop(0, '#fff');
                 function renderFrame() {
                     let array = new Uint8Array(analyser.frequencyBinCount);
@@ -107,7 +189,8 @@
     .cm-music-player .poster{
         float: left;
         width: 60px;
-        height: 60px;
+        height: 57px;
+        margin-top: 3px;
         border-radius: 0 0 0 5px;
         position: relative;
         z-index: 1;
@@ -115,7 +198,8 @@
     .cm-music-player .song-info{
         float: left;
         width: 150px;
-        height: 100%;
+        height: calc(100% - 3px);
+        margin-top: 3px;
         padding-left: 20px;
         padding-top: 15px;
         position: relative;
@@ -134,10 +218,15 @@
         font-size: 12px;
         color: #254341;
     }
+    .cm-music-player canvas{
+        float: right;
+        zoom: 25%;
+        margin-right: 120px;
+    }
     .cm-control-button{
         float: left;
         width: 150px;
-        height: 100%;
+        height: calc(100% - 3px);
         display: flex;
         justify-content: center;
         align-items: center;
@@ -167,9 +256,30 @@
     .cm-control-button li:nth-child(2) i{
         font-size: 14px;
     }
+    .cm-volume-container{
+        width: 80px;
+        height: 5px;
+        background: #636363;
+        border-radius: 10px;
+        float: left;
+        margin-top: 25px;
+        cursor: pointer;
+        position: relative;
+        z-index: 1;
+    }
+    .cm-volume-slider{
+        width: 100%;
+        border-radius: 10px;
+        height: 100%;
+        -webkit-transition:all .35s;
+        -moz-transition:all .35s;
+        -o-transition:all .35s;
+        background: #009493;
+    }
     .slider-bar-container{
         width: 100%;
         height: 3px;
+        cursor: pointer;
         position: absolute;
         top: 0;
         overflow: unset;
@@ -180,6 +290,9 @@
         background: #ff3b00;
         overflow: unset;
         z-index: -1;
+        -webkit-transition:all .35s;
+        -moz-transition:all .35s;
+        -o-transition:all .35s;
     }
     .slider-bar .container{
         width: 100%;
@@ -195,7 +308,7 @@
     .cm-play-mode{
         float: right;
         width: 150px;
-        height: 100%;
+        height: calc(100% - 3px);
         display: flex;
         justify-content: center;
         align-items: center;

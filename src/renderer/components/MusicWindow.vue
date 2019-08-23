@@ -3,6 +3,9 @@
         <MusicClassify></MusicClassify>
         <section class="cm-right">
             <MusicHeader></MusicHeader>
+            <section class="cm-right-main">
+                <router-view></router-view>
+            </section>
         </section>
         <PlayerControl></PlayerControl>
         <section class="cm-main-background-container" style="">
@@ -68,22 +71,9 @@
         z-index: 1;
 
     }*/
-    .cm-main-poster{
-        position: absolute;
-        top: 0;
-        left: 0;
+    .cm-right-main{
+        float: left;
         width: 100%;
-        height: 100%;
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-position: 50%;
-        z-index: 0;
+        height: calc(100% - 120px);
     }
-    .cm-head{
-        width: 100%;
-        height: 60px;
-        background: #e56464;
-        border-bottom: 1px solid #3d4f4f;
-    }
-
 </style>

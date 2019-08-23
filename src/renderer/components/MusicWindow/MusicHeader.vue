@@ -116,7 +116,7 @@
                         case 'exit':
                             this.Confrim({
                                 title:'退出',
-                                tips:tips+'确认退出CloudDisk吗?',
+                                tips:tips+'确认退出CloudMusic吗?',
                                 type:'info',
                                 callback:()=> {
                                     this.QuitFlag=true;
@@ -204,7 +204,7 @@
     .active {
         width: 100%;
         height: 3px;
-        background: #5b5bea;
+        background: #009594;
     }
     .active,.cm-right-menu li:hover .active {
         -webkit-transition: all .35s;

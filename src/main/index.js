@@ -188,6 +188,9 @@ let MusicSystem= {
         }
         session.defaultSession.removeAllListeners('will-download');
       },
+        callback:()=>{
+            MainWindow.setThumbarButtons(MusicButtons);
+        }
     });
   },
   AboutWindow:()=>{
@@ -347,7 +350,7 @@ function BindIpc() {
     }
   });
   /*播放器操作事件*/
-  ipcMain.on('player-control',(event,type,data)=>{
+  ipcMain.on('player-control',(event,data)=>{
     if(data==='pause') {
       MusicButtons[1].icon = PauseBtn;
       MusicButtons[1].tooltip='暂停'
