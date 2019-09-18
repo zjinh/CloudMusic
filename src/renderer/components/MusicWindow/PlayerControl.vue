@@ -360,7 +360,6 @@
         width: 60px;
         height: 57px;
         margin-top: 3px;
-        border-radius: 0 0 0 5px;
         position: relative;
         z-index: 1;
         cursor: pointer;

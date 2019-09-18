@@ -359,24 +359,24 @@ button[disabled="disabled"]{
 	padding: 10px 14px 18px!important;
 }
 .el-input.is-active .el-input__inner, .el-input__inner:focus{
-	border-color: #ff3b00!important;
+	border-color: #e56464!important;
 }
 .el-button{
 	border: none!important;
 	background: none!important;
 }
 .el-button:focus, .el-button:hover {
-	color: #ff3b00!important;
+	color: #e56464!important;
 	border-color: #c6e2ff!important;
 	background-color: #ecf5ff!important;
 }
 .el-button--primary{
-	background: #ff3b00!important;
-	border-color: #ff3b00!important;
+	background: #e56464!important;
+	border-color: #e56464!important;
 }
 .el-button--primary:focus, .el-button--primary:hover {
-	background: #ff3b00!important;
-	border-color: #ff3b00!important;
+	background: #e56464!important;
+	border-color: #e56464!important;
 	color: #FFF!important;
 }
 /*头部*/

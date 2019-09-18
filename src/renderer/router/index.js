@@ -28,7 +28,11 @@ export default new Router({
         },
       ]
     },
-
+    {
+      path: '/music-about/:version',
+      name: 'MusicAbout',
+      component: require('@/components/MusicAbout').default
+    },
     {
       path: '*',
       redirect: '/'

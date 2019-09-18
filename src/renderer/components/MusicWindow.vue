@@ -58,7 +58,6 @@
         bottom: 0;
         position: absolute;
         z-index: 2;
-        border-radius: 5px 0 5px 5px!important;
         background-repeat: no-repeat!important;
         background-size: cover!important;
         background-image: url("http://p1.music.126.net/oCnACmhB6CM5oZyWmNfmTg==/109951163051142326.jpg");

@@ -198,7 +198,7 @@ let MusicSystem= {
       return WindowControl.Active(AboutWindow);
     }
     AboutWindow=WindowControl.New({
-      url:'disk-about/'+version,
+      url:'music-about/'+version,
       title:'关于CloudMusic',
       width: 600,
       height: 330,
@@ -215,7 +215,7 @@ let MusicSystem= {
       return WindowControl.Active(AccountWindow,data);
     }
     AccountWindow=WindowControl.New({
-      url:'disk-account',
+      url:'music-account',
       data:data,
       title:'个人信息',
       width: 670,
@@ -232,7 +232,7 @@ let MusicSystem= {
       return WindowControl.Active(FeedBackWindow);
     }
     FeedBackWindow=WindowControl.New({
-      url:'disk-feedback/'+version,
+      url:'music-feedback/'+version,
       title:'问题反馈',
       width: 450,
       height: 320,
@@ -249,7 +249,7 @@ let MusicSystem= {
       return WindowControl.Active(PopupWindow,msg);
     }
     PopupWindow=WindowControl.New({
-      url:"disk-msg",
+      url:"music-msg",
       data:msg,
       width: 300,
       height: 150,
