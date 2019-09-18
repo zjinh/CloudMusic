@@ -2,8 +2,8 @@
     <section class="cm-left">
         <div class="cm-left-head">
             <img draggable="false" class="logo" :src="$static+'/img/bar/music.png'" alt="">
-            <span><img class="logo-text" :src="$static+'/img/logo/c-music.png'" alt=""></span>
-            <p>啦啦啦啦啦啦啦</p>
+            <span><img class="logo-text" :src="$static+'/img/logo/c-music-white.png'" alt=""></span>
+            <p>愿每个人都被时光温柔以待</p>
         </div>
         <ul class="cm-left-menu">
             <li v-for="(item,index) in ClassifyMenuData" ripple :class="item.active" @click="change(index)">
@@ -128,7 +128,7 @@
                 let season = 'Spring';
                 let tag = 0;
                 let D = new Date();
-                let month = D.getMonth();
+                let month = D.getMonth()+1;
                 let hHour = D.getHours();
                 if (month > 2 && month < 6) {
                     season = 'Spring'
@@ -180,7 +180,7 @@
         padding:10px 0 30px 20px;
         height: 60px;
         margin-bottom: 10px;
-        background: #fff;
+        background: #e56464;
         border-bottom: 1px solid #eee;
     }
     .cm-left-head *{
@@ -206,6 +206,7 @@
         margin-left: 11px;
         font-size: 10px;
         font-weight: normal;
+        color: #efefef;
     }
     /*左侧菜单*/
     .cm-left-menu{
@@ -226,9 +227,9 @@
         border-left: 4px solid rgba(0,0,0,0);
     }
     .cm-left-menu li:hover,.cm-left-menu .active{
-        color: #009594!important;
+        color: #e56464!important;
         background-color: #EAECF0;
-        border-left: 4px solid #009594;
+        border-left: 4px solid #e56464;
     }
     .cm-left-menu i{
         float: left;

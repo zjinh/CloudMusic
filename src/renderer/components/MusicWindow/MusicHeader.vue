@@ -54,20 +54,20 @@
                     {name:"分享",flag:'share'},
                     {name:"传输",flag:'trans'},
                 ],
-                DiskWindow:false
+                MusicWindow:false
             }
         },
-        beforeMount(){
-            this.DiskWindow=this.$electron.remote.getCurrentWindow();
-            this.DiskWindow.on('maximize',()=>{
+        mounted(){
+            this.MusicWindow=this.$electron.remote.getCurrentWindow();
+            this.MusicWindow.on('maximize',()=>{
                 this.ButtonState='sf-icon-window-restore';
             });
-            this.DiskWindow.on('unmaximize',()=>{
+            this.MusicWindow.on('unmaximize',()=>{
                 this.ButtonState='sf-icon-window-maximize';
             });
             window.onbeforeunload=()=>{
                 if(!this.QuitFlag&&process.env.NODE_ENV !== 'development') {
-                    this.DiskWindow.hide();
+                    this.MusicWindow.hide();
                     return false
                 }
             };
@@ -81,16 +81,16 @@
         },
         methods:{
             mini () {
-                this.DiskWindow.minimize();
+                this.MusicWindow.minimize();
             },
             close () {
-                this.DiskWindow.hide();
+                this.MusicWindow.hide();
             },
             restore () {
-                if (this.DiskWindow.isMaximized()) {
-                    this.DiskWindow.restore();
+                if (this.MusicWindow.isMaximized()) {
+                    this.MusicWindow.restore();
                 } else {
-                    this.DiskWindow.maximize();
+                    this.MusicWindow.maximize();
                 }
             },
             SystemDropDown (command) {
@@ -120,7 +120,7 @@
                                 type:'info',
                                 callback:()=> {
                                     this.QuitFlag=true;
-                                    this.DiskWindow.close();
+                                    this.MusicWindow.close();
                                 }
                             });
                             break;
@@ -160,9 +160,8 @@
         height: 60px;
         color: #4d515a;
         padding: 20px 0 10px;
-        background: #fff;
+        background: #e56464;
         -webkit-app-region: drag;
-        border-radius: 0 5px 0 0;
         border-bottom: 1px solid #eee;
     }
     /*顶部导航*/
@@ -256,7 +255,7 @@
         position: absolute;
         top: 0;
         right: 0;
-        color: #c3c3c3;
+        color: #fff;
         -webkit-transition: all .35s;
         -moz-transition: all .35s;
         -o-transition: all .35s

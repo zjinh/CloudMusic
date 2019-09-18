@@ -34,11 +34,11 @@
     }
     .cm-page-head .title{
         font-size: 15px;
-        color: #009493;
+        color: #e56464;
         font-weight: bold;
     }
     .cm-page-head .dots{
-        color: #255557;
+        color: #e56464;
         font-size: 40px
     }
     .cm-page-head .number{

@@ -173,7 +173,6 @@ let MusicSystem= {
       minWidth:1000,
       minHeight:650,
       height: 650,
-      transparent:true,
       onclose:()=>{
         MainWindow=null;
         let wins=BrowserWindow.getAllWindows();
@@ -188,9 +187,10 @@ let MusicSystem= {
         }
         session.defaultSession.removeAllListeners('will-download');
       },
-        callback:()=>{
-            MainWindow.setThumbarButtons(MusicButtons);
-        }
+      callback:()=>{
+          MainWindow.setThumbarButtons(MusicButtons);
+          BindIpc();
+      }
     });
   },
   AboutWindow:()=>{

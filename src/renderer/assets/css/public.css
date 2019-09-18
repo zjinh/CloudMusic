@@ -3,7 +3,6 @@
 	background: none!important;
 }
 body{
-	border-radius: 5px;
 	overflow: hidden;
 }
 [class^="ivu-"]{
@@ -177,7 +176,7 @@ button[disabled="disabled"]{
 .cm-right{
 	float: left;
 	width: calc(100% - 200px);
-	height: 100%;
+	height: calc(100% - 60px);
 	background: #fff;
 }
 .cm-bottom{
@@ -221,9 +220,9 @@ button[disabled="disabled"]{
 	-moz-transition       : .2s;
 	-o-transition         : .2s;
 	transition            : .2s;
-	-moz-border-radius    : 3px;
-	-webkit-border-radius : 3px;
-	border-radius         : 3px;
+	-moz-border-radius    : 0;
+	-webkit-border-radius : 0;
+	border-radius         : 0;
 }
 *::-webkit-scrollbar-thumb:active,*::-webkit-scrollbar-thumb:hover{
 	background : rgba(0,0,0,.50);
@@ -326,59 +325,59 @@ button[disabled="disabled"]{
 .slideOutUp{-webkit-animation-name:slideOutUp;animation-name:slideOutUp}
 /*iview组件处理*/
 .v-modal{
-	opacity: 0;
+	opacity: 0!important;
 }
 .el-message-box{
-	width: 350px;
+	width: 350px!important;
 }
 .el-input{
-	height: 35px;
+	height: 35px!important;
 }
 .el-input__inner{
-	height: 35px;
-	line-height: 35px;
+	height: 35px!important;
+	line-height: 35px!important;
 }
 .el-message-box__input{
-	padding-top:10px;
+	padding-top:10px!important;
 }
 .el-message-box__errormsg{
 	min-height: unset!important;
 }
 .el-dialog__header{
-	padding: 15px 15px 10px;
+	padding: 15px 15px 10px!important;
 }
 .el-dialog__title{
-	font-size: 18px;
+	font-size: 18px!important;
 }
 .el-dialog__body{
-	padding: 5px 15px;
+	padding: 5px 15px!important;
 }
 .el-dialog__body .ivu-input-wrapper{
-	margin: 6px 0;
+	margin: 6px 0!important;
 }
 .el-dialog__footer{
-	padding: 10px 14px 18px;
+	padding: 10px 14px 18px!important;
 }
 .el-input.is-active .el-input__inner, .el-input__inner:focus{
-	border-color: #009594;
+	border-color: #ff3b00!important;
 }
 .el-button{
-	border: none;
+	border: none!important;
 	background: none!important;
 }
 .el-button:focus, .el-button:hover {
-	color: #009594;
-	border-color: #c6e2ff;
-	background-color: #ecf5ff;
+	color: #ff3b00!important;
+	border-color: #c6e2ff!important;
+	background-color: #ecf5ff!important;
 }
 .el-button--primary{
-	background: #009594!important;
-	border-color: #009594!important;
+	background: #ff3b00!important;
+	border-color: #ff3b00!important;
 }
 .el-button--primary:focus, .el-button--primary:hover {
-	background: #009594!important;
-	border-color: #009594!important;
-	color: #FFF;
+	background: #ff3b00!important;
+	border-color: #ff3b00!important;
+	color: #FFF!important;
 }
 /*头部*/
 .cm-drag-head-big{

@@ -1,15 +1,18 @@
 <template>
     <div class="cm-main">
-        <MusicClassify></MusicClassify>
-        <section class="cm-right">
+        <MusicClassify :style="{height:mainHeight}"></MusicClassify>
+        <section class="cm-right" :style="{height:mainHeight}">
             <MusicHeader></MusicHeader>
             <section class="cm-right-main">
-                <router-view></router-view>
+                <keep-alive>
+                    <router-view @play="play"></router-view>
+                </keep-alive>
             </section>
         </section>
-        <PlayerControl></PlayerControl>
-        <section class="cm-main-background-container" style="">
-            <div class="cm-main-background"></div>
+        <PlayerControl ref="play" :PlayList="PlayList" @playing="playing" :style="{height:PlayList.length?'60px':0}"></PlayerControl>
+        <section class="cm-main-background-container" :style="{'background-image':'url('+NowPlay.picture+')',height:PlayList.length?'60px':0}">
+            <div class="cm-main-filter"></div>
+            <div class="cm-main-background" :style="{'background-image':'url('+NowPlay.picture+')'}"></div>
         </section>
     </div>
 </template>
@@ -25,7 +28,23 @@
         },
         data(){
             return{
-
+                PlayList:[],
+                NowPlay:{
+                    picture:"http://p1.music.126.net/oCnACmhB6CM5oZyWmNfmTg==/109951163051142326.jpg"
+                },
+            }
+        },
+        computed:{
+            mainHeight(){
+                return this.PlayList.length?'calc(100% - 60px)':'100%'
+            }
+        },
+        methods:{
+            play(music,playList){
+                this.PlayList=playList;
+            },
+            playing(data){
+                this.NowPlay=data;
             }
         }
     }
@@ -39,41 +58,46 @@
         bottom: 0;
         position: absolute;
         z-index: 2;
-        border-radius: 5px 0 5px 5px;
-        background-repeat: no-repeat;
-        background-size: cover;
+        border-radius: 5px 0 5px 5px!important;
+        background-repeat: no-repeat!important;
+        background-size: cover!important;
         background-image: url("http://p1.music.126.net/oCnACmhB6CM5oZyWmNfmTg==/109951163051142326.jpg");
         overflow:hidden;
+        -webkit-transition: background 0.4s ease-in-out;
+        -moz-transition: background 0.4s ease-in-out;
+        -o-transition: background 0.4s ease-in-out;
+        transition: background 0.4s ease-in-out;
     }
-    .cm-main-background-container::before{
-        content:'';
+    .cm-main-filter{
+        width: 100%;
+        height: 100%;
+        background: #828282;
+        opacity: .5;
+    }
+    .cm-main-background{
         position:absolute;
         width: 200%;
         height: 120px;
         top:-30px;
         left:-50%;
         z-index:-1;
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-position: 50%;
+        background-repeat: no-repeat!important;
+        background-size: cover!important;
+        background-position: 50%!important;
         background-image: url("http://p1.music.126.net/oCnACmhB6CM5oZyWmNfmTg==/109951163051142326.jpg");
         -webkit-filter: blur(15px);
         filter: blur(15px);
+        -webkit-transition: background 0.4s ease-in-out;
+        -moz-transition: background 0.4s ease-in-out;
+        -o-transition: background 0.4s ease-in-out;
+        transition: background 0.4s ease-in-out;
     }
-    /*.cm-main-background{
-        width: 200%;
-        height: 120px;
-
-        opacity: .6;
-        background-color: rgba(0,0,0,.35);
-        -webkit-transform: translateZ(0);
-        transform: translateZ(0);
-        z-index: 1;
-
-    }*/
     .cm-right-main{
         float: left;
         width: 100%;
-        height: calc(100% - 120px);
+        height: calc(100% - 60px);
+        -o-transition: all 350ms;
+        -moz-transition: all 350ms;
+        -webkit-transition: all 350ms;
     }
 </style>
