@@ -24,7 +24,7 @@
         </ul>
         <ul class="window-actions">
             <li class="sf-icon-minus" @click="mini"></li>
-            <li :class="ButtonState" @click="restore"></li>
+            <li :class="ButtonState" style="display: none" @click="restore"></li>
             <li class="sf-icon-times" style="font-size:16px" @click="close"></li>
         </ul>
     </div>
@@ -160,9 +160,9 @@
         height: 60px;
         color: #4d515a;
         padding: 20px 0 10px;
-        background: #e56464;
         -webkit-app-region: drag;
-        border-bottom: 1px solid #eee;
+        position: relative;
+        z-index: 4;
     }
     /*顶部导航*/
     .cm-right-menu{

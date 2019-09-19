@@ -177,7 +177,6 @@ button[disabled="disabled"]{
 	float: left;
 	width: calc(100% - 200px);
 	height: calc(100% - 60px);
-	background: #fff;
 }
 .cm-bottom{
 	width: calc(100% - 30px);

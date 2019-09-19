@@ -9,13 +9,13 @@
             <li v-for="(item,index) in ClassifyMenuData" ripple :class="item.active" @click="change(index)">
                 <i :class="item.icon"></i>{{item.name}}<div v-show="item.count>0">{{item.count}}</div>
             </li>
+            <div class="cm-left-bottom">
+                <div class="tower" :style="{background:'url('+TowerSrc+')'}"></div>
+                <section v-show="show">
+                    <div class="cm-select-tips"></div>
+                </section>
+            </div>
         </ul>
-        <div class="cm-left-bottom">
-            <div class="tower" :style="{background:'url('+TowerSrc+')'}"></div>
-            <section v-show="show">
-                <div class="cm-select-tips"></div>
-            </section>
-        </div>
     </section>
 </template>
 
@@ -68,7 +68,7 @@
                             },
                             {
                                 name:"播放历史",
-                                icon:"sf-icon-music",
+                                icon:"sf-icon-history",
                                 active:'active'
                             }
                         ],
@@ -171,17 +171,13 @@
         height: calc(100% - 60px);
         font-weight: 600;
         color: #4d515a;
-        background: #f4f5f7;
-        position: relative;
-        z-index: 3;
     }
     .cm-left-head{
         width: 100%;
         padding:10px 0 30px 20px;
         height: 60px;
-        margin-bottom: 10px;
-        background: #e56464;
-        border-bottom: 1px solid #eee;
+        position: relative;
+        z-index: 4;
     }
     .cm-left-head *{
         float: left;
@@ -211,10 +207,11 @@
     /*左侧菜单*/
     .cm-left-menu{
         width: 100%;
-        height: calc(100% - 80px);
+        height: calc(100% - 60px);
         overflow: auto;
+        background: #f4f5f7;
+        border-top: 1px solid #eee;
         position: relative;
-        z-index: 2;
     }
     .cm-left-menu li{
         width: 100%;

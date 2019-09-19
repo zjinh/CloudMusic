@@ -1,0 +1,46 @@
+#cm-control-lrc{
+    float: left;
+    padding-left: 28px;
+    width: calc(100% - 595px);
+    height: 25px;
+    font-size: 14px;
+    color: #fff;
+    -o-transition: all 350ms;
+    -moz-transition: all 350ms;
+    -webkit-transition: all 350ms;
+    position: absolute;
+    right: 146px;
+    top: 18px;
+}
+#cm-control-lrc *{
+    display: none;
+}
+.this_lrc{
+    text-align: left;
+    display: block!important;
+    -o-transition: all 350ms;
+    -moz-transition: all 350ms;
+    -webkit-transition: all 350ms;
+    color: #fff;
+}
+#cm-full-music-lrc-list{
+    height: calc(100% - 50px);
+    color: #cecece;
+    font-size: 14px;
+    overflow: scroll;
+}
+#cm-full-music-lrc-list::-webkit-scrollbar{
+    display: none;
+    width: 0;
+}
+#cm-full-music-lrc-list *{
+    -o-transition: all 350ms;
+    -moz-transition: all 350ms;
+    -webkit-transition: all 350ms;
+    margin: 10px 0;
+}
+#cm-full-music-lrc-list .this_lrc{
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+}

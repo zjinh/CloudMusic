@@ -1,6 +1,6 @@
 <template>
     <section class="cm-music-player">
-        <img class="poster slideInLeft" draggable="false" :src="NowPlay.picture" alt="">
+        <img class="poster slideInLeft" draggable="false" @click="fullEnter" :src="NowPlay.picture" alt="">
         <section class="song-info">
             <p class="name">{{NowPlay.title}}</p>
             <p class="singer">{{NowPlay.artist}}</p>
@@ -27,7 +27,7 @@
                 </div>
             </div>
         </div>
-        <div id="AudioLrcList"></div>
+        <div id="cm-control-lrc"></div>
         <ul class="cm-play-mode">
             <li :class="'sf-icon-random '+(playMethod==='random'?'active':'')" @click="playMethod='random'"></li>
             <li :class="'sf-icon-repeat '+(playMethod==='repeat'?'active':'')" @click="playMethod='repeat'"></li>
@@ -35,6 +35,7 @@
         </ul>
         <canvas width="600" height="240" id="canvas"></canvas>
         <audio ref="audio"
+               id="audio"
                @ended="PlayerCommend('next')"
                @timeupdate="MusicProcess"
                @error="PlayerCommend('next')"
@@ -56,7 +57,8 @@
                 default:()=>{
                     return []
                 }
-            }
+            },
+            analyser:[Object,AnalyserNode]
         },
         watch:{
             PlayList: {
@@ -68,6 +70,7 @@
                             this.NowPlay.count=index;
                             this.GetLyr();
                             this.GetAlbumPic();
+                            this.Visual();
                         }
                     });
                 },
@@ -101,7 +104,7 @@
                 /* 定时刷新时间，单位：秒 */
                 format: '<p>{html}</p>',
                 /* 模板 */
-                prefixid: 'AudioLrcList',
+                prefixid: 'cm-control-lrc',
                 /* 容器ID */
                 hoverClass: 'this_lrc',
                 /* 选中节点的className */
@@ -122,9 +125,6 @@
             this.$ipc.on('Play',()=>{
                 this.PlayerCommend('play')
             })
-        },
-        mounted(){
-            this.Visual();
         },
         methods:{
             PlayerCommend(commend){
@@ -186,14 +186,8 @@
                 this.ProcessWidth=Math.round(media.currentTime) / Math.round(media.duration) * 100 + "%";
             },
             Visual(){
-                window.AudioContext = window.AudioContext || window.webkitAudioContext || window.mozAudioContext;
-                let audio =this.$refs.audio;
-                let ctx = new AudioContext();
-                let analyser = ctx.createAnalyser();
-                let audioSrc = ctx.createMediaElementSource(audio);
-                audioSrc.connect(analyser);
-                analyser.connect(ctx.destination);
-                let frequencyData = new Uint8Array(analyser.frequencyBinCount);
+                let ctx=null;
+                let analyser=this.analyser;
                 let canvas = document.getElementById('canvas'),
                     cwidth = canvas.width,
                     cheight = canvas.height,
@@ -278,6 +272,7 @@
                     for (let i = 0; i < this.list.length; i++)
                         html += this.format.replace(/\{html\}/gi, this.list[i][1]); /* 赋值到指定容器 */
                     document.getElementById(this.prefixid).innerHTML = html;
+                    document.getElementById('cm-full-music-lrc-list').innerHTML = html;
                     /* 定时调用回调函数，监听歌曲进度 */
                     if(typeof (callback())==='number') {
                         this.handle = setInterval(()=>{
@@ -320,14 +315,22 @@
                 if (pivot === this.pivot) return;
                 this.pivot = pivot;
                 tmpobj =document.getElementById(this.prefixid).childNodes;
+                let lrc_List=document.getElementById('cm-full-music-lrc-list').childNodes;
+
                 for(let i=0;i<tmpobj.length;i++){
                     tmpobj[i].className=this.prefixid;
+                    lrc_List[i].className='';
                 }
-                if(tmpobj[pivot]) {
-                    tmpobj[pivot].className += ' ' + thisobj.hoverClass;
-                    /*tmp = tmpobj[pivot + 1].offsetTop - tmpobj[pivot].parentNode.offsetTop - this.hoverTop;
+                if(lrc_List[pivot]) {
+                    tmpobj[pivot].className+= ' animated slideInLeft ' + thisobj.hoverClass;
+                    lrc_List[pivot].className=thisobj.hoverClass;
+                    tmp = lrc_List[pivot].offsetTop - lrc_List[pivot].parentNode.offsetTop - this.hoverTop;
                     tmp = tmp > 0 ? tmp * 1 : 0;//如果不设置滚动条使用margin设置为-1
-                    tmpobj[pivot].parentNode.scrollTop = tmp;//这里可以用margintop*/
+                    //lrc_List[pivot].parentNode.scrollTop = tmp;//这里可以用margintop
+                    lrc_List[pivot].parentNode.scrollTo({
+                        top: tmp,
+                        behavior: "smooth"
+                    });
                 }
             },
             /* 停止执行歌曲 */
@@ -338,15 +341,18 @@
                 this.regex_time.lastIndex = 0;
                 this.list = [];
             },
+            fullEnter(){
+                this.$emit('full')
+            }
         }
     }
 </script>
 
-<style >
+<style scoped>
+    @import "../../assets/css/lrc.css";
     .cm-music-player{
         width: 100%;
         height: 60px;
-        border-top: 1px solid #eee;
         position: absolute;
         bottom: 0;
         left: 0;
@@ -459,6 +465,7 @@
         cursor: pointer;
         position: absolute;
         top: 0;
+        background: rgba(255,255,255,.1);
         overflow: unset;
     }
     .slider-bar{
@@ -467,15 +474,18 @@
         background: #ff3b00;
         overflow: unset;
         z-index: -1;
-        -webkit-transition:all .35s;
-        -moz-transition:all .35s;
-        -o-transition:all .35s;
+        -webkit-transition:all .5s;
+        -moz-transition:all .5s;
+        -o-transition:all .5s;
     }
     .slider-bar .container{
         width: 100%;
         height: 60px;
         background: #ed401421;
         border-right:1px solid #ed401470;
+        -webkit-transition:all .5s;
+        -moz-transition:all .5s;
+        -o-transition:all .5s;
     }
     .slider-bar .container span{
         float: right;
@@ -508,31 +518,5 @@
     .cm-play-mode li:hover ,.cm-play-mode .active{
         background: #e56464;
         color: #fff;
-    }
-    #AudioLrcList{
-        float: left;
-        padding-left: 28px;
-        width: calc(100% - 595px);
-        height: 25px;
-        font-size: 14px;
-        color: #fff;
-        -o-transition: all 350ms;
-        -moz-transition: all 350ms;
-        -webkit-transition: all 350ms;
-        position: absolute;
-        right: 146px;
-        top: 18px;
-    }
-    #AudioLrcList *{
-        display: none;
-    }
-    .this_lrc{
-        text-align: left;
-        display: block!important;
-        -o-transition: all 350ms;
-        -moz-transition: all 350ms;
-        -webkit-transition: all 350ms;
-        -webkit-animation-duration:.35s;animation-duration:.35s;-webkit-animation-fill-mode:both;animation-fill-mode:both;
-        -webkit-animation-name:slideInUp;animation-name:slideInUp
     }
 </style>

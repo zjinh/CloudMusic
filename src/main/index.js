@@ -1,5 +1,6 @@
 import {app, BrowserWindow, ipcMain, Menu, Tray, nativeImage, screen,session } from 'electron'
 import { autoUpdater } from 'electron-updater'
+import fa from "element-ui/src/locale/lang/fa";
 const path = require('path');
 let TransDownFolder=process.env.USERPROFILE;
 let DownloadList={};
@@ -173,6 +174,8 @@ let MusicSystem= {
       minWidth:1000,
       minHeight:650,
       height: 650,
+      maximizable:false,
+      resizable:false,
       onclose:()=>{
         MainWindow=null;
         let wins=BrowserWindow.getAllWindows();
