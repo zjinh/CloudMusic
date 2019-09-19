@@ -9,7 +9,7 @@
                 </keep-alive>
             </section>
         </section>
-        <FullPlayer ref="fully" :analyser="analyser" :data="NowPlay" @control="playerControl" :style="{top:showFull?'0':'100%'}" ></FullPlayer>
+        <FullPlayer ref="fully" :analyser="analyser" :PlayList="PlayList" :NowPlay="NowPlay" @control="playerControl" :style="{top:showFull?'0':'100%'}" ></FullPlayer>
         <PlayerControl ref="player" :analyser="analyser" :PlayList="PlayList" @playing="playing" @full="playerControl" :style="{height:PlayList.length?'60px':0}"></PlayerControl>
         <BlurBackground :url="NowPlay.picture" :style="{height:PlayList.length?'60px':0}"></BlurBackground>
     </div>

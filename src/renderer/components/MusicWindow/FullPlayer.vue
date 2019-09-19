@@ -6,15 +6,15 @@
         </div>
         <div class="cm-full-music-song-info animated fadeIn" v-show="!mode">
             <div>
-                <h1>{{data.title}}</h1>
-                <p>{{data.artist}}</p>
+                <h1>{{NowPlay.title}}</h1>
+                <p>{{NowPlay.artist}}</p>
             </div>
         </div>
         <div class="cm-full-music-container" v-show="mode">
             <div class="cm-full-poster-container">
                 <canvas id="wrap" height="300" width="300"></canvas>
                 <div class="cm-full-music-poster">
-                    <img :src="data.picture" alt="">
+                    <img :src="NowPlay.picture" alt="">
                 </div>
             </div>
             <div class="cm-full-next-container">
@@ -22,24 +22,23 @@
                 <button tabindex="-1" class="sf-icon-angle-right" @click="playerControl('next')"></button>
             </div>
             <div class="cm-full-music-lrc">
-                <h1>{{data.title}}</h1>
-                <p class="artist">{{data.artist}}</p>
+                <h1>{{NowPlay.title}}</h1>
+                <p class="artist">{{NowPlay.artist}}</p>
                 <div id="cm-full-music-lrc-list"></div>
             </div>
         </div>
         <div class="cm-full-music-container" v-show="!mode">
-
-            <div class="cm-full-music-poster">
-                <img :src="data.picture" alt="">
+            <div class="cm-full-music-list-poster">
+                <img :src="NowPlay.picture" alt="">
             </div>
             <div class="cm-full-music-poster">
-                <img :src="data.picture" alt="">
+                <img :src="NowPlay.picture" alt="">
             </div>
-            <div class="cm-full-music-poster">
-                <img :src="data.picture" alt="">
+            <div class="cm-full-music-list-poster">
+                <img :src="NowPlay.picture" alt="">
             </div>
         </div>
-        <BlurBackground :url="data.picture" style="height: 100%"></BlurBackground>
+        <BlurBackground :url="NowPlay.picture" style="height: 100%"></BlurBackground>
     </section>
 </template>
 
@@ -48,7 +47,8 @@
     export default {
         name: "FullPlayer",
         props:{
-            data:Object,
+            PlayList:Array,
+            NowPlay:Object,
             analyser:[Object,AnalyserNode]
         },
         data(){
@@ -227,5 +227,10 @@
     .cm-full-music-lrc .artist{
         color: #e56464;
         font-size: 16px;
+    }
+    /*播放列表*/
+    .cm-full-music-list-poster{
+        width: 100px;
+        height: 100px;
     }
 </style>
