@@ -12,7 +12,7 @@
             url:{
                 type:String,
                 default:()=>{
-                    return "http://p1.music.126.net/oCnACmhB6CM5oZyWmNfmTg==/109951163051142326.jpg"
+                    return this.$defaultAlbum
                 }
             }
         }
@@ -29,7 +29,6 @@
         z-index: 2;
         background-repeat: no-repeat!important;
         background-size: cover!important;
-        background-image: url("http://p1.music.126.net/oCnACmhB6CM5oZyWmNfmTg==/109951163051142326.jpg");
         overflow:hidden;
         -webkit-transition: background 0.4s ease-in-out;
         -moz-transition: background 0.4s ease-in-out;
@@ -52,7 +51,6 @@
         background-repeat: no-repeat!important;
         background-size: cover!important;
         background-position: 50%!important;
-        background-image: url("http://p1.music.126.net/oCnACmhB6CM5oZyWmNfmTg==/109951163051142326.jpg");
         -webkit-filter: blur(15px);
         filter: blur(15px);
         -webkit-transition: background 0.4s ease-in-out;

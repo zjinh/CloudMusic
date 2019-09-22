@@ -10,32 +10,26 @@
                 <p>{{NowPlay.artist}}</p>
             </div>
         </div>
-        <div class="cm-full-music-container" v-show="mode">
-            <div class="cm-full-poster-container">
+        <div class="cm-full-music-container">
+            <div class="cm-full-next-container" v-show="!mode">
+                <div class="line"></div>
+                <button tabindex="-1" class="sf-icon-angle-left" @click="playerControl('prev')"></button>
+            </div>
+            <div class="cm-full-poster-container" :style="{'margin-left':mode?'30px':'0'}">
                 <canvas id="wrap" height="300" width="300"></canvas>
                 <div class="cm-full-music-poster">
-                    <img :src="NowPlay.picture" alt="">
+                    <img :src="NowPlay.picture" alt="" draggable="false">
                 </div>
+                <p id="cm-fully-music-line-lrc"></p>
             </div>
             <div class="cm-full-next-container">
                 <div class="line"></div>
                 <button tabindex="-1" class="sf-icon-angle-right" @click="playerControl('next')"></button>
             </div>
-            <div class="cm-full-music-lrc">
+            <div class="cm-full-music-lrc" :style="{width:mode?'calc(100% - 430px)':'0'}">
                 <h1>{{NowPlay.title}}</h1>
                 <p class="artist">{{NowPlay.artist}}</p>
                 <div id="cm-full-music-lrc-list"></div>
-            </div>
-        </div>
-        <div class="cm-full-music-container" v-show="!mode">
-            <div class="cm-full-music-list-poster">
-                <img :src="NowPlay.picture" alt="">
-            </div>
-            <div class="cm-full-music-poster">
-                <img :src="NowPlay.picture" alt="">
-            </div>
-            <div class="cm-full-music-list-poster">
-                <img :src="NowPlay.picture" alt="">
             </div>
         </div>
         <BlurBackground :url="NowPlay.picture" style="height: 100%"></BlurBackground>
@@ -148,7 +142,7 @@
     }
     .cm-full-music-song-info h1{
         font-weight: normal;
-        font-size: 18px;
+        font-size: 20px;
         color: #fff;
     }
     .cm-full-music-song-info p{
@@ -169,9 +163,17 @@
         height: 300px;
         margin-left: 30px;
         position: relative;
+        overflow: unset;
     }
     .cm-full-poster-container *{
         position: absolute;
+    }
+    .cm-full-poster-container p{
+        top: 100%;
+        text-align: center;
+        width: 100%;
+        font-size: 16px;
+        color: #fff;
     }
     .cm-full-music-poster{
         width: 235px;
@@ -218,6 +220,9 @@
         width: calc(100% - 430px);
         margin-left: 30px;
         height: 60%;
+        -o-transition: all 350ms;
+        -moz-transition: all 350ms;
+        -webkit-transition: all 350ms;
     }
     .cm-full-music-lrc h1{
         color: #fff;
@@ -227,10 +232,5 @@
     .cm-full-music-lrc .artist{
         color: #e56464;
         font-size: 16px;
-    }
-    /*播放列表*/
-    .cm-full-music-list-poster{
-        width: 100px;
-        height: 100px;
     }
 </style>

@@ -64,12 +64,11 @@
             PlayList: {
                 handler() {
                     this.PlayList.forEach((item, index) => {
+                        item.count=index;
                         if (item.play) {
-                            item.play = 'playing';
                             this.NowPlay=item;
-                            this.NowPlay.count=index;
-                            this.GetLyr();
-                            this.GetAlbumPic();
+                            //this.GetLyr();
+                            this.MathLocal(this.NowPlay);
                             this.Visual();
                         }
                     });
@@ -86,7 +85,7 @@
                     artist:"",
                     title:"",
                     album:"",
-                    picture:"http://p1.music.126.net/oCnACmhB6CM5oZyWmNfmTg==/109951163051142326.jpg"
+                    picture:this.$defaultAlbum
                 },
                 playMethod:'list',
                 /* 定时执行句柄 */
@@ -239,12 +238,13 @@
                     }
                 })
             },
-            GetAlbumPic(){
-                this.$Api.Music.GetAlbumPic({
-                    name:this.NowPlay.name
-                },(rs)=>{
-                    this.NowPlay.picture=rs||"http://p1.music.126.net/oCnACmhB6CM5oZyWmNfmTg==/109951163051142326.jpg";
-                    this.$emit('playing',this.NowPlay)
+            MathLocal(data){
+                this.$Api.Music.MathLocal({
+                    name: data.name
+                }, (rs) => {
+                    this.PlayList[data.count].picture=rs||this.$defaultAlbum;
+                    this.NowPlay.picture = rs || this.$defaultAlbum;
+                    this.$emit('playing', this.NowPlay);
                 })
             },
             start(txt, callback) {
@@ -316,7 +316,6 @@
                 this.pivot = pivot;
                 tmpobj =document.getElementById(this.prefixid).childNodes;
                 let lrc_List=document.getElementById('cm-full-music-lrc-list').childNodes;
-
                 for(let i=0;i<tmpobj.length;i++){
                     tmpobj[i].className=this.prefixid;
                     lrc_List[i].className='';
@@ -331,6 +330,7 @@
                         top: tmp,
                         behavior: "smooth"
                     });
+                    document.getElementById('cm-fully-music-line-lrc').innerHTML=lrc_List[pivot].innerHTML;
                 }
             },
             /* 停止执行歌曲 */

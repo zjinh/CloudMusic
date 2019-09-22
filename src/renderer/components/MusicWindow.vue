@@ -30,7 +30,7 @@
             return{
                 PlayList:[],
                 NowPlay:{
-                    picture:"http://p1.music.126.net/oCnACmhB6CM5oZyWmNfmTg==/109951163051142326.jpg"
+                    picture:this.$defaultAlbum
                 },
                 showFull:false,
                 analyser:{}

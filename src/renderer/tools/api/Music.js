@@ -8,19 +8,13 @@ export default {
             error:error
         })
     },
-    GetLyr(data,callback,error) {
+    MathLocal(data,callback,error) {
         Ajax({
-            url:"/service/api/disk/lrc",
+            url:"/service/api/MathLocal",
             data:data,
-            success:callback,
-            error:error
-        })
-    },
-    GetAlbumPic(data,callback,error) {
-        Ajax({
-            url:"/service/music/GetAlbumPic",
-            data:data,
-            success:callback,
+            success:(rs)=>{
+                console.log(rs)
+            },
             error:error
         })
     },

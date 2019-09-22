@@ -79,7 +79,8 @@ Vue.Notify = Vue.prototype.$Notify =(msg)=>{
     new Notification('CloudMusic',{
         body: msg
     })
-};//通知
+};//
+Vue.defaultAlbum = Vue.prototype.$defaultAlbum="http://p1.music.126.net/oCnACmhB6CM5oZyWmNfmTg==/109951163051142326.jpg";
 Vue.getMusicInfo = Vue.prototype.$getMusicInfo =(file,cb)=>{
     let name=path.basename(file);
     jsmediatags.read(file,{

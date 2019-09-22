@@ -1,6 +1,8 @@
 <template>
     <div class="cm-page-main">
-        <PageHeader title="本地音乐" :count="localMusic.length" prefix="歌曲"></PageHeader>
+        <PageHeader title="本地音乐" :count="localMusic.length" prefix="歌曲">
+            <button @click="changeDir" class="cm-dir-button">选择目录</button>
+        </PageHeader>
         <PlayList :data="localMusic" type="local" @callback="playMusic"></PlayList>
     </div>
 </template>
@@ -12,11 +14,18 @@
         name: "LocalMusic",
         data(){
             return{
+                localDir:"",
                 localMusic:[]
             }
         },
         mounted(){
-            this.scanLocalMusic()
+            if(localStorage.localDir!==undefined){
+                this.localDir=localStorage.localDir;
+                this.scanLocalMusic();
+            }else{
+                this.$Message.info('请选择本地音乐目录');
+                this.changeDir();
+            }
         },
         methods:{
             playMusic(music,playlist){
@@ -24,12 +33,22 @@
             },
             scanLocalMusic(){
                 // 使用 fs.readdir 来获取文件列表
-                const folderPath = "E:\\音乐";
+                const folderPath = this.localDir;
                 fs.readdir(folderPath, (err, files) => {
                     if (err) {
                         console.log('对不起，您没有加载您的home folder');
                     }
-                    this.inspectAndDescribeFiles(folderPath, files, this.displayFiles);
+                    files.forEach((item,index)=>{
+                        const resolveFilePath = this.$path.resolve(folderPath, item);
+                        if(fs.lstatSync(resolveFilePath).isDirectory()||item.Before('.').Exist('ape')){
+                            files.splice(index,1)
+                        }
+                    });
+                     async.map(files, (file, asyncCB) => {
+                         const resolveFilePath = this.$path.resolve(folderPath, file);
+                        this.inspectAndDescribeFile(resolveFilePath, asyncCB);
+                    },this.displayFiles);
+                    localStorage.localDir=this.localDir;
                 });
             },
             displayFiles(err, files) {
@@ -50,31 +69,43 @@
                     });
                 });
             },
-            inspectAndDescribeFiles(folderPath, files, cb) {
-                // 使用 async 模块调用异步函数并收集结果
-                async.map(files, (file, asyncCB) => {
-                    const resolveFilePath = this.$path.resolve(folderPath, file);
-                    this.inspectAndDescribeFile(resolveFilePath, asyncCB);
-                }, cb);
-            },
             inspectAndDescribeFile(filePath, cb) {
-                let result = {
-                    url: filePath,
-                    size:0,
-                };
                 fs.stat(filePath, (err, stat) => {
                     if (err) {
                         cb(err);
                     } else {
-                        result.size=stat.size;
-                        cb(err, result);
+                        cb(err, {
+                            url: filePath,
+                            size:stat.size,
+                        });
                     }
                 });
+            },
+            changeDir(){
+                this.$electron.remote.dialog.showOpenDialog({
+                    //默认路径
+                    defaultPath :'../Desktop',
+                    //选择操作，此处是打开文件夹
+                    properties: [
+                        'openDirectory',
+                    ],
+                    filters: [
+                        { name: 'All', extensions: ['*'] },
+                    ]
+                },(res)=>{
+                    res=res[0]||process.env.USERPROFILE;
+                    //回调函数内容，此处是将路径内容显示在input框内
+                    this.localDir=res;
+                    this.scanLocalMusic()
+                })
             }
         },
     }
 </script>
 
 <style scoped>
-
+    .cm-dir-button{
+        color: #e56464;
+        background: none ;
+    }
 </style>
