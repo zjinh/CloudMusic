@@ -3,7 +3,7 @@ let address=process.env.HOMEDRIVE+process.env.HOMEPATH+'/CloudMusic\/';//用户�
 export default {
     User:null,
     AccountFile:{},//用户本地文件对象
-    Exist(user){
+    Exist(user,callback){
         fs.exists(address,(exists)=>{
             if(!exists){
                 fs.mkdir(address,(err)=>{});
@@ -12,25 +12,28 @@ export default {
         fs.exists(address+user,(exists)=>{
             if(!exists){
                 fs.mkdir(address+user,(err)=>{
-                    this.Create(address+user+'/')
+                    this.Create(address+user+'/',callback)
                 });
             }else{
-                this.Create(address+user+'/')
+                this.Create(address+user+'/',callback)
             }
         });
         localStorage.User=user;
     },
-    Create(location){
+    Create(location,callback){
         location=location?location:address+localStorage.User+'/';
         this.AccountFile={};
-        let File=['user','transfer','setting'];
+        let File=['user','local-music','setting'];
         let content={};
         File.forEach((item)=>{
             this.AccountFile[item]=location+item+".json";
             fs.exists(location+item+".json",(exists)=>{
                 if(!exists){
                     fs.writeFile(location+item+".json",JSON.stringify(content),(err)=>{
+                        callback&&callback()
                     });
+                }else{
+                    callback&&callback();
                 }
             });
         });
@@ -50,7 +53,8 @@ export default {
         })
     },
     Write(type,data){
-        this.Create(this.User);
-        fs.writeFile(this.AccountFile[type],JSON.stringify(data), (err)=>{});
+        this.Create(this.User,()=>{
+            fs.writeFile(this.AccountFile[type],JSON.stringify(data), (err)=>{});
+        });
     }
 }

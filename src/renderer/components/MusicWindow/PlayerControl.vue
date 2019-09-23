@@ -36,6 +36,7 @@
         <canvas width="600" height="240" id="canvas"></canvas>
         <audio ref="audio"
                id="audio"
+               crossOrigin="anonymous"
                @ended="PlayerCommend('next')"
                @timeupdate="MusicProcess"
                @error="PlayerCommend('next')"
@@ -67,8 +68,7 @@
                         item.count=index;
                         if (item.play) {
                             this.NowPlay=item;
-                            this.mateMusic(this.NowPlay);
-                            this.Visual();
+                            this.readyPlayer();
                         }
                     });
                 },
@@ -125,7 +125,7 @@
             });
             this.$ipc.on('Play',()=>{
                 this.PlayerCommend('play')
-            })
+            });
         },
         methods:{
             PlayerCommend(commend){
@@ -169,6 +169,24 @@
                         }
                         break;
                 }
+            },
+            readyPlayer(){
+                if(this.NowPlay.type!=='online') {
+                    this.mateMusic(this.NowPlay);
+                }else{
+                    this.$Api.Music.detail(this.NowPlay.id,(rs)=>{
+                        this.PlayList[this.NowPlay.count].picture=rs||this.$defaultAlbum;
+                        this.NowPlay.picture = rs|| this.$defaultAlbum;
+                        this.$emit('playing', this.NowPlay);
+                    });
+                    this.$Api.Music.getLrc(this.NowPlay.id,(rs)=>{
+                        let lrc=rs.lrc.lyric||'[00:00.000] 暂无歌词';
+                        this.start(lrc,()=>{
+                            return this.$refs.audio.currentTime;
+                        });
+                    })
+                }
+                this.Visual();
             },
             ChangeVolume(){
                 let media=this.$refs.audio;

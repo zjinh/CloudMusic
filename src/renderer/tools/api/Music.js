@@ -16,4 +16,47 @@ export default {
             error:error
         })
     },
+    getPopSinger(callback,error){
+        Ajax({
+            url:"/open/netase/top/artists",
+            data:{
+                offset:0,
+                limit:30
+            },
+            success:callback,
+            error:error
+        })
+    },
+    getRecommendSong(callback,error){
+        Ajax({
+            url:"/open/netase/recommend/songs",
+            success:callback,
+            error:error
+        })
+    },
+    getLrc(id,callback,error){
+        Ajax({
+            url:"/open/netase/lyric",
+            method:"get",
+            data:{
+                id:id,
+            },
+            success:callback,
+            error:error
+        })
+    },
+    detail(id,callback,error){
+        Ajax({
+            url:"/open/netase/song/detail",
+            method:"get",
+            data:{
+                ids:id,
+            },
+            success:(rs)=>{
+                rs=rs.songs[0].al.picUrl;
+                callback(rs)
+            },
+            error:error
+        })
+    }
 };

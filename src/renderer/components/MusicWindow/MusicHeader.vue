@@ -9,12 +9,12 @@
         <div class="user-actions" @click="openLoginWindow">
             <Dropdown placement="bottom-start" @on-click="SystemDropDown">
                 <p class="item">
-                    <img draggable="false" :src="UserInfo.userhead" alt="">
-                    <span>{{UserInfo.username}}</span>
+                    <img draggable="false" :src="UserInfo.avatarUrl" alt="">
+                    <span>{{UserInfo.nickname}}</span>
                 </p>
                 <DropdownMenu slot="list">
                     <DropdownItem name="account">
-                        <img draggable="false" :src="UserInfo.userhead" alt="">
+                        <img draggable="false" :src="UserInfo.avatarUrl" alt="">
                         <span>我</span>
                     </DropdownItem>
                     <DropdownItem name="about">关于</DropdownItem>
@@ -45,8 +45,8 @@
         data(){
             return{
                 UserInfo:{
-                    username:"未登录",
-                    userhead:"https://p4.music.126.net/fJ42l_kzHp0_B22zg_ZIqQ==/109951164181843369.jpg"
+                    nickname:"未登录",
+                    avatarUrl:""
                 },//用户信息
                 QuitFlag:false,//是否允许退出
                 ButtonState:"sf-icon-window-maximize",//右上角窗口按钮状态,
@@ -72,6 +72,14 @@
                     return false
                 }
             };
+            if(localStorage.User){
+                this.$Api.LocalFile.Read('user',(data)=>{
+                    console.log(data)
+                    if(data.userId){
+                        this.UserInfo = data;
+                    }
+                });
+            }
             this.$ipc.on('exit',()=>{
                 this.SystemDropDown('exit');
             });
@@ -151,7 +159,9 @@
                 this.$emit('callback',commend);
             },
             openLoginWindow(){
-                this.$ipc.send('system','to-login')
+                if(localStorage.User===undefined) {
+                    this.$ipc.send('system', 'to-login')
+                }
             }
         }
     }

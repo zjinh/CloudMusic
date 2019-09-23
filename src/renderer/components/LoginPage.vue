@@ -67,13 +67,12 @@
                 ServerAddress:localStorage.server||'https://api.zjinh.cn',
                 LoadingText:'正在加载用户信息',//登陆中提示
                 /*这里为组件传值*/
-                RemberPass:false,
                 PostState:false,
                 LoginSuccess:false,
                 /*登录组件数据*/
                 LoginUserInput:{
                     icon:"sf-icon-user",
-                    text:"手机号",
+                    text:"手机号/邮箱",
                     value:localStorage.username||''
                 },
                 LoginPassInput:{
@@ -122,8 +121,6 @@
                         state:false
                     }
                 },
-                /*配置对象*/
-                ConfigObject:{},
                 /*窗体对象*/
                 WindowObject:false,
             }
@@ -132,20 +129,6 @@
             this.WindowObject=this.$electron.remote.getCurrentWindow();
             // localStorage.server=this.ServerAddress;
             localStorage.server='https://api.zjinh.cn';
-            if(localStorage.username&&localStorage.password){
-                this.RemberPass=true;
-                this.$Api.LocalFile.Read('setting',(data)=>{
-                    this.ConfigObject=data;
-                    if(data.AutoLogin!==undefined){
-                        this.AutoLogin=data.AutoLogin;
-                    }
-                    this.$ipc.on('win-data',(e,msg)=>{//接收是否允许自动登录
-                        if(this.AutoLogin&&eval(msg)===true){
-                            this.login();
-                        }
-                    })
-                });
-            }
             window.addEventListener( "dragenter", function (e) {
                 e.preventDefault();
             }, false);
@@ -164,8 +147,14 @@
                 let username=this.LoginUserInput.value;
                 let password=this.LoginPassInput.value;
                 if (!username.length){
-                    this.$Message.warning('请输入用户名/手机号/邮箱/CloudID');
+                    this.$Message.warning('请输入手机号/邮箱');
                     return false;
+                }
+                if(username.length>11&&!username.Exist('@')){
+                    return this.$message.warning('请输入正确的手机号')
+                }
+                if(!username.Exist('@163')){
+                    return this.$message.warning('必须是网易163邮箱')
                 }
                 if (!password.length){
                     this.$Message.warning('请输入密码');
@@ -176,45 +165,35 @@
                     return false;
                 }
                 this.PostState='CloudIndex-posting';
-                this.$Api.User.Login({
-                    username:username,
-                    password:password,
-                },(rs)=> {
-                    rs=rs[0];
-                    this.PostState='';
-                    if(!rs.state){
-                        this.$Message.error('服务器错误');
-                        return;
+                let data={};
+                if(username.Exist('@')){
+                     data={
+                        email:username,
+                        password:password,
                     }
-                    if(rs.state==='success'){
-                        this.LoginSuccess=true;
-                        this.User.head=rs.head;
-                        if(this.RemberPass){
-                            localStorage.username=username;
-                            localStorage.password=password;
-                        }else{
-                            localStorage.username=localStorage.password='';
-                        }
-                        this.WindowObject.setSize(800,300);
-                        this.WindowObject.setAlwaysOnTop(false);
-                        setTimeout(()=>{
-                            this.LoadingText = '正在加载网盘数据';
-                            this.$ipc.send('system','login',this.ConfigObject);
-                            setTimeout(()=> {
-                                this.LoadingText='欢迎回来 '+rs.user;
-                            },1100)
-                        },1100)
-                    }else{
-                        if(rs.msg==='未激活的用户'){
-                            this.$Message.info('请查看您的激活邮箱'+rs.email);
-                            this.VerifyUserInput.value=username;
-                            this.changeType('verify');
-                        }else{
-                            this.$Message[rs.state](rs.msg);
-                        }
+                }else{
+                    data={
+                        phone:username,
+                        password:password,
                     }
-                },()=>{
+                }
+                this.$Api.User.Login(data,(rs)=> {
                     this.PostState='';
+                    localStorage.User=rs.profile.userId;
+                    this.$Api.LocalFile.Exist(rs.profile.userId,()=>{
+                        this.$Api.LocalFile.Write('user',rs.profile);
+                    });
+                    this.$ipc.send('system','login',this.ConfigObject);
+                },(rs)=>{
+                    this.PostState='';
+                    switch (rs.code) {
+                        case 400:
+                            this.$Message.error('无效用户');
+                            break;
+                        case 502:
+                            this.$Message.error('密码错误');
+                            break;
+                    }
                 });
             },
             register:function(){
@@ -275,141 +254,6 @@
                     }
                 },()=>{
                     this.PostState='';
-                })
-            },
-            forget:function(){
-                let username=this.ForgetUserInput.value;
-                let mail=this.ForgetMailInput.value;
-                let code=this.ForgetCodeInput.value;
-                if (!username.length){
-                    this.$Message.warning('请输入您的用户名');
-                    return false;
-                }
-                if (!mail.length){
-                    this.$Message.warning('请输入您注册时填写的邮箱');
-                    return false;
-                }
-                if(mail&&!/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(mail)) {
-                    this.$Message.error('请输入正确的邮箱');
-                    return false;
-                }
-                if (!code.length){
-                    this.$Message.warning('请输入验证码');
-                    return false;
-                }
-                if(this.PostState){
-                    this.$Message.warning('正在验证您输入的信息');
-                    return false;
-                }
-                this.PostState='CloudIndex-posting';
-                this.$Api.User.Forget({
-                    username: username,
-                    email: mail,
-                    validate: code
-                }, (rs)=> {
-                    rs=rs[0];
-                    this.PostState='';
-                    if(!rs.state){
-                        this.$Message.error('服务器错误');
-                        return;
-                    }
-                    if(rs.state==='success'){
-                        let _this=this;
-                        this.$Message[rs.state]({
-                            content: rs.msg,
-                            onClose:()=> {
-                                _this.changeType('login');
-                                this.LoginUserInput.value=username;
-                            }
-                        });
-                    }else{
-                        this.$Message[rs.state](rs.msg);
-                        this.ForgetCodeInput.value='';
-                    }
-                },()=>{
-                    this.PostState='';
-                })
-            },
-            verify:function(){
-                let username=this.VerifyUserInput.value;
-                let pass=this.VerifyPassInput.value;
-                let code=this.VerifyCodeInput.value;
-                if (!username.length){
-                    this.$Message.warning('请输入您的用户名');
-                    return false;
-                }
-                if (!pass.length){
-                    this.$Message.warning('请输入密码');
-                    return false;
-                }
-                if (!code.length){
-                    this.$Message.warning('请输入您收到的验证码');
-                    return false;
-                }
-                if(this.PostState){
-                    this.$Message.warning('正在激活您的账号');
-                    return false;
-                }
-                this.PostState='CloudIndex-posting';
-                this.$Api.User.Verify({
-                    name: username,
-                    pass: pass,
-                    code: code
-                }, (rs)=> {
-                    rs=rs[0];
-                    this.PostState='';
-                    if(!rs.state){
-                        this.$Message.error('服务器错误');
-                        return;
-                    }
-                    if(rs.state==='success'){
-                        let _this=this;
-                        this.$Message[rs.state]({
-                            content: rs.msg,
-                            onClose:()=> {
-                                _this.changeType('login');
-                                this.LoginUserInput.value=username;
-                            }
-                        });
-                    }else{
-                        this.$Message[rs.state](rs.msg);
-                        this.VerifyCodeInput.value='';
-                    }
-                },()=>{
-                    this.PostState='';
-                })
-            },
-            ReSend:function(){
-                if(!this.ResendData.State){
-                    this.$Message.warning('激活邮件已发送或正在发送，请不要重复操作！');
-                    return false
-                }
-                this.ResendData.Text='正在发送';
-                this.ResendData.State=false;
-                this.$Api.User.ReSend({
-                    name:this.VerifyUserInput.value
-                },(rs)=>{
-                    rs=rs[0];
-                    if(!rs.state){
-                        this.$Message.error('服务器错误');
-                        return;
-                    }
-                    if(rs.state==='success') {
-                        let time = 61;
-                        let a = setInterval(() => {
-                            time--;
-                            this.ResendData.State = false;
-                            this.ResendData.Text = time + 's后可重新发送';
-                            if (time === 0) {
-                                this.ResendData.State = true;
-                                this.ResendData.Text = '重新发送';
-                                clearInterval(a);
-                            }
-                        }, 1000);
-                    }else{
-                        this.ResendData.State = true;
-                    }
-                    this.$Message[rs.state](rs.msg);
                 })
             },
             changeType:function (type) {

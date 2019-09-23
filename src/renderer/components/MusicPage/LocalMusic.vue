@@ -3,7 +3,9 @@
         <PageHeader title="本地音乐" :count="localMusic.length" prefix="歌曲">
             <button @click="changeDir" class="cm-dir-button">选择目录</button>
         </PageHeader>
-        <PlayList :data="localMusic" type="local" @callback="playMusic"></PlayList>
+        <div class="cm-local-list">
+            <PlayList :data="localMusic" type="local" @callback="playMusic"></PlayList>
+        </div>
     </div>
 </template>
 
@@ -12,25 +14,29 @@
     const async = require('async');
     export default {
         name: "LocalMusic",
+        inject:['playMusic'],
         data(){
             return{
                 localDir:"",
                 localMusic:[]
             }
         },
-        mounted(){
-            if(localStorage.localDir!==undefined){
-                this.localDir=localStorage.localDir;
-                this.scanLocalMusic();
-            }else{
-                this.$Message.info('请选择本地音乐目录');
-                this.changeDir();
-            }
+        created(){
+            this.$Api.LocalFile.Read('local-music',(data)=>{
+                if(data.length){
+                    this.localMusic=data;
+                }else{
+                    if(localStorage.localDir!==undefined){
+                        this.localDir=localStorage.localDir;
+                        this.scanLocalMusic();
+                    }else{
+                        this.$Message.info('请选择本地音乐目录');
+                        this.changeDir();
+                    }
+                }
+            });
         },
         methods:{
-            playMusic(music,playlist){
-                this.$emit('play',music,playlist)
-            },
             scanLocalMusic(){
                 // 使用 fs.readdir 来获取文件列表
                 const folderPath = this.localDir;
@@ -65,6 +71,7 @@
                         }
                         if(count===files.length) {
                             this.localMusic = files;
+                            this.$Api.LocalFile.Write('local-music',files);
                         }
                     });
                 });
@@ -107,5 +114,9 @@
     .cm-dir-button{
         color: #e56464;
         background: none ;
+    }
+    .cm-local-list{
+        width: 100%;
+        height: calc(100% - 30px);
     }
 </style>

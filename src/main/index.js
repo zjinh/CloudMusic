@@ -125,7 +125,7 @@ let MusicSystem= {
       url:'login',
       title:'CloudMusic-欢迎',
       width: 300,
-      height: 550,
+      height: 540,
       alwaysOnTop:true,
       maximizable:false,
       resizable:false,
@@ -336,6 +336,7 @@ function BindIpc() {
         break;
       case 'login':
         TransDownFolder=data.TransDownFolder;
+        LoginWindow.close();
         MusicSystem.MainWindow(data);
         break;
       case 'popup':

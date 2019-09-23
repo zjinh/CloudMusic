@@ -10,9 +10,9 @@
             <span class="control">操作</span>
         </div>
         <ul class="cm-playlist">
-            <li v-for="(item,index) in data" @click="clickToPlay(item,index)" :class="item.play">
+            <li v-for="(item,index) in data" @click="clickToPlay(item,index)" :class="item.play" ripple="">
                 <span class="num" v-if="!item.play">
-                    {{index+1}}
+                    {{needZero(index+1)}}
                 </span>
                 <span class="num sf-icon-volume-up" v-else></span>
                 <span class="name">
@@ -25,13 +25,13 @@
                     {{item.album}}
                 </span>
                 <span class="time" v-if="type!=='local'">
-                    {{item.time}}
+                    {{timeDeal(item.time)}}
                 </span>
                 <span class="size" v-else>
                     {{FileSize(item.size)}}
                 </span>
                 <span class="control">
-
+                    <button class="sf-icon-youtube-play" v-if="item.mvid"></button>
                 </span>
             </li>
         </ul>
@@ -39,6 +39,7 @@
 </template>
 
 <script>
+    import media from "../../tools/media";
     export default {
         name: "PlayList",
         props:{
@@ -53,6 +54,13 @@
                     sizes = ['B', 'KB', 'MB', 'GB', 'TB'],
                     i = Math.floor(Math.log(bytes) / Math.log(k));
                 return (bytes / Math.pow(k, i)).toPrecision(3) + sizes[i];
+            },
+            needZero(count){
+                count=parseInt(count);
+                return count < 10 ? "0" + count:count
+            },
+            timeDeal(s){
+                return media.secondDeal(s/1000)
             },
             clickToPlay(item,index){
                 this.data.forEach((music)=>{
@@ -72,7 +80,7 @@
     }
     .cm-playlist{
         width: 100%;
-        height: calc(100% - 70px);
+        height: calc(100% - 40px);
         overflow-y: auto;
     }
     .cm-playlist li,.cm-playlist-head{
@@ -84,6 +92,9 @@
         height: 100%;
         line-height: 40px;
         display: inline-block;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        word-wrap: normal;
     }
     .cm-playlist li *{
         color: #b9b9b9;
@@ -93,7 +104,7 @@
         text-align: center;
     }
     .cm-playlist li .name,.cm-playlist-head .name{
-        width: 30%;
+        width: calc(30% - 50px);
         color: #333;
     }
     .cm-playlist li .singer,.cm-playlist-head .singer{
@@ -110,6 +121,11 @@
     }
     .cm-playlist li .control,.cm-playlist-head .control{
         width: 20%;
+    }
+    .cm-playlist li .control button{
+        background: none;
+        color: #e56464;
+        padding: 0 3px;
     }
     .cm-playlist li:nth-child(odd){
         background: #f9f9f9;

@@ -102,3 +102,23 @@ Vue.getMusicInfo = Vue.prototype.$getMusicInfo =(file,cb)=>{
         }
     });
 };//音乐解析
+Vue.handleListData = Vue.prototype.$handleListData =(data)=>{
+    let _return=[];
+    let list={};
+    data.forEach((item,index)=>{
+        list={
+            id:item.id,
+            artistId:item.artists[0].id,
+            type:"online",
+            title:item.name,
+            name:item.name,
+            artist:item.artists[0].name,
+            album:item.album.name,
+            time:item.mMusic.playTime,
+            mvid:item.mvid,
+            url:'https://music.163.com/song/media/outer/url?id='+item.id+'.mp3'
+        };
+        _return.push(list);
+    });
+    return _return
+};//音乐列表处理

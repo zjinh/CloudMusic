@@ -2,7 +2,8 @@ import {Ajax,severAddress} from "./request";
 export default {
     Login(data,callback,error) {
         Ajax({
-            url:"/open/netase/login/cellphone",
+            url:"/open/netase/login/"+(data.phone?'cellphone':''),
+            method:"GET",
             data:data,
             success:callback,
             error:error
@@ -10,23 +11,7 @@ export default {
     },
     Register(data,callback,error) {
         Ajax({
-            url:"/service/user/register",
-            data:data,
-            success:callback,
-            error:error
-        })
-    },
-    Forget(data,callback,error) {
-        Ajax({
-            url:"/service/user/forget",
-            data:data,
-            success:callback,
-            error:error
-        })
-    },
-    Verify(data,callback,error) {
-        Ajax({
-            url:"/service/user/verifyCheck",
+            url:"/open/netase/register/cellphone",
             data:data,
             success:callback,
             error:error

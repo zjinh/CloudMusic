@@ -5,7 +5,7 @@
             <MusicHeader></MusicHeader>
             <section class="cm-right-main">
                 <keep-alive>
-                    <router-view @play="play"></router-view>
+                    <router-view></router-view>
                 </keep-alive>
             </section>
         </section>
@@ -25,6 +25,20 @@
         name: "MusicWindow",
         components:{
             MusicClassify,MusicHeader,PlayerControl,BlurBackground,FullPlayer
+        },
+        provide (){
+            return {
+                playMusic:(music,playlist)=>{
+                    if(this.PlayList.length) {
+                        if (this.PlayList[0].name !== playlist[0].name) {
+                            this.PlayList.forEach((item) => {
+                                item.play = '';
+                            })
+                        }
+                    }
+                    this.play(music,playlist)
+                },
+            }
         },
         data(){
             return{
