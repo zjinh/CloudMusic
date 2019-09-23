@@ -11,16 +11,17 @@
             </div>
         </div>
         <div class="cm-full-music-container">
-            <div class="cm-full-next-container" v-show="!mode">
+            <div class="cm-full-prev-container" v-show="!mode">
                 <div class="line"></div>
                 <button tabindex="-1" class="sf-icon-angle-left" @click="playerControl('prev')"></button>
             </div>
-            <div class="cm-full-poster-container" :style="{'margin-left':mode?'30px':'0'}">
+            <div class="cm-full-poster-container">
                 <canvas id="wrap" height="300" width="300"></canvas>
                 <div class="cm-full-music-poster">
                     <img :src="NowPlay.picture" alt="" draggable="false">
+                    <button :class="playState+' animated fadeIn'" v-show="!mode" @click="playerControl('play')"></button>
                 </div>
-                <p id="cm-fully-music-line-lrc"></p>
+                <p id="cm-fully-music-line-lrc" class="animated slideInDown" v-show="!mode"></p>
             </div>
             <div class="cm-full-next-container">
                 <div class="line"></div>
@@ -43,7 +44,8 @@
         props:{
             PlayList:Array,
             NowPlay:Object,
-            analyser:[Object,AnalyserNode]
+            analyser:[Object,AnalyserNode],
+            playState:String
         },
         data(){
             return{
@@ -133,8 +135,9 @@
     .cm-full-music-song-info{
         display: flex;
         align-items: center;
-        top: 90px;
+        top: 60px;
         justify-content: center;
+        z-index: 3;
     }
     .cm-full-music-song-info *{
         width: 100%;
@@ -184,12 +187,26 @@
         background-size: contain;
         left: 32px;
         top: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
     .cm-full-music-poster img{
         width: 100%;
         height: 100%;
     }
-    .cm-full-next-container{
+    .cm-full-music-poster button{
+        width: 55px;
+        height: 55px;
+        text-align: center;
+        line-height: 55px;
+        color: #fff;
+        text-shadow: 1px 1px 1px rgba(0,0,0,.5);
+        background: #e56464a8;
+        border-radius: 100%;
+        font-size: 16px;
+    }
+    .cm-full-prev-container,.cm-full-next-container{
         width: 100px;
         height: 50px;
         display: flex;
@@ -197,8 +214,9 @@
         align-items: center;
         position: relative;
         overflow: unset;
+        z-index: -1;
     }
-    .cm-full-next-container .line{
+    .cm-full-prev-container .line,.cm-full-next-container .line{
         width: 126%;
         height: 2px;
         position: absolute;
@@ -206,15 +224,22 @@
         left: -19px;
         border-radius: 0 50% 50% 0;
     }
-    .cm-full-next-container button{
+    .cm-full-prev-container .line{
+        left: 19px;
+        border-radius:  50% 0 0 50%;
+    }
+    .cm-full-prev-container button,.cm-full-next-container button{
         width: 40px;
         height: 40px;
         border-radius: 100%;
-        color: #464646;
+        color: #fff;
         background: #e56464;
         font-size: 28px;
         text-align: center;
         line-height: 39px;
+    }
+    .cm-full-prev-container button{
+        margin-left: 60px;
     }
     .cm-full-music-lrc{
         width: calc(100% - 430px);

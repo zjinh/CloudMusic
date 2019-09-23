@@ -8,13 +8,11 @@ export default {
             error:error
         })
     },
-    MathLocal(data,callback,error) {
+    mateMusic(data,callback,error) {
         Ajax({
-            url:"/service/api/MathLocal",
+            url:"/service/open/mateMusic",
             data:data,
-            success:(rs)=>{
-                console.log(rs)
-            },
+            success:callback,
             error:error
         })
     },

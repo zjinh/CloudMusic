@@ -67,14 +67,16 @@
                         item.count=index;
                         if (item.play) {
                             this.NowPlay=item;
-                            //this.GetLyr();
-                            this.MathLocal(this.NowPlay);
+                            this.mateMusic(this.NowPlay);
                             this.Visual();
                         }
                     });
                 },
                 deep: true
             },
+            PlayButtonState:function () {
+                this.$emit('playState',this.PlayButtonState)
+            }
         },
         data(){
             return{
@@ -225,25 +227,17 @@
                 renderFrame();
                 this.VisualState=false;
             },
-            GetLyr(){
-                this.$Api.Music.GetLyr({
-                    name:this.NowPlay.name
-                },(rs)=>{
-                    rs=JSON.parse(rs);
-                    if (rs.lrc.lyric !== '' || rs.lrc.lyric !== null) {
-                        let data=rs.lrc.lyric;
-                        this.start(data,()=>{
-                            return this.$refs.audio.currentTime;
-                        })
-                    }
-                })
-            },
-            MathLocal(data){
-                this.$Api.Music.MathLocal({
+            mateMusic(data){
+                this.$Api.Music.mateMusic({
                     name: data.name
                 }, (rs) => {
-                    this.PlayList[data.count].picture=rs||this.$defaultAlbum;
-                    this.NowPlay.picture = rs || this.$defaultAlbum;
+                    let cover=rs.cover;
+                    let lrc=rs.lrc.lyric||'[00:00.000] 暂无歌词';
+                    this.PlayList[data.count].picture=cover||this.$defaultAlbum;
+                    this.NowPlay.picture = cover|| this.$defaultAlbum;
+                    this.start(lrc,()=>{
+                        return this.$refs.audio.currentTime;
+                    });
                     this.$emit('playing', this.NowPlay);
                 })
             },

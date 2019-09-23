@@ -2,12 +2,9 @@ import {Ajax,severAddress} from "./request";
 export default {
     Login(data,callback,error) {
         Ajax({
-            url:"/service/user/login",
+            url:"/open/netase/login/cellphone",
             data:data,
-            success:(rs)=>{
-                rs[0].head=severAddress()+'/'+rs[0].head+'?'+Date.now();
-                callback(rs);
-            },
+            success:callback,
             error:error
         })
     },

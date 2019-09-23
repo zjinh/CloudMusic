@@ -6,22 +6,23 @@
                 <div class="active" :style="{width:data.Type===item.flag?'100%':0}"></div>
             </li>
         </ul>-->
-        <ul class="user-actions" >
+        <div class="user-actions" @click="openLoginWindow">
             <Dropdown placement="bottom-start" @on-click="SystemDropDown">
-                <li class="item">{{UserInfo.username}}</li>
+                <p class="item">
+                    <img draggable="false" :src="UserInfo.userhead" alt="">
+                    <span>{{UserInfo.username}}</span>
+                </p>
                 <DropdownMenu slot="list">
                     <DropdownItem name="account">
                         <img draggable="false" :src="UserInfo.userhead" alt="">
                         <span>我</span>
                     </DropdownItem>
-                    <DropdownItem name="setting">系统设置</DropdownItem>
                     <DropdownItem name="about">关于</DropdownItem>
                     <DropdownItem name="feedback">反馈</DropdownItem>
-                    <DropdownItem name="switch">切换账户</DropdownItem>
                     <DropdownItem name="exit">退出</DropdownItem>
                 </DropdownMenu>
             </Dropdown>
-        </ul>
+        </div>
         <ul class="window-actions">
             <li class="sf-icon-minus" @click="mini"></li>
             <li :class="ButtonState" style="display: none" @click="restore"></li>
@@ -45,7 +46,7 @@
             return{
                 UserInfo:{
                     username:"未登录",
-                    userhead:""
+                    userhead:"https://p4.music.126.net/fJ42l_kzHp0_B22zg_ZIqQ==/109951164181843369.jpg"
                 },//用户信息
                 QuitFlag:false,//是否允许退出
                 ButtonState:"sf-icon-window-maximize",//右上角窗口按钮状态,
@@ -149,6 +150,9 @@
             HeaderType(commend){
                 this.$emit('callback',commend);
             },
+            openLoginWindow(){
+                this.$ipc.send('system','to-login')
+            }
         }
     }
 </script>
@@ -163,6 +167,7 @@
         -webkit-app-region: drag;
         position: relative;
         z-index: 4;
+        overflow: unset;
     }
     /*顶部导航*/
     .cm-right-menu{
@@ -217,22 +222,32 @@
     .user-actions{
         position: absolute;
         right: 150px;
-        top: 0;
+        top: 15px;
+        height: 30px;
+        line-height: 30px;
         -webkit-app-region: no-drag;
         overflow: unset;
+        color: #fff;
     }
     .user-actions *{
         -webkit-app-region: no-drag;
     }
     .user-actions .item{
-        background: #f5f5f5;
-        padding:0 5px;
         max-width: 100px;
         text-overflow: ellipsis;
         cursor: pointer;
     }
-    .user-actions .item:hover{
-        background: #eee;
+    .user-actions .item *{
+        display: inline-block;
+        height: 100%;
+    }
+    .user-actions .item img{
+        border-radius: 100%;
+        width: 30px;
+        height: 30px;
+    }
+    .user-actions .item span{
+        padding-left: 5px;
     }
     .ivu-dropdown-item img{
         float: left;
@@ -253,29 +268,31 @@
         text-align: center;
         padding: 0 5px;
         position: absolute;
-        top: 0;
+        top: 15px;
         right: 0;
-        color: #fff;
-        -webkit-transition: all .35s;
-        -moz-transition: all .35s;
-        -o-transition: all .35s
+        color: #fff
     }
     .window-actions li{
         float: left;
-        width: 32px;
-        height: 28px;
+        width: 30px;
+        height: 30px;
         margin-left: 5px;
-        line-height: 28px;
+        line-height: 30px;
         font-size: 12px;
         -webkit-app-region: no-drag;
         cursor: pointer;
-    }
-    .window-actions li:hover{
-        background: rgba(0,0,0,.1);
-    }
-    .window-actions:hover{
+        border-radius: 5px;
         -webkit-transition: all .35s;
         -moz-transition: all .35s;
         -o-transition: all .35s
+    }
+    .window-actions li:hover,.window-actions li:active{
+        background: rgba(0,0,0,.1);
+        -webkit-transition: all .35s;
+        -moz-transition: all .35s;
+        -o-transition: all .35s
+    }
+    .window-actions li:active{
+        border-radius: 100%;
     }
 </style>

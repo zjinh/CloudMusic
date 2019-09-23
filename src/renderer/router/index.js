@@ -29,6 +29,11 @@ export default new Router({
       ]
     },
     {
+      path: '/login',
+      name: 'login',
+      component: require('@/components/LoginPage.vue').default,
+    },
+    {
       path: '/music-about/:version',
       name: 'MusicAbout',
       component: require('@/components/MusicAbout').default

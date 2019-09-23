@@ -8,7 +8,7 @@ if (process.env.NODE_ENV !== 'development') {
   global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
 }
 let version=require("../../package.json").version;
-let MainWindow,PopupWindow,AboutWindow,AccountWindow,FeedBackWindow;
+let LoginWindow,MainWindow,PopupWindow,AboutWindow,AccountWindow,FeedBackWindow;
 /*播放按钮*/
 let PlayerIcon = path.join(__static, '/img/player');
 let NextBtn = nativeImage.createFromPath(path.join(PlayerIcon, 'next.png'));
@@ -95,7 +95,7 @@ let WindowControl={
     if(win) {
       win.show();
       win.focus();
-      win.callback(data);
+      data&&win.callback(data);
     }
   }
 };
@@ -117,6 +117,23 @@ function FileObject(item,state){
   }
 }
 let MusicSystem= {
+  LoginWindow:()=>{
+    if(LoginWindow){
+      return WindowControl.Active(LoginWindow);
+    }
+    LoginWindow=WindowControl.New({
+      url:'login',
+      title:'CloudMusic-欢迎',
+      width: 300,
+      height: 550,
+      alwaysOnTop:true,
+      maximizable:false,
+      resizable:false,
+      onclose:()=>{
+        LoginWindow=null;
+      },
+    });
+  },
   MainWindow:(data)=>{
     if(MainWindow){
       return WindowControl.Active(MainWindow,data);
@@ -314,6 +331,9 @@ function BindIpc() {
   /*系统操作事件*/
   ipcMain.on('system',(event,type,data)=>{
     switch (type) {
+      case'to-login':
+        MusicSystem.LoginWindow();
+        break;
       case 'login':
         TransDownFolder=data.TransDownFolder;
         MusicSystem.MainWindow(data);
