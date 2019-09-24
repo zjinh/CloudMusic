@@ -1,12 +1,14 @@
 <template>
     <div class="cm-right-head">
-       <!-- <ul class="cm-right-menu">
-            <li v-for="(item,index) in HeaderClassify" @click="HeaderType(item.flag)">
-                <p> {{item.name}}</p>
-                <div class="active" :style="{width:data.Type===item.flag?'100%':0}"></div>
-            </li>
-        </ul>-->
-        <div class="user-actions" @click="openLoginWindow">
+        <div class="cm-right-round">
+            <button class="sf-icon-angle-left"></button>
+            <button class="sf-icon-angle-right"></button>
+        </div>
+        <div class="cm-right-search-main">
+            <i class="sf-icon-search"></i>
+            <input type="text" placeholder="搜索歌曲...">
+        </div>
+        <div class="user-actions">
             <Dropdown placement="bottom-start" @on-click="SystemDropDown">
                 <p class="item">
                     <img draggable="false" :src="UserInfo.avatarUrl" alt="">
@@ -25,7 +27,6 @@
         </div>
         <ul class="window-actions">
             <li class="sf-icon-minus" @click="mini"></li>
-            <li :class="ButtonState" style="display: none" @click="restore"></li>
             <li class="sf-icon-times" style="font-size:16px" @click="close"></li>
         </ul>
     </div>
@@ -40,53 +41,37 @@
             },
             count:{
                 type:Number
+            },
+            UserInfo:{
+                type:Object,
+                default:function () {
+                    return{
+                        nickname:"未登录",
+                        avatarUrl:""
+                    }
+                }
             }
         },
         data(){
             return{
-                UserInfo:{
-                    nickname:"未登录",
-                    avatarUrl:""
-                },//用户信息
                 QuitFlag:false,//是否允许退出
-                ButtonState:"sf-icon-window-maximize",//右上角窗口按钮状态,
-                HeaderClassify:[
-                    {name:"网盘",flag:'disk'},
-                    {name:"分享",flag:'share'},
-                    {name:"传输",flag:'trans'},
-                ],
                 MusicWindow:false
             }
         },
         mounted(){
             this.MusicWindow=this.$electron.remote.getCurrentWindow();
-            this.MusicWindow.on('maximize',()=>{
-                this.ButtonState='sf-icon-window-restore';
-            });
-            this.MusicWindow.on('unmaximize',()=>{
-                this.ButtonState='sf-icon-window-maximize';
-            });
             window.onbeforeunload=()=>{
                 if(!this.QuitFlag&&process.env.NODE_ENV !== 'development') {
                     this.MusicWindow.hide();
                     return false
                 }
             };
-            if(localStorage.User){
-                this.$Api.LocalFile.Read('user',(data)=>{
-                    console.log(data)
-                    if(data.userId){
-                        this.UserInfo = data;
-                    }
-                });
-            }
             this.$ipc.on('exit',()=>{
                 this.SystemDropDown('exit');
             });
             this.$ipc.on('user-update',()=>{
                 this.GetUserInfo();
             });
-            this.GetUserInfo();
         },
         methods:{
             mini () {
@@ -94,13 +79,6 @@
             },
             close () {
                 this.MusicWindow.hide();
-            },
-            restore () {
-                if (this.MusicWindow.isMaximized()) {
-                    this.MusicWindow.restore();
-                } else {
-                    this.MusicWindow.maximize();
-                }
             },
             SystemDropDown (command) {
                 if(command!=='switch'&&command!=='exit') {
@@ -137,32 +115,12 @@
                 }
             },
             GetUserInfo () {
-                /*this.$Api.User.UserInfo((rs)=>{
+                this.$Api.User.UserInfo((rs)=>{
                     this.$nextTick(()=>{
-                        this.UserInfo=rs[0];
+                        this.UserInfo=rs.profile;
                     });
-                    this.$Api.LocalFile.Exist(rs[0].userid);
-                    this.$Api.LocalFile.Write('user',rs[0]);
-                    localStorage.LoginTime=rs[0].login_time;
-                },()=>{
-                    this.$Message.error({
-                        content: '账号状态异常，请重新登录！',
-                        onClose:()=> {
-                            /////弹出登录页
-                            this.QuitFlag=true;
-                            this.$ipc.send('system','logoff');
-                        }
-                    });
-                });*/
+                });
             },//获取用户信息,
-            HeaderType(commend){
-                this.$emit('callback',commend);
-            },
-            openLoginWindow(){
-                if(localStorage.User===undefined) {
-                    this.$ipc.send('system', 'to-login')
-                }
-            }
         }
     }
 </script>
@@ -173,60 +131,63 @@
         width: 100%;
         height: 60px;
         color: #4d515a;
-        padding: 20px 0 10px;
         -webkit-app-region: drag;
         position: relative;
         z-index: 4;
         overflow: unset;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
-    /*顶部导航*/
-    .cm-right-menu{
-        float: left;
-        height: 35px;
+    /*搜索*/
+
+    .cm-right-round{
+        width: 120px;
         -webkit-app-region: no-drag;
     }
-    .cm-right-menu img{
-        float: left;
-        width: 35px;
-        margin: 0 15px;
-        -webkit-app-region: drag;
+    .cm-right-round button{
+        background: #c34343;
+        height: 23px;
+        line-height: 23px;
+        font-size: 16px;
+        padding: 0 12px;
+        color: #e56464;
     }
-    .cm-right-menu span{
-        float: left;
-        font-weight: bold;
-        color: #fff;
-        line-height: 40px;
-        padding: 0 10px 0 0;
-        -webkit-app-region: drag;
-        font-size: 14px;
+    .cm-right-round button:first-child{
+        border-radius:45% 0 0 45%;
     }
-    .cm-right-menu li {
-        float: left;
-        margin-left: 15px;
-        cursor: pointer;
+    .cm-right-round button:last-child{
+        border-radius:0 45% 45% 0;
     }
-    .cm-right-menu li p {
-        font-weight: bold;
-        padding: 0 15px;
-        text-align: center;
-        font-size: 14px;
-        line-height: 32px;
+    .cm-right-search-main{
+        width: 320px;
+        margin-right: 320px;
+        position: relative;
+        -webkit-app-region: no-drag;
     }
-    .cm-right-menu li>.sf-icon-* {
-        display: block
-    }
-    .active {
+    .cm-right-search-main input{
         width: 100%;
-        height: 3px;
-        background: #009594;
+        height: 32px;
+        border-radius: 20px;
+        background: #c34343;
+        color: #fff;
+        line-height: 32px;
+        padding-left: 10px;
+        padding-right: 40px;
     }
-    .active,.cm-right-menu li:hover .active {
-        -webkit-transition: all .35s;
-        -moz-transition: all .35s;
-        -o-transition: all .35s
+    .cm-right-search-main input::-webkit-input-placeholder {
+        color: #e56464;
     }
-    .cm-right-menu li:hover .active {
-        width: 100%!important
+    .cm-right-search-main i{
+        position: absolute;
+        right: 0;
+        color: #e56464;
+        font-size: 16px;
+        top: 0;
+        width: 48px;
+        height: 32px;
+        line-height: 32px;
+        text-align: center;
     }
     /*用户*/
     .user-actions{

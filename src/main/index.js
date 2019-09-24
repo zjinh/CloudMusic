@@ -1,6 +1,7 @@
 import {app, BrowserWindow, ipcMain, Menu, Tray, nativeImage, screen,session } from 'electron'
 import { autoUpdater } from 'electron-updater'
-import fa from "element-ui/src/locale/lang/fa";
+import LocalFile from "../renderer/tools/api/LocalFile";
+import User from "../renderer/tools/api/User";
 const path = require('path');
 let TransDownFolder=process.env.USERPROFILE;
 let DownloadList={};
@@ -117,12 +118,13 @@ function FileObject(item,state){
   }
 }
 let MusicSystem= {
-  LoginWindow:()=>{
+  LoginWindow:(data)=>{
     if(LoginWindow){
-      return WindowControl.Active(LoginWindow);
+      return WindowControl.Active(LoginWindow,data);
     }
     LoginWindow=WindowControl.New({
       url:'login',
+      data:data,
       title:'CloudMusic-欢迎',
       width: 300,
       height: 540,
@@ -187,10 +189,10 @@ let MusicSystem= {
       url:'main',
       data:data,
       title:'CloudMusic',
-      width: 1000,
-      minWidth:1000,
-      minHeight:650,
-      height: 650,
+      width: 1022,
+      minWidth:1022,
+      minHeight:670,
+      height: 670,
       maximizable:false,
       resizable:false,
       onclose:()=>{
@@ -209,7 +211,6 @@ let MusicSystem= {
       },
       callback:()=>{
           MainWindow.setThumbarButtons(MusicButtons);
-          BindIpc();
       }
     });
   },
@@ -335,9 +336,8 @@ function BindIpc() {
         MusicSystem.LoginWindow();
         break;
       case 'login':
-        TransDownFolder=data.TransDownFolder;
         LoginWindow.close();
-        MusicSystem.MainWindow(data);
+        MusicSystem.MainWindow();
         break;
       case 'popup':
         MusicSystem.PopupWindow(data);
@@ -432,15 +432,32 @@ if (!gotTheLock) {
   app.quit()
 } else {
   app.on('second-instance', () => {
+    if (LoginWindow) {
+      LoginWindow.show();
+      LoginWindow.restore();
+      LoginWindow.focus();
+      return
+    }
     if (MainWindow) {
       MainWindow.show();
       MainWindow.restore();
-      MainWindow.focus()
+      MainWindow.focus();
     }
   });
   app.on('ready', function (){
+    BindIpc();
     app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required');
-    MusicSystem.MainWindow(true);
+    LocalFile.read('login',(data,err)=>{
+        if(err){
+            MusicSystem.LoginWindow();
+        }else{
+            User.Login(data,()=>{
+              MusicSystem.MainWindow(data);
+            },()=>{
+              MusicSystem.LoginWindow(data);
+            })
+        }
+    });
   });
 }
 app.on('window-all-closed', () => {

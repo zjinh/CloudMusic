@@ -35,6 +35,8 @@
                 </span>
             </li>
         </ul>
+        <NoData v-show="data.length===0&&!loading"></NoData>
+        <loading v-show="loading"></loading>
     </div>
 </template>
 
@@ -44,7 +46,8 @@
         name: "PlayList",
         props:{
             data:Array,
-            type:String
+            type:String,
+            loading:Boolean
         },
         methods:{
             FileSize (bytes) {
@@ -77,6 +80,7 @@
     .cm-playlist-container{
         width: 100%;
         height: 100%;
+        position: relative;
     }
     .cm-playlist{
         width: 100%;
@@ -92,9 +96,9 @@
         height: 100%;
         line-height: 40px;
         display: inline-block;
-        text-overflow: ellipsis;
         overflow: hidden;
-        word-wrap: normal;
+        text-overflow:ellipsis;
+        white-space: nowrap;
     }
     .cm-playlist li *{
         color: #b9b9b9;

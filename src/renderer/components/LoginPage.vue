@@ -127,20 +127,9 @@
         },
         created:function () {
             this.WindowObject=this.$electron.remote.getCurrentWindow();
-            // localStorage.server=this.ServerAddress;
-            localStorage.server='https://api.zjinh.cn';
-            window.addEventListener( "dragenter", function (e) {
-                e.preventDefault();
-            }, false);
-            window.addEventListener( "dragover", function (e) {
-                e.preventDefault();
-            }, false );
-            window.addEventListener( "dragleave", function (e) {
-                e.preventDefault();
-            }, false );
-            window.addEventListener( "drop", function (e) {
-                e.preventDefault();
-            }, false );
+            this.$ipc.on('win-data',(event,data)=>{
+                this.LoginUserInput.value=data.phone||data.email||''
+            })
         },
         methods:{
             login:function () {
@@ -151,10 +140,10 @@
                     return false;
                 }
                 if(username.length>11&&!username.Exist('@')){
-                    return this.$message.warning('请输入正确的手机号')
+                    return this.$Message.warning('请输入正确的手机号')
                 }
-                if(!username.Exist('@163')){
-                    return this.$message.warning('必须是网易163邮箱')
+                if(username.Exist('@')&&!username.Exist('163')){
+                    return this.$Message.warning('必须是网易163邮箱')
                 }
                 if (!password.length){
                     this.$Message.warning('请输入密码');
@@ -177,13 +166,9 @@
                         password:password,
                     }
                 }
-                this.$Api.User.Login(data,(rs)=> {
+                this.$Api.User.Login(data,()=> {
                     this.PostState='';
-                    localStorage.User=rs.profile.userId;
-                    this.$Api.LocalFile.Exist(rs.profile.userId,()=>{
-                        this.$Api.LocalFile.Write('user',rs.profile);
-                    });
-                    this.$ipc.send('system','login',this.ConfigObject);
+                    this.$ipc.send('system','login');
                 },(rs)=>{
                     this.PostState='';
                     switch (rs.code) {
@@ -266,26 +251,6 @@
                 this.ShowState[type].state = true;
                 this.HeadText.h1=this.ShowState[type].h1;
                 this.HeadText.tips=this.ShowState[type].tips
-            },
-            OpenServerWindow:function(){
-                this.InputConfrim({
-                    title: "修改服务器地址",
-                    tips: '请输入服务器地址',
-                    value:this.ServerAddress,
-                    inputPattern: /(https|http):\/\/([^\/\:]+)?(\:[0-9]+)?(\/[^\?]+)?(\?.+)?/,
-                    inputErrorMessage: '服务器地址格式不正确',
-                    callback:(value)=>{
-                        this.$Message.info('正在验证'+value+'是否可用');
-                        this.$Api.Check(value,(rs)=>{
-                            this.$Message.success(value+'可用！');
-                            this.ServerAddress=value;
-                            localStorage.server=value;
-                        },(error)=>{
-                            this.$Message.error(value+'不可用');
-                            this.OpenServerWindow();
-                        })
-                    }
-                });
             },
             mini:function () {
                 this.WindowObject.minimize();

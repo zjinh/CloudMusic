@@ -4,7 +4,7 @@
             <button @click="changeDir" class="cm-dir-button">选择目录</button>
         </PageHeader>
         <div class="cm-local-list">
-            <PlayList :data="localMusic" type="local" @callback="playMusic"></PlayList>
+            <PlayList :data="localMusic" type="local" :loading="loading" @callback="playMusic"></PlayList>
         </div>
     </div>
 </template>
@@ -18,13 +18,15 @@
         data(){
             return{
                 localDir:"",
+                loading:true,
                 localMusic:[]
             }
         },
         created(){
-            this.$Api.LocalFile.Read('local-music',(data)=>{
+            this.$Api.LocalFile.read('local-music',(data)=>{
                 if(data.length){
                     this.localMusic=data;
+                    this.loading=false;
                 }else{
                     if(localStorage.localDir!==undefined){
                         this.localDir=localStorage.localDir;
@@ -71,7 +73,8 @@
                         }
                         if(count===files.length) {
                             this.localMusic = files;
-                            this.$Api.LocalFile.Write('local-music',files);
+                            this.$Api.LocalFile.write('local-music',files);
+                            this.loading=false;
                         }
                     });
                 });

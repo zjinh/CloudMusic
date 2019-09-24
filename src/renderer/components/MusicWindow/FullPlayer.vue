@@ -147,6 +147,11 @@
         font-weight: normal;
         font-size: 20px;
         color: #fff;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        display:-webkit-box;
+        -webkit-box-orient:vertical;
+        -webkit-line-clamp:2;
     }
     .cm-full-music-song-info p{
         font-size: 14px;
@@ -253,6 +258,11 @@
         color: #fff;
         font-size: 30px;
         font-weight: normal;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        display:-webkit-box;
+        -webkit-box-orient:vertical;
+        -webkit-line-clamp:2;
     }
     .cm-full-music-lrc .artist{
         color: #e56464;

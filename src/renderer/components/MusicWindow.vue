@@ -2,9 +2,10 @@
     <div class="cm-main">
         <MusicClassify :style="{height:mainHeight}"></MusicClassify>
         <section class="cm-right" :style="{height:mainHeight}">
-            <MusicHeader></MusicHeader>
+            <MusicHeader :UserInfo="UserInfo"></MusicHeader>
             <section class="cm-right-main">
-                <keep-alive>
+                <loading v-show="!login"></loading>
+                <keep-alive v-if="login">
                     <router-view></router-view>
                 </keep-alive>
             </section>
@@ -42,13 +43,15 @@
         },
         data(){
             return{
+                UserInfo:{},
                 PlayList:[],
                 NowPlay:{
                     picture:this.$defaultAlbum
                 },
                 playState:"sf-icon-play",
                 showFull:false,
-                analyser:{}
+                analyser:{},
+                login:false
             }
         },
         computed:{
@@ -58,6 +61,20 @@
         },
         mounted(){
             this.audioCont();
+        },
+        created(){
+            this.$ipc.on('win-data',(event,data)=>{
+                this.$Api.User.Login(data,()=>{
+                    this.login=true;
+                    this.$Api.LocalFile.read('user',(data)=>{
+                        if(data.userId){
+                            this.$nextTick(()=>{
+                                this.UserInfo = data;
+                            });
+                        }
+                    });
+                })
+            });
         },
         methods:{
             play(music,playList){

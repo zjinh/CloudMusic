@@ -7,7 +7,7 @@ axios.interceptors.response.use(function (response) {
     return Promise.reject(err.response.data);
 });
 function severAddress() {
-    return localStorage.server||'https://api.zjinh.cn';
+    return 'https://api.zjinh.cn'
 }
 let paramHandel = {
     removeKey: ['_index', '_rowKey', '_disabled', '_checked'],

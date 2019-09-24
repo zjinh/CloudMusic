@@ -1,9 +1,26 @@
 import {Ajax,severAddress} from "./request";
+import LocalFile from "./LocalFile";
 export default {
+    UserId:null,
     Login(data,callback,error) {
         Ajax({
             url:"/open/netase/login/"+(data.phone?'cellphone':''),
             method:"GET",
+            data:data,
+            success:(rs)=>{
+                this.UserId=rs.profile.userId;
+                LocalFile.init(rs.profile.userId, () => {
+                    LocalFile.write('user', rs.profile);
+                    LocalFile.write('login', data);
+                    callback && callback(rs.profile);
+                });
+            },
+            error:error
+        })
+    },
+    refresh(data,callback,error) {
+        Ajax({
+            url:"/open/netase/login/refresh",
             data:data,
             success:callback,
             error:error
@@ -19,13 +36,11 @@ export default {
     },
     UserInfo(callback,error) {
         Ajax({
-            url:"/service/user/UserInfo",
-            data:[],
-            success:(rs)=>{
-                rs[0].birth=this.age(rs[0].birthday);
-                rs[0].userhead=severAddress()+'/'+rs[0].userhead+'?'+Date.now();
-                callback(rs);
+            url:"/service/user/detail",
+            data:{
+                uid:this.UserId
             },
+            success:callback,
             error:error
         })
     },

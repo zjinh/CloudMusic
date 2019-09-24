@@ -6,7 +6,7 @@
                 <span>Recommend songs</span>
             </div>
             <div class="cm-discover-list">
-                <PlayList :data="RecommendSong" @callback="playMusic"></PlayList>
+                <PlayList :data="RecommendSong" :loading="loading" @callback="playMusic"></PlayList>
             </div>
         </div>
         <div class="cm-discover-25">
@@ -35,6 +35,7 @@
         },
         data(){
             return{
+                loading:true,
                 RecommendSong:[],
                 RecommendSinger:[],
             }
@@ -43,6 +44,7 @@
             getRecommendSinger(){
                 this.$Api.Music.getPopSinger((rs)=>{
                     this.$nextTick(()=>{
+                        this.loading=false;
                         this.RecommendSinger=rs.artists||[];
                     });
                 })
