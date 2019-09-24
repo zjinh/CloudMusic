@@ -6,7 +6,7 @@
         </div>
         <div :class="'cm-right-search-main '+(full?'full':'')">
             <i class="sf-icon-search"></i>
-            <input type="text" v-model="SearchKey" placeholder="搜索歌曲..." @input="SearchInput" @focus="full=false" @blur="SearchSuggest=false">
+            <input type="text" v-model="SearchKey" placeholder="搜索歌曲..." @input="SearchInput" @blur="SearchSuggest=false">
         </div>
         <div class="cm-right-search-bubble" :style="{height:SearchSuggest?'400px':0}">
             <div class="cm-right-search-bubble-content">
@@ -47,7 +47,7 @@
                         <span>我</span>
                     </DropdownItem>
                     <DropdownItem name="about">关于</DropdownItem>
-                    <DropdownItem name="feedback">反馈</DropdownItem>
+                    <DropdownItem name="logoff">退出账号</DropdownItem>
                     <DropdownItem name="exit">退出</DropdownItem>
                 </DropdownMenu>
             </Dropdown>
@@ -64,6 +64,7 @@
     import BlurBackground from "../MusicWindow/BlurBackground"
     export default {
         name: "DiskHeader",
+        inject:['fullControl'],
         components:{
             BlurBackground
         },
@@ -91,12 +92,17 @@
                 MusicWindow:false,
                 SearchKey:'',
                 SearchSuggest:false,
+                LastCommand:'',
                 SearchSuggestResult:{}
             }
         },
         mounted(){
             this.MusicWindow=this.$electron.remote.getCurrentWindow();
             window.onbeforeunload=()=>{
+                if(this.LastCommand==='logoff'){
+                    this.QuitFlag=true;
+                    this.MusicWindow.close();
+                }
                 if(!this.QuitFlag&&process.env.NODE_ENV !== 'development') {
                     this.MusicWindow.hide();
                     return false
@@ -117,6 +123,7 @@
                 this.MusicWindow.hide();
             },
             SystemDropDown (command) {
+                this.LastCommand=command;
                 if(command!=='switch'&&command!=='exit') {
                     this.$ipc.send('system', command,command==='account'?this.UserInfo:"");
                 }else{
@@ -165,6 +172,7 @@
                             console.log(this.SearchSuggestResult)
                             this.SearchSuggestResult.songs=this.$handleListData(this.SearchSuggestResult.songs);
                             this.SearchSuggest=true;
+                            this.fullControl(false);
                             clearTimeout(a)
                         })
                     },500)

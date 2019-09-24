@@ -118,7 +118,7 @@ function FileObject(item,state){
   }
 }
 let MusicSystem= {
-  LoginWindow:(data)=>{
+  LoginWindow:(data,callback)=>{
     if(LoginWindow){
       return WindowControl.Active(LoginWindow,data);
     }
@@ -134,6 +134,9 @@ let MusicSystem= {
       onclose:()=>{
         LoginWindow=null;
       },
+      callback:()=>{
+        callback&&callback()
+      }
     });
   },
   MainWindow:(data)=>{
@@ -199,14 +202,11 @@ let MusicSystem= {
         MainWindow=null;
         let wins=BrowserWindow.getAllWindows();
         for(let i=0;i<wins.length;i++){
-          if(wins[i].name!=='/') {
-            wins[i] ? wins[i].close() : '';
-          }
+            if(wins[i].name!=='login'&&wins[i].name!=='/') {
+              wins[i] ? wins[i].close() : '';
+            }
         }
         appTray.destroy();
-        if(!MainWindow) {
-          app.quit();
-        }
         session.defaultSession.removeAllListeners('will-download');
       },
       callback:()=>{
@@ -246,23 +246,6 @@ let MusicSystem= {
       onclose:()=>{
         AccountWindow=null;
       }
-    });
-  },
-  FeedBackWindow:()=>{
-    if(FeedBackWindow){
-      return WindowControl.Active(FeedBackWindow);
-    }
-    FeedBackWindow=WindowControl.New({
-      url:'music-feedback/'+version,
-      title:'问题反馈',
-      width: 450,
-      height: 320,
-      maximizable:false,
-      minimizable:false,
-      resizable:false,
-      onclose:()=>{
-        FeedBackWindow=null;
-      },
     });
   },
   PopupWindow:(msg)=>{
@@ -321,8 +304,9 @@ let MusicSystem= {
     });
   },
   logoff:()=>{
-    MainWindow.webContents.send('exit');
-    MainWindow.close();
+    MusicSystem.LoginWindow({},()=>{
+      MainWindow.close();
+    });
   },
   exit:()=>{
 
@@ -337,7 +321,7 @@ function BindIpc() {
         break;
       case 'login':
         LoginWindow.close();
-        MusicSystem.MainWindow();
+        MusicSystem.MainWindow(data);
         break;
       case 'popup':
         MusicSystem.PopupWindow(data);
@@ -347,9 +331,6 @@ function BindIpc() {
         break;
       case 'about':
         MusicSystem.AboutWindow();
-        break;
-      case 'feedback':
-        MusicSystem.FeedBackWindow();
         break;
       case 'setting':
         MusicSystem.SettingWindow(data);

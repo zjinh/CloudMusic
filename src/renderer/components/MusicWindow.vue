@@ -37,8 +37,11 @@
                             })
                         }
                     }
-                    this.play(music,playlist)
+                    this.PlayList=playlist;
                 },
+                fullControl:(flag)=>{
+                    this.showFull=flag!==undefined?flag:!this.showFull;
+                }
             }
         },
         data(){
@@ -77,9 +80,6 @@
             });
         },
         methods:{
-            play(music,playList){
-                this.PlayList=playList;
-            },
             playing(data){
                 this.NowPlay=data;
                 this.$refs.fully.visualRound();

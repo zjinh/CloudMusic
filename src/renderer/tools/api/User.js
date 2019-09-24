@@ -29,6 +29,7 @@ export default {
     Register(data,callback,error) {
         Ajax({
             url:"/open/netase/register/cellphone",
+            method:"get",
             data:data,
             success:callback,
             error:error
@@ -44,6 +45,41 @@ export default {
             error:error
         })
     },
+    sendCode(phone,callback,error){
+        Ajax({
+            url:"/open/netase/captcha/sent",
+            method:"get",
+            data:{
+                phone:phone
+            },
+            success:callback,
+            error:error
+        })
+    },
+    isRegister(phone,callback,error){
+        Ajax({
+            url:"/open/netase/cellphone/existence/check",
+            method:"get",
+            data:{
+                phone:phone,
+                time:Math.random(0,10)
+            },
+            success:callback,
+            error:error
+        })
+    },
+    verify(phone,captcha,callback,error){
+        Ajax({
+            url:"/open/netase/captcha/verify",
+            method:"get",
+            data:{
+                captcha:captcha,
+                phone:phone,
+            },
+            success:callback,
+            error:error
+        })
+    },
     ReSend(data,callback,error) {
         Ajax({
             url:"/service/user/resend",
@@ -52,41 +88,4 @@ export default {
             error:error
         })
     },
-    Update(data,callback,error) {
-        Ajax({
-            url:"/service/user/UpdateUserInfo",
-            data:data,
-            upload:true,
-            success:callback,
-            error:error
-        })
-    },
-    FeedBack(data,callback,error) {
-        Ajax({
-            url:"/service/user/SendCouple",
-            data:data,
-            success:callback,
-            error:error
-        })
-    },
-    ChangePass(data,callback,error) {
-        Ajax({
-            url:"/service/user/ChangePass",
-            data:data,
-            success:callback,
-            error:error
-        })
-    },
-    ChangeSafeEmail(data,callback,error) {
-        Ajax({
-            url:"/service/user/ChangeSafeEmail",
-            data:data,
-            success:callback,
-            error:error
-        })
-    },
-    age(birth){
-        birth = Date.parse(birth?birth:"".replace('/-/g', "/"));
-        return parseInt((new Date() - new Date(birth)) / (1000 * 60 * 60 * 24 * 365));
-    }
 }

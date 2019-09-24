@@ -35,7 +35,7 @@
                 </div>
                 <div class="CloudIndexForm" v-show="ShowState.register.state">
                     <Logininput :data="RegisterUserInput"></Logininput>
-                    <Logininput :data="RegisterMailInput"></Logininput>
+                    <Logininput :data="RegisterMailInput" @on-change="PhoneRecord"></Logininput>
                     <Logininput :data="RegisterPassInput"></Logininput>
                     <Logininput :data="RegisterCodeInput" @keyup.enter.native="register"></Logininput>
                     <div class="CloudIndex-postBut">
@@ -88,8 +88,8 @@
                     value:""
                 },
                 RegisterMailInput:{
-                    icon:"sf-icon-envelope",
-                    text:"输入您的邮箱",
+                    icon:"sf-icon-mobile",
+                    text:"输入您的手机号",
                     value:""
                 },
                 RegisterPassInput:{
@@ -101,6 +101,7 @@
                 RegisterCodeInput:{
                     icon:"sf-icon-keyboard",
                     state:"verify",
+                    phone:"",
                     text:"验证码",
                     value:""
                 },
@@ -168,7 +169,7 @@
                 }
                 this.$Api.User.Login(data,()=> {
                     this.PostState='';
-                    this.$ipc.send('system','login');
+                    this.$ipc.send('system','login',data);
                 },(rs)=>{
                     this.PostState='';
                     switch (rs.code) {
@@ -183,19 +184,19 @@
             },
             register:function(){
                 let username=this.RegisterUserInput.value;
-                let mail=this.RegisterMailInput.value;
+                let phone=this.RegisterMailInput.value;
                 let password=this.RegisterPassInput.value;
                 let code=this.RegisterCodeInput.value;
                 if (!username.length){
                     this.$Message.warning('用户名不能为空');
                     return false;
                 }
-                if (!mail.length){
-                    this.$Message.warning('请输入注册邮箱');
+                if (!phone.length){
+                    this.$Message.warning('请输入手机号');
                     return false;
                 }
-                if(mail&&!/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(mail)) {
-                    this.$Message.error('请输入正确的邮箱');
+                if(phone.length>11||phone.length<11) {
+                    this.$Message.error('请输入正确的手机号');
                     return false;
                 }
                 if (!password.length){
@@ -211,34 +212,32 @@
                     return false;
                 }
                 this.PostState='CloudIndex-posting';
-                this.$Api.User.Register({
-                    username: username,
-                    email: mail,
-                    password: password,
-                    validate: code
-                }, (rs)=> {
-                    rs=rs[0];
-                    this.PostState='';
-                    if(!rs.state){
-                        this.$Message.error('服务器错误');
-                        return;
-                    }
-                    if(rs.state==='success'){
-                        let _this=this;
-                        this.$Message[rs.state]({
-                            content: rs.msg,
-                            onClose:()=> {
-                                _this.changeType('verify');
-                                this.VerifyUserInput.value=username;
-                            }
-                        });
-                    }else{
-                        this.$Message[rs.state](rs.msg);
-                        this.RegisterCodeInput.value='';
-                        this.RegisterCodeInput.url+='?'+Math.random();
-                    }
+                this.$Api.User.verify(phone,code,(rs)=>{
+                    this.$Api.User.Register({
+                        nickname: username,
+                        phone: phone,
+                        password: password,
+                        captcha: code
+                    }, (rs)=> {
+                        this.PostState='';
+                        this.changeType('login');
+                    },(rs)=>{
+                        this.$Message.error(rs.message);
+                        this.PostState='';
+                    })
                 },()=>{
+                    this.$Message.error('验证码错误');
                     this.PostState='';
+                });
+            },
+            PhoneRecord(){
+                this.$Api.User.isRegister(this.RegisterMailInput.value,(rs)=>{
+                    if(rs.exist){
+                        this.$Message.warning('该手机号已注册');
+                        this.RegisterMailInput.value='';
+                    }else{
+                        this.RegisterCodeInput.phone=this.RegisterMailInput.value;
+                    }
                 })
             },
             changeType:function (type) {
