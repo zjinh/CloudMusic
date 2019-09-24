@@ -118,7 +118,7 @@ Vue.handleListData = Vue.prototype.$handleListData =(data)=>{
             name:item.name,
             artist:item.artists[0].name,
             album:item.album.name,
-            time:item.mMusic.playTime,
+            time:item.mMusic?item.mMusic.playTime:0,
             mvid:item.mvid,
             url:'https://music.163.com/song/media/outer/url?id='+item.id+'.mp3'
         };

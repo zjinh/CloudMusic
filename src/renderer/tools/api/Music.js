@@ -58,5 +58,19 @@ export default {
             },
             error:error
         })
+    },
+    search(){
+
+    },
+    searchSuggest(key,callback,error){
+        Ajax({
+            url:"/open/netase/search/suggest",
+            method:"get",
+            data:{
+                keywords:key,
+            },
+            success:callback,
+            error:error
+        })
     }
 };

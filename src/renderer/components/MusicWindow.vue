@@ -2,7 +2,7 @@
     <div class="cm-main">
         <MusicClassify :style="{height:mainHeight}"></MusicClassify>
         <section class="cm-right" :style="{height:mainHeight}">
-            <MusicHeader :UserInfo="UserInfo"></MusicHeader>
+            <MusicHeader :UserInfo="UserInfo" :NowPlay="NowPlay" :full="showFull"></MusicHeader>
             <section class="cm-right-main">
                 <loading v-show="!login"></loading>
                 <keep-alive v-if="login">

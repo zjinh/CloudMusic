@@ -1,12 +1,39 @@
 <template>
     <div class="cm-right-head">
-        <div class="cm-right-round">
+        <div :class="'cm-right-round '+(full?'full':'')">
             <button class="sf-icon-angle-left"></button>
             <button class="sf-icon-angle-right"></button>
         </div>
-        <div class="cm-right-search-main">
+        <div :class="'cm-right-search-main '+(full?'full':'')">
             <i class="sf-icon-search"></i>
-            <input type="text" placeholder="搜索歌曲...">
+            <input type="text" v-model="SearchKey" placeholder="搜索歌曲..." @input="SearchInput" @focus="full=false" @blur="SearchSuggest=false">
+        </div>
+        <div class="cm-right-search-bubble" :style="{height:SearchSuggest?'400px':0}">
+            <div class="cm-right-search-bubble-content">
+                <div class="artist">
+                    <p>歌手</p>
+                    <ul>
+                        <li v-for="(item,index) in SearchSuggestResult.artists" :style="{'z-index':SearchSuggestResult.artists.length-index,left:'-20'*index+'px'}">
+                            <img :src="item.img1v1Url" alt="" draggable="false">
+                        </li>
+                    </ul>
+                    <span class="key">Artist</span>
+                </div>
+                <div class="songs">
+                    <p>歌曲</p>
+                    <ul>
+                        <li v-for="(item,index) in SearchSuggestResult.songs">
+                            {{item.name}}
+                        </li>
+                    </ul>
+                </div>
+                <div class="album">
+                    <p>专辑</p>
+                </div>
+            </div>
+            <div class="cm-right-search-blur">
+                <BlurBackground :url="NowPlay.picture" style="height: 100%"></BlurBackground>
+            </div>
         </div>
         <div class="user-actions">
             <Dropdown placement="bottom-start" @on-click="SystemDropDown">
@@ -33,10 +60,15 @@
 </template>
 
 <script>
+    let a=null;
+    import BlurBackground from "../MusicWindow/BlurBackground"
     export default {
         name: "DiskHeader",
+        components:{
+            BlurBackground
+        },
         props:{
-            data:{
+            NowPlay:{
                 type:Object
             },
             count:{
@@ -50,12 +82,16 @@
                         avatarUrl:""
                     }
                 }
-            }
+            },
+            full:Boolean
         },
         data(){
             return{
                 QuitFlag:false,//是否允许退出
-                MusicWindow:false
+                MusicWindow:false,
+                SearchKey:'',
+                SearchSuggest:false,
+                SearchSuggestResult:{}
             }
         },
         mounted(){
@@ -121,6 +157,21 @@
                     });
                 });
             },//获取用户信息,
+            SearchInput(){
+                if(this.SearchKey.length){
+                    a=setTimeout(()=>{
+                        this.$Api.Music.searchSuggest(this.SearchKey,(rs)=>{
+                            this.SearchSuggestResult=rs.result;
+                            console.log(this.SearchSuggestResult)
+                            this.SearchSuggestResult.songs=this.$handleListData(this.SearchSuggestResult.songs);
+                            this.SearchSuggest=true;
+                            clearTimeout(a)
+                        })
+                    },500)
+                }else{
+                    this.SearchSuggest=false;
+                }
+            }
         }
     }
 </script>
@@ -140,7 +191,6 @@
         justify-content: center;
     }
     /*搜索*/
-
     .cm-right-round{
         width: 120px;
         -webkit-app-region: no-drag;
@@ -148,7 +198,7 @@
     .cm-right-round button{
         background: #c34343;
         height: 23px;
-        line-height: 23px;
+        line-height: 24px;
         font-size: 16px;
         padding: 0 12px;
         color: #e56464;
@@ -158,22 +208,23 @@
     }
     .cm-right-round button:last-child{
         border-radius:0 45% 45% 0;
+        margin-left: -2px;
     }
     .cm-right-search-main{
-        width: 320px;
+        width: 280px;
         margin-right: 320px;
         position: relative;
         -webkit-app-region: no-drag;
     }
     .cm-right-search-main input{
         width: 100%;
-        height: 32px;
+        height: 30px;
         border-radius: 20px;
         background: #c34343;
         color: #fff;
-        line-height: 32px;
+        line-height: 30px;
         padding-left: 10px;
-        padding-right: 40px;
+        padding-right: 32px;
     }
     .cm-right-search-main input::-webkit-input-placeholder {
         color: #e56464;
@@ -184,10 +235,102 @@
         color: #e56464;
         font-size: 16px;
         top: 0;
-        width: 48px;
-        height: 32px;
-        line-height: 32px;
+        width: 40px;
+        height: 30px;
+        line-height: 30px;
         text-align: center;
+        background: none!important;
+    }
+    .full button,.full i,.full input{
+        background: rgba(255,255,255,.1);
+        color: #fff;
+    }
+    .full input::-webkit-input-placeholder{
+        color: #e3e8ee;
+    }
+    .cm-right-search-bubble{
+        width: 280px;
+        height: 350px;
+        border-radius: 0 0 5px 5px;
+        position: absolute;
+        left: 173px;
+        top: 60px;
+        overflow: unset;
+        box-shadow: 0px 2px 9px -1px rgba(0,0,0,.5);
+        background: rgba(255,255,255,.5);
+        -o-transition: all 350ms;
+        -moz-transition: all 350ms;
+        -webkit-transition: all 350ms;
+    }
+    .cm-right-search-blur{
+        position: absolute;
+        z-index: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 0 0 5px 5px;
+        opacity: .5;
+    }
+    .cm-right-search-bubble-content{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        z-index: 1;
+        border-radius: 0 0 5px 5px;
+        color: #fff;
+    }
+    .cm-right-search-bubble-content .artist{
+        width: 100%;
+        padding: 10px;
+        background: #e564645c;
+        height: 100px;
+        position: relative;
+    }
+    .cm-right-search-bubble-content .artist .key{
+        color: rgba(255,255,255,.5);
+        position: absolute;
+        font-weight: bold;
+        font-size: 50px;
+        bottom: -20px;
+        right: 10px;
+    }
+    .cm-right-search-bubble-content .artist ul{
+        margin-top: 10px;
+    }
+    .cm-right-search-bubble-content .artist li{
+        display: inline-block;
+        position: relative;
+    }
+    .cm-right-search-bubble-content .artist img{
+        width: 45px;
+        height: 45px;
+        border-radius: 100%;
+        border: 2px solid #fff;
+    }
+    .cm-right-search-bubble-content .songs{
+        width: 100%;
+        background: #e56464bf;
+        height: 130px;
+        border-top: 1px solid rgba(255, 146, 146, 0.5);
+    }
+    .cm-right-search-bubble-content .songs p{
+        padding:0 10px;
+    }
+    .cm-right-search-bubble-content .songs ul{
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+    }
+    .cm-right-search-bubble-content .songs li{
+        width: 100%;
+        height: 25px;
+        line-height: 25px;
+    }
+    .cm-right-search-bubble-content .album{
+        width: 100%;
+        padding: 10px;
+        height: 122px;
+        background: #e56464;
+        border-top: 1px solid rgba(255, 146, 146, 0.5);
     }
     /*用户*/
     .user-actions{
@@ -252,7 +395,7 @@
         font-size: 12px;
         -webkit-app-region: no-drag;
         cursor: pointer;
-        border-radius: 5px;
+        border-radius: 0 0 5px 5px;
         -webkit-transition: all .35s;
         -moz-transition: all .35s;
         -o-transition: all .35s
