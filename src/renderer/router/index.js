@@ -13,18 +13,23 @@ export default new Router({
       children:[
         {
           path: '/discover',
-          name: 'main',
+          name: 'discover',
           component: require('@/components/MusicPage/DiscoverMusic.vue').default
         },
         {
           path: '/fm',
-          name: 'main',
+          name: 'fm',
           component: require('@/components/MusicPage/FmMusic.vue').default
         },
         {
           path: '/local',
-          name: 'main',
+          name: 'local',
           component: require('@/components/MusicPage/LocalMusic.vue').default
+        },
+        {
+          path: '/search/:type/:keywords',
+          name: 'search',
+          component: require('@/components/MusicPage/SearchPage.vue').default
         },
       ]
     },

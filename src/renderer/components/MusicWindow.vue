@@ -30,6 +30,11 @@
         provide (){
             return {
                 playMusic:(music,playlist)=>{
+                    console.log(music)
+                    playlist.forEach((item)=>{
+                        this.$set(item,'play','')
+                    });
+                    this.$set(music,'play','playing');
                     if(this.PlayList.length) {
                         if (this.PlayList[0].name !== playlist[0].name) {
                             this.PlayList.forEach((item) => {

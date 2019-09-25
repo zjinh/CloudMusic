@@ -9,7 +9,7 @@
             <span class="size" v-else>大小</span>
             <span class="control">操作</span>
         </div>
-        <ul class="cm-playlist">
+        <ul class="cm-playlist" @scroll="scrollToLoad">
             <li v-for="(item,index) in data" @click="clickToPlay(item,index)" :class="item.play" ripple="">
                 <span class="num" v-if="!item.play">
                     {{needZero(index+1)}}
@@ -66,11 +66,13 @@
                 return media.secondDeal(s/1000)
             },
             clickToPlay(item,index){
-                this.data.forEach((music)=>{
-                    this.$set(music,'play','')
-                });
-                this.$set(item,'play','playing');
                 this.$emit('callback',item,this.data);
+            },
+            scrollToLoad(e){
+                let element=e.target;
+                if(element.scrollHeight - element.scrollTop === element.clientHeight){
+                    this.$emit('scroll-end')
+                }
             }
         },
     }

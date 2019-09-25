@@ -6,29 +6,41 @@
         </div>
         <div :class="'cm-right-search-main '+(full?'full':'')">
             <i class="sf-icon-search"></i>
-            <input type="text" v-model="SearchKey" placeholder="搜索歌曲..." @input="SearchInput" @blur="SearchSuggest=false">
+            <input type="text" v-model="SearchKey" placeholder="搜索歌曲..." @keyup.enter="startSearch" @input="SearchInput" @blur="SearchSuggest=false">
         </div>
-        <div class="cm-right-search-bubble" :style="{height:SearchSuggest?'400px':0}">
+        <div class="cm-right-search-bubble" :style="{height:SearchSuggest?'370px':0}">
             <div class="cm-right-search-bubble-content">
                 <div class="artist">
                     <p>歌手</p>
-                    <ul>
+                    <span v-if="SearchSuggestResult.artists">
+                        {{SearchSuggestResult.artists[0].name}}
+                    </span>
+                    <ul v-if="SearchSuggestResult.artists">
                         <li v-for="(item,index) in SearchSuggestResult.artists" :style="{'z-index':SearchSuggestResult.artists.length-index,left:'-20'*index+'px'}">
                             <img :src="item.img1v1Url" alt="" draggable="false">
                         </li>
                     </ul>
+                    <NoData v-else></NoData>
                     <span class="key">Artist</span>
                 </div>
                 <div class="songs">
                     <p>歌曲</p>
-                    <ul>
-                        <li v-for="(item,index) in SearchSuggestResult.songs">
+                    <ul v-if="SearchSuggestResult.songs">
+                        <li v-for="(item,index) in SearchSuggestResult.songs" @click="playSearch(item)">
                             {{item.name}}
                         </li>
                     </ul>
+                    <NoData v-else></NoData>
                 </div>
                 <div class="album">
                     <p>专辑</p>
+                    <ul v-if="SearchSuggestResult.albums">
+                        <li v-for="(item,index) in SearchSuggestResult.albums">
+                            <img :src="item.artist.picUrl" alt="">
+                            <span>{{item.name}}</span>
+                        </li>
+                    </ul>
+                    <NoData v-else></NoData>
                 </div>
             </div>
             <div class="cm-right-search-blur">
@@ -64,7 +76,7 @@
     import BlurBackground from "../MusicWindow/BlurBackground"
     export default {
         name: "DiskHeader",
-        inject:['fullControl'],
+        inject:['fullControl','playMusic'],
         components:{
             BlurBackground
         },
@@ -169,7 +181,6 @@
                     a=setTimeout(()=>{
                         this.$Api.Music.searchSuggest(this.SearchKey,(rs)=>{
                             this.SearchSuggestResult=rs.result;
-                            console.log(this.SearchSuggestResult)
                             this.SearchSuggestResult.songs=this.$handleListData(this.SearchSuggestResult.songs);
                             this.SearchSuggest=true;
                             this.fullControl(false);
@@ -179,6 +190,16 @@
                 }else{
                     this.SearchSuggest=false;
                 }
+            },
+            playSearch(item){
+                this.playMusic(item,[item]);
+                this.SearchSuggest=false;
+            },
+            startSearch(){
+                this.SearchSuggest=false;
+                this.$router.push({
+                    path:'/search/1/'+this.SearchKey
+                });
             }
         }
     }
@@ -258,7 +279,7 @@
     }
     .cm-right-search-bubble{
         width: 280px;
-        height: 350px;
+        height: 370px;
         border-radius: 0 0 5px 5px;
         position: absolute;
         left: 173px;
@@ -288,57 +309,89 @@
     }
     .cm-right-search-bubble-content .artist{
         width: 100%;
-        padding: 10px;
         background: #e564645c;
         height: 100px;
         position: relative;
+    }
+    .cm-right-search-bubble-content p{
+        padding: 10px;
+        font-size: 14px;
     }
     .cm-right-search-bubble-content .artist .key{
         color: rgba(255,255,255,.5);
         position: absolute;
         font-weight: bold;
         font-size: 50px;
-        bottom: -20px;
+        bottom: -5px;
         right: 10px;
     }
+    .cm-right-search-bubble-content .artist span{
+        line-height: 40px;
+        float: left;
+        font-size: 20px;
+        padding-left: 10px;
+    }
     .cm-right-search-bubble-content .artist ul{
-        margin-top: 10px;
+        float: right;
+        margin-top: -5px;
     }
     .cm-right-search-bubble-content .artist li{
         display: inline-block;
         position: relative;
+        width: 50px;
+        height: 50px;
+        cursor: pointer;
     }
     .cm-right-search-bubble-content .artist img{
-        width: 45px;
-        height: 45px;
+        width: 100%;
+        height: 100%;
         border-radius: 100%;
         border: 2px solid #fff;
     }
     .cm-right-search-bubble-content .songs{
         width: 100%;
         background: #e56464bf;
-        height: 130px;
+        height: 140px;
         border-top: 1px solid rgba(255, 146, 146, 0.5);
-    }
-    .cm-right-search-bubble-content .songs p{
-        padding:0 10px;
     }
     .cm-right-search-bubble-content .songs ul{
         width: 100%;
-        height: 100%;
+        height: calc(100% - 40px);
         overflow: auto;
     }
     .cm-right-search-bubble-content .songs li{
         width: 100%;
-        height: 25px;
-        line-height: 25px;
+        height: 30px;
+        line-height: 30px;
+        padding-left: 10px;
+        cursor: pointer;
+    }
+    .cm-right-search-bubble-content .songs li:hover{
+        background: #e56464;
     }
     .cm-right-search-bubble-content .album{
         width: 100%;
-        padding: 10px;
-        height: 122px;
+        height: 130px;
         background: #e56464;
+        position: relative;
         border-top: 1px solid rgba(255, 146, 146, 0.5);
+    }
+    .cm-right-search-bubble-content .album ul{
+        padding: 0 10px;
+    }
+    .cm-right-search-bubble-content .album li{
+        display: inline-block;
+        width: 55px;
+        height: 55px;
+        overflow: unset;
+        text-align: center;
+        margin-right: 5px;
+        cursor: pointer;
+    }
+    .cm-right-search-bubble-content .album li img{
+        width: 100%;
+        height: 100%;
+        border-radius: 5px;
     }
     /*用户*/
     .user-actions{

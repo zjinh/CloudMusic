@@ -20,5 +20,8 @@
         top: 0;
         bottom: 0;
         margin: auto;
+        text-align: center;
+        line-height: 50px;
+        font-size: 14px;
     }
 </style>

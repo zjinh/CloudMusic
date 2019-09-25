@@ -30,6 +30,13 @@
                 type:Boolean
             }
         },
+        watch:{
+            $route:{
+                handler(){
+                    this.getNowRoute();
+                }
+            }
+        },
         beforeMount(){
             setInterval(() => {
                 this.background();
@@ -89,7 +96,7 @@
                         name:"发现音乐",
                         icon:"sf-icon-music",
                         data:"/discover",
-                        active:'active'
+                        active:''
                     },
                     {
                         name:"私人FM",
@@ -151,14 +158,24 @@
                 this.TowerSrc = require('../../../../static/img/bg/'+ season + '-bottom-' + tag +  '.png');
             },
             change(index) {
-                this.ClassifyMenuData.forEach(function (item) {
+               /* this.ClassifyMenuData.forEach(function (item) {
                     item.active = false
                 });
-                this.ClassifyMenuData[index].active = 'active';
+                this.ClassifyMenuData[index].active = 'active';*/
                 this.$router.push({
                     path:this.ClassifyMenuData[index].data
                 });
-            }
+            },
+            getNowRoute(){
+                this.ClassifyMenuData.forEach(function (item) {
+                    item.active = false
+                });
+                for (let i = 0; i < this.ClassifyMenuData.length; i++) {
+                    if (this.$route.path === this.ClassifyMenuData[i].data) {
+                        this.$set(this.ClassifyMenuData[i],'active','active');
+                    }
+                }
+            },
         }
     }
 </script>
