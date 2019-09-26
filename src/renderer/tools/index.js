@@ -64,11 +64,11 @@ Vue.prototype.InputConfrim=(options)=>{
 };
 /*公用组件*/
 import PageHeader from "../components/MusicCom/PageHeader.vue"
-import PlayList from "../components/MusicCom/PlayList.vue"
+import SongList from "../components/MusicCom/SongList.vue"
 import loading from "../components/MusicCom/loading.vue"
 import NoData from "../components/MusicCom/NoData.vue"
 Vue.component('PageHeader',PageHeader);
-Vue.component('PlayList',PlayList);
+Vue.component('SongList',SongList);
 Vue.component('loading',loading);
 Vue.component('NoData',NoData);
 //引入electron接口

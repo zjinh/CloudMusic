@@ -4,7 +4,7 @@
             <button @click="changeDir" class="cm-dir-button">选择目录</button>
         </PageHeader>
         <div class="cm-local-list">
-            <PlayList :data="localMusic" type="local" :loading="loading" @callback="playMusic"></PlayList>
+            <SongList :data="localMusic" type="local" :loading="loading" @callback="playMusic"></SongList>
         </div>
     </div>
 </template>

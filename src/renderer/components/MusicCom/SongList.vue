@@ -1,6 +1,6 @@
 <template>
-    <div class="cm-playlist-container">
-        <div class="cm-playlist-head">
+    <div class="cm-songlist-container">
+        <div class="cm-songlist-head">
             <span class="num">序号</span>
             <span class="name">音乐标题</span>
             <span class="singer">歌手</span>
@@ -9,7 +9,7 @@
             <span class="size" v-else>大小</span>
             <span class="control">操作</span>
         </div>
-        <ul class="cm-playlist" @scroll="scrollToLoad">
+        <ul class="cm-songlist" @scroll="scrollToLoad">
             <li v-for="(item,index) in data" @click="clickToPlay(item,index)" :class="item.play" ripple="">
                 <span class="num" v-if="!item.play">
                     {{needZero(index+1)}}
@@ -43,7 +43,7 @@
 <script>
     import media from "../../tools/media";
     export default {
-        name: "PlayList",
+        name: "SongList",
         props:{
             data:Array,
             type:String,
@@ -79,22 +79,22 @@
 </script>
 
 <style scoped>
-    .cm-playlist-container{
+    .cm-songlist-container{
         width: 100%;
         height: 100%;
         position: relative;
     }
-    .cm-playlist{
+    .cm-songlist{
         width: 100%;
         height: calc(100% - 40px);
         overflow-y: auto;
     }
-    .cm-playlist li,.cm-playlist-head{
+    .cm-songlist li,.cm-songlist-head{
         width: 100%;
         height: 40px;
         overflow: hidden;
     }
-    .cm-playlist li *,.cm-playlist-head *{
+    .cm-songlist li *,.cm-songlist-head *{
         height: 100%;
         line-height: 40px;
         display: inline-block;
@@ -102,44 +102,44 @@
         text-overflow:ellipsis;
         white-space: nowrap;
     }
-    .cm-playlist li *{
+    .cm-songlist li *{
         color: #b9b9b9;
     }
-    .cm-playlist li .num,.cm-playlist-head .num{
+    .cm-songlist li .num,.cm-songlist-head .num{
         width: 50px;
         text-align: center;
     }
-    .cm-playlist li .name,.cm-playlist-head .name{
+    .cm-songlist li .name,.cm-songlist-head .name{
         width: calc(30% - 50px);
         color: #333;
     }
-    .cm-playlist li .singer,.cm-playlist-head .singer{
+    .cm-songlist li .singer,.cm-songlist-head .singer{
         width: 15%;
     }
-    .cm-playlist li .album,.cm-playlist-head .album{
+    .cm-songlist li .album,.cm-songlist-head .album{
         width: 15%;
     }
-    .cm-playlist li .size,.cm-playlist-head .size{
+    .cm-songlist li .size,.cm-songlist-head .size{
         width: 10%;
     }
-    .cm-playlist li .time,.cm-playlist-head .time{
+    .cm-songlist li .time,.cm-songlist-head .time{
         width: 10%;
     }
-    .cm-playlist li .control,.cm-playlist-head .control{
+    .cm-songlist li .control,.cm-songlist-head .control{
         width: 20%;
     }
-    .cm-playlist li .control button{
+    .cm-songlist li .control button{
         background: none;
         color: #e56464;
         padding: 0 3px;
     }
-    .cm-playlist li:nth-child(odd){
+    .cm-songlist li:nth-child(odd){
         background: #f9f9f9;
     }
-    .cm-playlist li .sf-icon-volume-up{
+    .cm-songlist li .sf-icon-volume-up{
         color: #e56464;
     }
-    .cm-playlist li:hover,.playing{
+    .cm-songlist li:hover,.playing{
         background: #efefef!important;
     }
 </style>

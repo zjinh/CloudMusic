@@ -96,7 +96,7 @@
                         name:"发现音乐",
                         icon:"sf-icon-music",
                         data:"/discover",
-                        active:''
+                        active:'active'
                     },
                     {
                         name:"私人FM",

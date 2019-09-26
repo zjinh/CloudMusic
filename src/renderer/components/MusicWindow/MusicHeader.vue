@@ -108,6 +108,13 @@
                 SearchSuggestResult:{}
             }
         },
+        watch:{
+            $route:{
+                handler(){
+                    console.log('change')
+                }
+            }
+        },
         mounted(){
             this.MusicWindow=this.$electron.remote.getCurrentWindow();
             window.onbeforeunload=()=>{

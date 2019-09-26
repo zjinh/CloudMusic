@@ -6,7 +6,7 @@
                 <span>Recommend songs</span>
             </div>
             <div class="cm-discover-list">
-                <PlayList :data="RecommendSong" :loading="loading" @callback="playMusic"></PlayList>
+                <SongList :data="RecommendSong" :loading="loading" @callback="playMusic"></SongList>
             </div>
         </div>
         <div class="cm-discover-25">
