@@ -31,6 +31,11 @@ export default new Router({
           name: 'search',
           component: require('@/components/MusicPage/SearchPage.vue').default
         },
+        {
+          path: '/artist-detail/:id',
+          name: 'artist-detail',
+          component: require('@/components/MusicPage/ArtistDetail.vue').default
+        },
       ]
     },
     {

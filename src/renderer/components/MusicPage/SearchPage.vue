@@ -3,12 +3,7 @@
         <div class="cm-search-head">
             搜索<span>{{$route.params.keywords}}</span>{{nowSearchType[2]}},找到{{searchParams[nowSearchType[0]].count}}条记录
         </div>
-        <ul class="cm-search-type">
-            <li v-for="(item,index) in searchType" @click="changeType(item,index,true)">
-                <span>{{item.name}}</span>
-                <div :class="item.active"></div>
-            </li>
-        </ul>
+        <TabBar :data="searchType" @select="tabBarSelect"></TabBar>
         <div class="cm-search-main">
             <SongList v-show="nowSearchType[0]==='songs'" :data="searchResult.songs" :loading="loading" @callback="playMusic" @scroll-end="loadMore"></SongList>
             <ArtistList v-show="nowSearchType[0]==='artists'" :data="searchResult.artists" :loading="loading" @scroll-end="loadMore"></ArtistList>
@@ -39,42 +34,36 @@
                         name:"单曲",
                         type:"songs",
                         value:1,
-                        load:false,
                         active:'active'
                     },
                     {
                         name:"歌手",
                         type:"artists",
                         value:100,
-                        load:false,
                         active:''
                     },
                     {
                         name:"歌单",
                         type:"playlists",
                         value:1000,
-                        load:false,
                         active:''
                     },
                     {
                         name:"专辑",
                         type:"albums",
                         value:10,
-                        load:false,
                         active:''
                     },
                     {
                         name:"视频",
                         type:"videos",
                         value:1014,
-                        load:false,
                         active:''
                     },
                     {
                         name:"电台",
                         type:"djRadios",
                         value:1009,
-                        load:false,
                         active:''
                     },
                 ],
@@ -117,14 +106,12 @@
             }
         },
         methods:{
+            tabBarSelect(item,index){
+                this.changeType(item,index,true)
+            },
             changeType(type,index,flag){
-                this.searchType.forEach((item)=>{
-                    item.active='';
-                });
-                type.active='active';
                 this.nowSearchType=[type.type,type.value,type.name];
                 this.$route.params.type=type.value;
-                this.$set(this.searchType,index,type);
                 if(flag){
                     if(this.searchResult[type.type].length===0) {
                         this.searchPost(this.searchParams[type.type].page);
@@ -178,34 +165,6 @@
     .cm-search-head span{
         color: #e56464;
         padding: 0 5px;
-    }
-    .cm-search-type{
-        width: 100%;
-        border-bottom: 2px solid #eee;
-        display: flex;
-        justify-content: center;
-        overflow: unset;
-    }
-    .cm-search-type li{
-        width: 80px;
-        font-size: 14px;
-        height: 35px;
-        line-height: 35px;
-        text-align: center;
-        cursor: pointer;
-        position: relative;
-        overflow: unset;
-    }
-    .cm-search-type li .active{
-        width: 35px;
-        height: 4px;
-        background: #e56464;
-        position: relative;
-        top: -2px;
-        margin: 0 auto;
-    }
-    .cm-search-type li:hover{
-        color: #e56464;
     }
     .cm-search-main{
         width: 100%;

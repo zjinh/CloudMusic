@@ -21,7 +21,10 @@
         },
         methods:{
             clickToSelect(item){
-                this.$emit('callback',item);
+                localStorage.tempData=JSON.stringify(item);
+                this.$router.push({
+                    path:'/artist-detail/'+item.id
+                });
             },
             scrollToLoad(e){
                 let element=e.target;

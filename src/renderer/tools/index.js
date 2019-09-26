@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import router from '../router'
 String.prototype.Before=function(substr){
     return this.substring(this.lastIndexOf(substr) + 1, this.length);
 };
@@ -67,10 +68,14 @@ import PageHeader from "../components/MusicCom/PageHeader.vue"
 import SongList from "../components/MusicCom/SongList.vue"
 import loading from "../components/MusicCom/loading.vue"
 import NoData from "../components/MusicCom/NoData.vue"
+import TabBar from "../components/MusicCom/TabBar.vue"
+import DetailPageHead from "../components/MusicCom/DetailPageHead.vue"
 Vue.component('PageHeader',PageHeader);
 Vue.component('SongList',SongList);
 Vue.component('loading',loading);
 Vue.component('NoData',NoData);
+Vue.component('TabBar',TabBar);
+Vue.component('DetailPageHead',DetailPageHead);
 //引入electron接口
 const path = require('path');
 const ipc=require('electron').ipcRenderer;

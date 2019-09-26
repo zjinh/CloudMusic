@@ -78,5 +78,18 @@ export default {
             success:callback,
             error:error
         })
+    },
+    artist: {
+        detail: function (id, callback, error) {
+            Ajax({
+                url: "/open/netase/artist/desc",
+                method: "get",
+                data: {
+                    id: id,
+                },
+                success: callback,
+                error: error
+            })
+        },
     }
 };

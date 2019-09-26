@@ -1,7 +1,7 @@
 <template>
     <div class="cm-right-head">
         <div :class="'cm-right-round '+(full?'full':'')">
-            <button class="sf-icon-angle-left"></button>
+            <button class="sf-icon-angle-left" @click="$router.back()"></button>
             <button class="sf-icon-angle-right"></button>
         </div>
         <div :class="'cm-right-search-main '+(full?'full':'')">
@@ -16,7 +16,7 @@
                         {{SearchSuggestResult.artists[0].name}}
                     </span>
                     <ul v-if="SearchSuggestResult.artists">
-                        <li v-for="(item,index) in SearchSuggestResult.artists" :style="{'z-index':SearchSuggestResult.artists.length-index,left:'-20'*index+'px'}">
+                        <li v-for="(item,index) in SearchSuggestResult.artists" :style="{'z-index':SearchSuggestResult.artists.length-index,left:'-20'*index+'px'}" @click="searchSinger(item)">
                             <img :src="item.img1v1Url" alt="" draggable="false">
                         </li>
                     </ul>
@@ -206,6 +206,12 @@
                 this.SearchSuggest=false;
                 this.$router.push({
                     path:'/search/1/'+this.SearchKey
+                });
+            },
+            searchSinger(item){
+                localStorage.tempData=JSON.stringify(item);
+                this.$router.push({
+                    path:'/artist-detail/'+item.id
                 });
             }
         }

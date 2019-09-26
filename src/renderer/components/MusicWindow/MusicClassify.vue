@@ -158,10 +158,6 @@
                 this.TowerSrc = require('../../../../static/img/bg/'+ season + '-bottom-' + tag +  '.png');
             },
             change(index) {
-               /* this.ClassifyMenuData.forEach(function (item) {
-                    item.active = false
-                });
-                this.ClassifyMenuData[index].active = 'active';*/
                 this.$router.push({
                     path:this.ClassifyMenuData[index].data
                 });
