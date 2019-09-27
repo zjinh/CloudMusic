@@ -26,10 +26,9 @@
                 this.$emit('callback',item);
             },
             scrollToLoad(e){
-                let element=e.target;
-                if(element.scrollHeight - element.scrollTop === element.clientHeight){
+                this.$scrollEnd(e,()=>{
                     this.$emit('scroll-end')
-                }
+                })
             }
         }
     }
@@ -44,6 +43,7 @@
     .cm-playlist-list{
         width: 100%;
         height: 100%;
+        min-height: 330px;
         overflow: auto;
     }
     .cm-playlist-list li{

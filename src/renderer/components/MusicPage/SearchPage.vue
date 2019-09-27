@@ -16,11 +16,11 @@
 </template>
 
 <script>
-    import ArtistList from "./SearchPage/ArtistList";
-    import PlayList from "./SearchPage/PlayList";
-    import AlbumList from "./SearchPage/AlbumList";
-    import VideoList from "./SearchPage/VideoList";
-    import RadioList from "./SearchPage/RadioList";
+    import ArtistList from "../MusicCom/ListCom/ArtistList";
+    import PlayList from "../MusicCom/ListCom/PlayList";
+    import AlbumList from "../MusicCom/ListCom/AlbumList";
+    import VideoList from "../MusicCom/ListCom/VideoList";
+    import RadioList from "../MusicCom/ListCom/RadioList";
     export default {
         name: "SearchPage",
         inject:['playMusic'],
@@ -67,7 +67,7 @@
                         active:''
                     },
                 ],
-                loading:true,
+                loading:false,
                 nowSearchType:['songs',1],
                 searchResult:{
                     songs:[],

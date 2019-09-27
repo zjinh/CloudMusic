@@ -26,10 +26,9 @@
                 this.$emit('callback',item);
             },
             scrollToLoad(e){
-                let element=e.target;
-                if(element.scrollHeight - element.scrollTop === element.clientHeight){
+                this.$scrollEnd(e,()=>{
                     this.$emit('scroll-end')
-                }
+                })
             }
         }
     }

@@ -33,6 +33,7 @@ function Ajax(options) {
             }
             break;
         case'GET':
+            options.data._t=new Date().getTime();
             let url = paramHandel.Get(options.url, options.data);
             let urls = url.split("?");
             options.url = urls[1].length ? url : urls[0];

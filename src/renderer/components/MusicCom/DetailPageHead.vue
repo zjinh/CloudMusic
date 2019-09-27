@@ -36,7 +36,6 @@
         watch:{
             data:function () {
                 this.nowMap=this.dataMap[this.type];
-                console.log(this.nowMap)
                 if(this.type==='artist'){
                     this.getArtistDetail()
                 }

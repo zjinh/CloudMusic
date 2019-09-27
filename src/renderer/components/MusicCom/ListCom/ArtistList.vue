@@ -27,10 +27,9 @@
                 });
             },
             scrollToLoad(e){
-                let element=e.target;
-                if(element.scrollHeight - element.scrollTop === element.clientHeight){
+                this.$scrollEnd(e,()=>{
                     this.$emit('scroll-end')
-                }
+                })
             }
         }
     }
@@ -45,6 +44,7 @@
     .cm-artist-list{
         width: 100%;
         height: 100%;
+        min-height: 330px;
         overflow: auto;
     }
     .cm-artist-list li{

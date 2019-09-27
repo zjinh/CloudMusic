@@ -211,6 +211,9 @@ let MusicSystem= {
       },
       callback:()=>{
           MainWindow.setThumbarButtons(MusicButtons);
+          if(LoginWindow){
+            LoginWindow.close();
+          }
       }
     });
   },
@@ -320,7 +323,6 @@ function BindIpc() {
         MusicSystem.LoginWindow();
         break;
       case 'login':
-        LoginWindow.close();
         MusicSystem.MainWindow(data);
         break;
       case 'popup':
@@ -417,7 +419,6 @@ if (!gotTheLock) {
       LoginWindow.show();
       LoginWindow.restore();
       LoginWindow.focus();
-      return
     }
     if (MainWindow) {
       MainWindow.show();

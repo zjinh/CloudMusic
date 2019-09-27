@@ -80,7 +80,7 @@ export default {
         })
     },
     artist: {
-        detail: function (id, callback, error) {
+        detail(id, callback, error) {
             Ajax({
                 url: "/open/netase/artist/desc",
                 method: "get",
@@ -91,5 +91,43 @@ export default {
                 error: error
             })
         },
+        music(id,offset,callback,error){
+            Ajax({
+                url: "/open/netase/artists",
+                method: "get",
+                data: {
+                    id: id,
+                    offset:offset
+                },
+                success: callback,
+                error: error
+            })
+        },
+        mv(id,offset,callback,error){
+            Ajax({
+                url: "/open/netase/artist/mv",
+                method: "get",
+                data: {
+                    id: id,
+                    offset:offset,
+                    limit:50,
+                },
+                success: callback,
+                error: error
+            })
+        },
+        simi(id,offset,callback,error){
+            Ajax({
+                url: "/open/netase/simi/artist",
+                method: "get",
+                data: {
+                    id: id,
+                    offset:offset,
+                    limit:50,
+                },
+                success: callback,
+                error: error
+            })
+        }
     }
 };

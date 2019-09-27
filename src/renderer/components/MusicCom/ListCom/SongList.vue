@@ -41,7 +41,7 @@
 </template>
 
 <script>
-    import media from "../../tools/media";
+    import media from "../../../tools/media";
     export default {
         name: "SongList",
         props:{
@@ -82,6 +82,7 @@
     .cm-songlist-container{
         width: 100%;
         height: 100%;
+        min-height: 330px;
         position: relative;
     }
     .cm-songlist{

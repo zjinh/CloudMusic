@@ -65,17 +65,19 @@ Vue.prototype.InputConfrim=(options)=>{
 };
 /*公用组件*/
 import PageHeader from "../components/MusicCom/PageHeader.vue"
-import SongList from "../components/MusicCom/SongList.vue"
+import SongList from "../components/MusicCom/ListCom/SongList.vue"
 import loading from "../components/MusicCom/loading.vue"
 import NoData from "../components/MusicCom/NoData.vue"
 import TabBar from "../components/MusicCom/TabBar.vue"
 import DetailPageHead from "../components/MusicCom/DetailPageHead.vue"
+import BackToTop from "../components/MusicCom/BackToTop.vue"
 Vue.component('PageHeader',PageHeader);
 Vue.component('SongList',SongList);
 Vue.component('loading',loading);
 Vue.component('NoData',NoData);
 Vue.component('TabBar',TabBar);
 Vue.component('DetailPageHead',DetailPageHead);
+Vue.component('BackToTop',BackToTop);
 //引入electron接口
 const path = require('path');
 const ipc=require('electron').ipcRenderer;
@@ -115,19 +117,31 @@ Vue.handleListData = Vue.prototype.$handleListData =(data)=>{
     let _return=[];
     let list={};
     data.forEach((item,index)=>{
+        let artist=item.artists?item.artists:item.ar;
+        let album=item.album?item.album:item.al;
+        let time=item.duration||(item.mMusic?item.mMusic.playTime:0)||item.dt
         list={
             id:item.id,
-            artistId:item.artists[0].id,
+            artistId:artist[0].id,
             type:"online",
             title:item.name,
             name:item.name,
-            artist:item.artists[0].name,
-            album:item.album.name,
-            time:item.duration||(item.mMusic?item.mMusic.playTime:0),
-            mvid:item.mvid,
+            artist:artist[0].name,
+            album:album.name,
+            time:time,
+            mvid:item.mvid||item.mv,
             url:'https://music.163.com/song/media/outer/url?id='+item.id+'.mp3'
         };
         _return.push(list);
     });
     return _return
 };//音乐列表处理
+Vue.scrollEnd = Vue.prototype.$scrollEnd =(e,callback)=>{
+    let element=e.target;
+    if(element.scrollHeight - element.scrollTop === element.clientHeight){
+        callback()
+    }
+};
+Vue.randomRange = Vue.prototype.$randomRange =(min, max)=>{
+    return Math.floor(Math.random() * (max - min)) + min;
+};
