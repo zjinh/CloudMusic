@@ -40,29 +40,35 @@
         },
         methods:{
             scanLocalMusic(){
+                this.localMusic=[];
+                this.loading=true;
                 // 使用 fs.readdir 来获取文件列表
                 const folderPath = this.localDir;
                 fs.readdir(folderPath, (err, files) => {
                     if (err) {
-                        console.log('对不起，您没有加载您的home folder');
+                        return this.$Message.error('对不起，无法检索该目录');
                     }
-                    files.forEach((item,index)=>{
+                    localStorage.localDir=this.localDir;
+                    for(let i = files.length-1;i >= 0 ;i--){
+                        let item=files[i];
                         const resolveFilePath = this.$path.resolve(folderPath, item);
-                        if(fs.lstatSync(resolveFilePath).isDirectory()||item.Before('.').Exist('ape')){
-                            files.splice(index,1)
+                        if(fs.lstatSync(resolveFilePath).isDirectory()||!item.Before('.').Exist('m4a,mp3,ogg,flac,f4a,wav')){
+                            files.splice(i,1)
                         }
-                    });
-                     async.map(files, (file, asyncCB) => {
+                    }
+                    if(files.length===0) {
+                        return this.localFileSet(files);
+                    }
+                    async.map(files, (file, asyncCB) => {
                          const resolveFilePath = this.$path.resolve(folderPath, file);
                         this.inspectAndDescribeFile(resolveFilePath, asyncCB);
                     },this.displayFiles);
-                    localStorage.localDir=this.localDir;
                 });
             },
             displayFiles(err, files) {
                 // 该函数的作用是显示文件列表信息
                 if (err) {
-                    return alert('sorry, we could not display your files');
+                    return this.$Message.error('对不起，无法检索该目录下的文件');
                 }
                 let count=0;
                 files.forEach((file) => {
@@ -72,12 +78,15 @@
                             file[i]=data[i]
                         }
                         if(count===files.length) {
-                            this.localMusic = files;
-                            this.$Api.LocalFile.write('local-music',files);
-                            this.loading=false;
+                            this.localFileSet(files)
                         }
                     });
                 });
+            },
+            localFileSet(files){
+                this.localMusic = files;
+                this.$Api.LocalFile.write('local-music',files);
+                this.loading=false;
             },
             inspectAndDescribeFile(filePath, cb) {
                 fs.stat(filePath, (err, stat) => {
@@ -103,10 +112,14 @@
                         { name: 'All', extensions: ['*'] },
                     ]
                 },(res)=>{
-                    res=res[0]||process.env.USERPROFILE;
-                    //回调函数内容，此处是将路径内容显示在input框内
-                    this.localDir=res;
-                    this.scanLocalMusic()
+                    if(res) {
+                        res = res[0] || process.env.USERPROFILE;
+                        if(res===localStorage.localDir){
+                            return
+                        }
+                        this.localDir = res;
+                        this.scanLocalMusic()
+                    }
                 })
             }
         },

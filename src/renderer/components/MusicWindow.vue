@@ -32,7 +32,6 @@
         provide (){
             return {
                 playMusic:(music,playlist)=>{
-                    console.log(music)
                     playlist.forEach((item)=>{
                         this.$set(item,'play','')
                     });
