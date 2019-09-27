@@ -15,7 +15,7 @@
                 <span>Pop singer</span>
             </div>
             <ul>
-                <li v-for="(item,index) in RecommendSinger" ripple="">
+                <li v-for="(item,index) in RecommendSinger" ripple="" @click="goArtist(item)">
                     <img :src="item.picUrl" alt="" draggable="false">
                     <span class="name">{{item.name}}</span>
                 </li>
@@ -45,7 +45,7 @@
                 this.$Api.Music.getPopSinger((rs)=>{
                     this.$nextTick(()=>{
                         this.loading=false;
-                        this.RecommendSinger=rs.artists||[];
+                        this.RecommendSinger=rs.list.artists||[];
                     });
                 })
             },
@@ -56,6 +56,14 @@
                         this.RecommendSong=rs.recommend||[];
                     });
                 })
+            },
+            goArtist(item){
+                this.$router.push({
+                    path:'/artist-detail/'+item.id,
+                    query:{
+                        data:JSON.stringify(item)
+                    }
+                });
             }
         }
     }

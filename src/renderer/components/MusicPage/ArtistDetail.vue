@@ -77,7 +77,9 @@
         },
         methods:{
             init(){
-                this.artistData=JSON.parse(localStorage.tempData);
+                if(this.$route.query.data) {
+                    this.artistData = JSON.parse(this.$route.query.data);
+                }
                 for(let i in this.artistDetail){
                     this.artistDetail[i]=[];
                 }

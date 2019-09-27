@@ -5,9 +5,11 @@
             <MusicHeader :UserInfo="UserInfo" :NowPlay="NowPlay" :full="showFull"></MusicHeader>
             <section class="cm-right-main">
                 <loading v-show="!login"></loading>
-                <keep-alive v-if="login">
-                    <router-view></router-view>
-                </keep-alive>
+                <transition  name="fade" mode="out-in">
+                    <keep-alive v-if="login">
+                            <router-view></router-view>
+                    </keep-alive>
+                </transition>
             </section>
         </section>
         <FullPlayer ref="fully" :analyser="analyser" :PlayList="PlayList" :NowPlay="NowPlay" :playState="playState" @control="playerControl" :style="{top:showFull?'0':'100%'}" ></FullPlayer>

@@ -18,7 +18,7 @@ export default {
     },
     getPopSinger(callback,error){
         Ajax({
-            url:"/open/netase/top/artists",
+            url:"/open/netase/toplist/artist",
             data:{
                 offset:0,
                 limit:30
@@ -129,5 +129,31 @@ export default {
                 error: error
             })
         }
-    }
+    },
+    mv:{
+        getUrl(id,callback,error){
+            Ajax({
+                url: "/open/netase/mv/url",
+                method: "get",
+                data: {
+                    id: id,
+                },
+                success: callback,
+                error: error
+            })
+        }
+    },
+    video:{
+        getUrl(id,callback,error){
+            Ajax({
+                url: "/open/netase/video/url",
+                method: "get",
+                data: {
+                    id: id,
+                },
+                success: callback,
+                error: error
+            })
+        }
+    },
 };

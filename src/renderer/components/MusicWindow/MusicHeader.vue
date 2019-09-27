@@ -2,13 +2,13 @@
     <div class="cm-right-head">
         <div :class="'cm-right-round '+(full?'full':'')">
             <button class="sf-icon-angle-left" @click="$router.back()"></button>
-            <button class="sf-icon-angle-right"></button>
+            <button class="sf-icon-angle-right" @click="$router.forward()"></button>
         </div>
         <div :class="'cm-right-search-main '+(full?'full':'')">
             <i class="sf-icon-search"></i>
             <input type="text" v-model="SearchKey" placeholder="搜索歌曲..." @keyup.enter="startSearch" @input="SearchInput" @blur="SearchSuggest=false">
         </div>
-        <div class="cm-right-search-bubble" :style="{height:SearchSuggest?'370px':0}">
+        <div class="cm-right-search-bubble" :style="{height:SearchSuggest&&SearchKey.length?'370px':0}">
             <div class="cm-right-search-bubble-content">
                 <div class="artist">
                     <p>歌手</p>
@@ -108,13 +108,6 @@
                 SearchSuggestResult:{}
             }
         },
-        watch:{
-            $route:{
-                handler(){
-                    console.log('change')
-                }
-            }
-        },
         mounted(){
             this.MusicWindow=this.$electron.remote.getCurrentWindow();
             window.onbeforeunload=()=>{
@@ -209,9 +202,11 @@
                 });
             },
             searchSinger(item){
-                localStorage.tempData=JSON.stringify(item);
                 this.$router.push({
-                    path:'/artist-detail/'+item.id
+                    path:'/artist-detail/'+item.id,
+                    query:{
+                        data:JSON.stringify(item)
+                    }
                 });
             }
         }
@@ -244,6 +239,9 @@
         font-size: 16px;
         padding: 0 12px;
         color: #e56464;
+    }
+    .cm-right-round button:hover{
+        color: #fff;
     }
     .cm-right-round button:first-child{
         border-radius:45% 0 0 45%;

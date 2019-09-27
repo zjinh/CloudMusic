@@ -131,6 +131,7 @@
                     this.searchParams[type].count=rs.result[countType]||rs.result[type+'Count'];//获取有搜索结果长度
                     this.searchParams[type].page=page;//记录页数
                     this.loading=false;
+                    console.log(data)
                     if(type==='songs'){
                         data=this.$handleListData(data);
                     }
@@ -141,7 +142,6 @@
                             this.searchResult[type].push(item);
                         })
                     }
-                    console.log(data)
                 })
             },
             loadMore(){

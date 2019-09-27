@@ -25,7 +25,12 @@
         },
         methods:{
             clickToSelect(item){
-                this.$emit('callback',item);
+                this.$router.push({
+                    path:'/video-detail/'+item.vid,
+                    query:{
+                        data:JSON.stringify(item)
+                    }
+                });
             },
             scrollToLoad(e){
                 this.$scrollEnd(e,()=>{
@@ -53,10 +58,10 @@
     }
     .video-block{
         float: left;
-        width: 185px;
+        width: 170px;
         height: 160px;
         cursor: pointer;
-        margin: 5px;
+        margin: 10px 13px;
         position: relative;
     }
     .video-block img{

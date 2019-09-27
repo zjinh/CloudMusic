@@ -21,9 +21,11 @@
         },
         methods:{
             clickToSelect(item){
-                localStorage.tempData=JSON.stringify(item);
                 this.$router.push({
-                    path:'/artist-detail/'+item.id
+                    path:'/artist-detail/'+item.id,
+                    query:{
+                        data:JSON.stringify(item)
+                    }
                 });
             },
             scrollToLoad(e){

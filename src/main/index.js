@@ -210,7 +210,6 @@ let MusicSystem= {
         session.defaultSession.removeAllListeners('will-download');
       },
       callback:()=>{
-          MainWindow.setThumbarButtons(MusicButtons);
           if(LoginWindow){
             LoginWindow.close();
           }
