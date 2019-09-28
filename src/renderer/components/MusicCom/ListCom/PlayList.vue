@@ -23,7 +23,12 @@
         },
         methods:{
             clickToSelect(item){
-                this.$emit('callback',item);
+                this.$router.push({
+                    path:'/playlist-detail/'+item.id,
+                    query:{
+                        data:JSON.stringify(item)
+                    }
+                });
             },
             scrollToLoad(e){
                 this.$scrollEnd(e,()=>{

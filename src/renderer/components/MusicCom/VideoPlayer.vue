@@ -3,7 +3,6 @@
         <div class="cd-video-main">
             <video :style="{'height':VideoHeight}" crossorigin="*" @error="VideoError" @ended="VideoEnded" @dblclick="FullScreen" @click="VideoPlayerCommend('play')" @progress="VideoCache" @timeupdate="VideoProcess" ref="video"  @durationchange="PlayButtonState='sf-icon-pause'" @seeking="PlayButtonState='sf-icon-circle-notch sf-spin'" @canplay="VideoPlayerCommend('play')" :src="url">
             </video>
-            <div :class="'cd-video-fliter '+PlayButtonState+' '+animation" @click="VideoPlayerCommend('play')"></div>
             <div :class="'cd-video-control '+BarAnimation" @mouseover="ShowControl" @mouseout="HideControl">
                 <div :class="'cd-video-play '+PlayButtonState" @click="VideoPlayerCommend('play')"></div>
                 <div class="cd-video-player-slider-container"  @mousedown="TimeChange" ref="slider">

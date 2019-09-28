@@ -3,7 +3,7 @@
         <MusicClassify :style="{height:mainHeight}"></MusicClassify>
         <section class="cm-right" :style="{height:mainHeight}">
             <MusicHeader :UserInfo="UserInfo" :NowPlay="NowPlay" :full="showFull"></MusicHeader>
-            <section class="cm-right-main">
+            <section :class="'cm-right-main '+(fullPage?'full-page':'')">
                 <loading v-show="!login"></loading>
                 <transition  name="fade" mode="out-in">
                     <keep-alive v-if="login">
@@ -47,6 +47,9 @@
                 },
                 fullControl:(flag)=>{
                     this.showFull=flag!==undefined?flag:!this.showFull;
+                },
+                menuControl:(flag)=>{
+                    this.fullPage=flag!==undefined?flag:!this.fullPage;
                 }
             }
         },
@@ -60,7 +63,8 @@
                 playState:"sf-icon-play",
                 showFull:false,
                 analyser:{},
-                login:false
+                login:false,
+                fullPage:false
             }
         },
         computed:{
@@ -126,5 +130,10 @@
         -o-transition: all 350ms;
         -moz-transition: all 350ms;
         -webkit-transition: all 350ms;
+    }
+    .full-page{
+        position: absolute;
+        left: 0;
+        top: 60px;
     }
 </style>

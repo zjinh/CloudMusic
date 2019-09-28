@@ -27,6 +27,7 @@
                         data:JSON.stringify(item)
                     }
                 });
+                this.$emit('callback')
             },
             scrollToLoad(e){
                 this.$scrollEnd(e,()=>{

@@ -8,7 +8,7 @@
             <i class="sf-icon-search"></i>
             <input type="text" v-model="SearchKey" placeholder="搜索歌曲..." @keyup.enter="startSearch" @input="SearchInput" @blur="SearchSuggest=false">
         </div>
-        <div class="cm-right-search-bubble" tabindex="-1" @keyup.enter="SearchSuggest=false" :style="{height:SearchSuggest&&SearchKey.length?'370px':0}">
+        <div class="cm-right-search-bubble" tabindex="-1" @keydown.enter="SearchSuggest=false" :style="{height:SearchSuggest&&SearchKey.length?'370px':0}">
             <div class="cm-right-search-bubble-content">
                 <div class="artist">
                     <p>歌手</p>

@@ -156,4 +156,74 @@ export default {
             })
         }
     },
+    playlist: {
+        subscribe(data,offset,callback,error){
+            Ajax({
+                url: "/open/netase/playlist/subscribe",
+                method: "get",
+                data: data,
+                success: callback,
+                error: error
+            })
+        },
+        subscribers(id,offset,callback,error){
+            Ajax({
+                url: "/open/netase/playlist/subscribers",
+                method: "get",
+                data: {
+                    limit:30,
+                    offset:offset,
+                    id:id
+                },
+                success: callback,
+                error: error
+            })
+        },
+        musicList(id,offset,callback,error){
+            Ajax({
+                url: "/open/netase/playlist/detail",
+                method: "get",
+                data: {
+                    limit:50,
+                    offset:offset,
+                    id:id
+                },
+                success: callback,
+                error: error
+            })
+        },
+        comment(id,offset,callback,error){
+            Ajax({
+                url: "/open/netase/comment/playlist",
+                method: "get",
+                data: {
+                    limit:50,
+                    offset:offset,
+                    id:id
+                },
+                success: callback,
+                error: error
+            })
+        }
+    },
+    comment:{
+        like(data,callback,error){
+            Ajax({
+                url: "/open/netase/comment/like",
+                method: "get",
+                data: data,
+                success: callback,
+                error: error
+            })
+        },
+        control(data,callback,error){
+            Ajax({
+                url: "/open/netase/comment",
+                method: "get",
+                data: data,
+                success: callback,
+                error: error
+            })
+        }
+    }
 };

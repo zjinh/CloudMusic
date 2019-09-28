@@ -13,6 +13,7 @@
     import VideoPlayer from "../MusicCom/VideoPlayer";
     export default {
         name: "VideoDetail",
+        inject:['menuControl'],
         components:{
             VideoPlayer
         },
@@ -22,7 +23,11 @@
             }
         },
         activated() {
+            this.menuControl(true);
             this.getUrl();
+        },
+        deactivated(){
+            this.menuControl(false);
         },
         methods:{
             getUrl(){

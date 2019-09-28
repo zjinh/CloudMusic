@@ -6,8 +6,8 @@
                 <div class="tag">{{tag}}</div>
                 <span class="name">{{name}}</span>
             </div>
-            <div class="content-body" v-if="type==='artist'">
-                <p class="artist-desp">{{artistContent}}</p>
+            <div class="content-body">
+                <slot></slot>
             </div>
         </div>
     </div>
@@ -28,6 +28,11 @@
                         tag:"歌手",
                         name:"name",
                         content:""
+                    },
+                    playlist:{
+                        poster:'coverImgUrl',
+                        tag:"歌单",
+                        name:"name"
                     }
                 },
                 nowMap:{},
@@ -36,9 +41,6 @@
         watch:{
             data:function () {
                 this.nowMap=this.dataMap[this.type];
-                if(this.type==='artist'){
-                    this.getArtistDetail()
-                }
             }
         },
         computed:{
@@ -55,13 +57,6 @@
                 return this.nowMap.content;
             }
         },
-        methods:{
-            getArtistDetail(){
-                this.$Api.Music.artist.detail(this.$route.params.id,(rs)=>{
-                    this.nowMap.content=rs.briefDesc;
-                })
-            }
-        }
     }
 </script>
 
@@ -101,18 +96,12 @@
     }
     .content-body{
         width: 100%;
-        height: calc(100% - 60px);
+        height: calc(100% - 50px);
         padding-top: 10px;
-        margin-top: 10px;
         overflow: auto;
     }
-    .content-body::-webkit-scrollbar{
+    .content-body::-webkit-scrollbar,.content-body *::-webkit-scrollbar{
         display: none;
         width: 0;
-    }
-    /*歌手简介*/
-    .artist-desp{
-        font-size: 13px;
-        line-height: 1.5;
     }
 </style>

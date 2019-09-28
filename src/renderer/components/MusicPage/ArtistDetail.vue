@@ -1,11 +1,13 @@
 <template>
-    <div class="cm-page-main" @scroll="loadMore">
-        <DetailPageHead :data="artistData" type="artist"></DetailPageHead>
+    <div class="cm-page-main" id="cm-artist-detail" @scroll="loadMore">
+        <DetailPageHead :data="artistData" type="artist">
+            <p class="artist-desp">{{artistContent}}</p>
+        </DetailPageHead>
         <TabBar :data="artistDataType" align="left" @select="tabBarChange"></TabBar>
         <div class="cm-artist-detail-main">
             <SongList v-show="nowType.type==='music'" :data="artistDetail.music" :loading="loading" @callback="playMusic"></SongList>
             <VideoList v-show="nowType.type==='mv'" :data="artistDetail.mv" :loading="loading"></VideoList>
-            <ArtistList v-show="nowType.type==='simi'" :data="artistDetail.simi" :loading="loading"></ArtistList>
+            <ArtistList v-show="nowType.type==='simi'" :data="artistDetail.simi" @callback="init" :loading="loading"></ArtistList>
         </div>
         <BackToTop></BackToTop>
     </div>
@@ -58,12 +60,8 @@
                     type:"music",
                     value:'hotSongs',
                 },
-                loading:false
-            }
-        },
-        watch:{
-            '$route.params.id':function () {
-                this.init();
+                loading:false,
+                artistContent:""
             }
         },
         created(){
@@ -80,11 +78,16 @@
                 if(this.$route.query.data) {
                     this.artistData = JSON.parse(this.$route.query.data);
                 }
+                document.getElementById('cm-artist-detail').scrollTo({
+                    top:0,
+                    behavior: "smooth"
+                });
                 for(let i in this.artistDetail){
                     this.artistDetail[i]=[];
                 }
                 if(this.$route.params.id) {
-                    this.getArtistData(0)
+                    this.getArtistData(0);
+                    this.getArtistDetail();
                 }
             },
             getArtistData(page){
@@ -95,7 +98,7 @@
                     this.loading=false;
                     this.artistDetailParams[type].page=page;//记录页数
                     this.artistDetailParams[type].hasMore=rs.hasMore||rs.more;//是否全部加载完
-                    let data=rs[key];
+                    let data=rs[key]||[];
                     if(type==='music'){
                         data=this.$handleListData(data);
                     }
@@ -106,6 +109,11 @@
                             this.artistDetail[type].push(item);
                         })
                     }
+                })
+            },
+            getArtistDetail(){
+                this.$Api.Music.artist.detail(this.$route.params.id,(rs)=>{
+                    this.artistContent=rs.briefDesc;
                 })
             },
             tabBarChange(item){
@@ -133,5 +141,10 @@
     }
     .cm-artist-detail-main{
         width: 100%;
+    }
+    /*歌手简介*/
+    .artist-desp{
+        font-size: 13px;
+        line-height: 1.5;
     }
 </style>

@@ -11,6 +11,78 @@ String.prototype.Exist=function(substr){
     }
     return false;
 };
+Date.prototype.format = function (fmt) {
+    const o = {
+        "y+": this.getFullYear(),
+        "M+": this.getMonth() + 1,
+        "d+": this.getDate(),
+        "H+": this.getHours(),
+        "m+": this.getMinutes(),
+        "s+": this.getSeconds(),
+        "S+": this.getMilliseconds(),
+        "q+": Math.floor(this.getMonth() / 3) + 1,
+        "h+": (() => {
+            const hour = this.getHours() % 12;
+            return hour === 0 ? 12 : hour;
+        })(),
+        "E+": (() => {
+            const week = { "0": "Sunday", "1": "Monday", "2": "Tuesday", "3": "Wednesday", "4": "Thursday", "5": "Friday", "6": "Saturday" };
+            return week[this.getDay() + ""];
+        })(),
+        /*
+        "e+": (()=>{
+            const week = {"0":"Sun","1":"Mon","2":"Tue","3":"Wed","4":"Thu","5":"Fri","6":"Sat"};
+            return week[this.getDay()+""];
+        })(),
+        */
+        "x1": (() => {
+            const week = { "0": "周日", "1": "周一", "2": "周二", "3": "周三", "4": "周四", "5": "周五", "6": "周六" };
+            return week[this.getDay() + ""];
+        })(),
+        "x2": (() => {
+            const hour = ["凌晨", "早上", "下午", "晚上"];
+            const h = this.getHours();
+            if (h === 12) return "中午";
+            return hour[parseInt(h / 6)];
+        })(),
+    };
+    for (let k in o) {
+        if (new RegExp("(" + k + ")", "g").test(fmt)) {
+            const len = RegExp.$1.length;
+            fmt = fmt.replace(RegExp.$1, len === 1 ? o[k] : ("00" + o[k]).substr(-len));
+        }
+    }
+    return fmt;
+};
+Date.prototype.getDays= function(time, len, diretion) {
+    let tt = new Date(time);
+    let getDay = function(day) {
+        let t = new Date(time);
+        t.setDate(t.getDate() + day);
+        return t.format('yyyy-MM-dd');
+    };
+    let arr = [];
+    if (diretion === 1) {
+        for (let i = 1; i < len; i++) {
+            arr.unshift(getDay(-i))
+        }
+    }else if(diretion === 2) {
+        for (let i = 1; i < len; i++) {
+            arr.push(getDay(i))
+        }
+    }else {
+        for (let i = 1; i < len; i++) {
+            arr.unshift(getDay(-i))
+        }
+        arr.push(tt.getFullYear()+'-'+(tt.getMonth()+1)+'-'+tt.getDate());
+        for (let i = 1; i < len; i++) {
+            arr.push(getDay(i))
+        }
+    }
+    let result=tt.format('yyyy-MM-dd');
+    return diretion === 1 ? arr.concat([result]) :
+        diretion === 2 ? [result].concat(arr) : arr
+};
 import Api from "./api/index"
 //引入iview组件
 import {Checkbox,Tooltip,Dropdown,DropdownMenu,DropdownItem,Input,InputNumber,RadioGroup,Radio,Time,Select,Option,DatePicker,Message,Icon,Spin,Progress} from 'iview';
@@ -120,13 +192,17 @@ Vue.handleListData = Vue.prototype.$handleListData =(data)=>{
         let artist=item.artists?item.artists:item.ar;
         let album=item.album?item.album:item.al;
         let time=item.duration||(item.mMusic?item.mMusic.playTime:0)||item.dt
+        let artist_text='';
+        artist.forEach((item,index)=>{
+            artist_text=artist_text+item.name+(index!==artist.length-1?'/':'')
+        });
         list={
             id:item.id,
             artistId:artist[0].id,
             type:"online",
             title:item.name,
             name:item.name,
-            artist:artist[0].name,
+            artist:artist_text,
             album:album.name,
             time:time,
             mvid:item.mvid||item.mv,
@@ -136,6 +212,18 @@ Vue.handleListData = Vue.prototype.$handleListData =(data)=>{
     });
     return _return
 };//音乐列表处理
+Vue.handleCommentData = Vue.prototype.$handleCommentData =(data)=>{
+    let _return=[];
+    for(let i = data.length-1;i >= 0 ;i--){
+        let item=data[i];
+        item.time=new Date(item.time).format('yyyy-MM-dd HH:mm');
+        item.parent=data.filter((a,index)=>{
+            return a.commentId===item.parentCommentId;
+        })[0];
+        _return.push(item);
+    }
+    return _return
+};//评论列表处理
 Vue.scrollEnd = Vue.prototype.$scrollEnd =(e,callback)=>{
     let element=e.target;
     if(element.scrollHeight - element.scrollTop === element.clientHeight){

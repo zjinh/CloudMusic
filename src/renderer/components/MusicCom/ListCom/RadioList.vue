@@ -1,10 +1,10 @@
 <template>
-    <div class="cm-radiolist-container">
-        <div class="cm-radiolist-list" @scroll="scrollToLoad">
-            <div v-for="(item,index) in data" :key="index" @click="clickToSelect(item)" class="video-block" ripple="">
+    <div class="cm-radio-list-container">
+        <div class="cm-radio-list-list" @scroll="scrollToLoad">
+            <div v-for="(item,index) in data" :key="index" @click="clickToSelect(item)" class="radio-block" ripple="">
                 <img :src="item.picUrl" alt="" draggable="false">
                 <p>{{item.name}}</p>
-<!--                <span class="creator">by {{item.creator[0].userName}}</span>-->
+                <span class="creator">by {{item.dj.nickname}}</span>
                 <span class="sub">{{item.subCount}}订阅</span>
             </div>
         </div>
@@ -35,18 +35,18 @@
 </script>
 
 <style scoped>
-    .cm-radiolist-container{
+    .cm-radio-list-container{
         width: 100%;
         height: 100%;
         position: relative;
     }
-    .cm-radiolist-list{
+    .cm-radio-list-list{
         width: 100%;
         height: 100%;
         min-height: 330px;
         overflow: auto;
     }
-    .video-block{
+    .radio-block{
         float: left;
         width: 175px;
         height: 220px;
@@ -54,12 +54,12 @@
         margin: 5px 10px;
         position: relative;
     }
-    .video-block img{
+    .radio-block img{
         width: 100%;
         height: 175px;
         border: 1px solid #eee;
     }
-    .video-block p{
+    .radio-block p{
         text-overflow: ellipsis;
         display: -webkit-box;
         -webkit-box-orient: vertical;
@@ -67,11 +67,11 @@
         font-size: 12px;
         color: #333;
     }
-    .video-block .creator{
+    .radio-block .creator{
         font-size: 12px;
         color: #b9b9b9;
     }
-    .video-block .sub{
+    .radio-block .sub{
         position: absolute;
         right: 5px;
         bottom: 55px;
@@ -79,7 +79,7 @@
         font-size: 12px;
         background: rgba(0,0,0,.1);
     }
-    .video-block .count{
+    .radio-block .count{
         position: absolute;
         left: 5px;
         top: 5px;
