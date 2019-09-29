@@ -3,14 +3,14 @@
         <DetailPageHead :data="playlistData" type="playlist">
             <div class="cm-playlist-content-50">
                 <p class="playlist-desp">歌曲数:{{playlistData.trackCount}}首</p>
-                <p class="playlist-desp">播放数:{{playlistData.playCount}}次</p>
+                <p class="playlist-desp">播放数:{{$numberCount(playlistData.playCount)}}次</p>
                 <div class="playlist-author">
                     by:<span>{{playlistData.creator.nickname}}</span>
                 </div>
-                <div class="playlist-control">
-                    <button @click="subscribe" class="sf-icon-heart-o">{{playlistData.subscribed?' 已':" "}}收藏({{playlistData.bookCount}})</button>
+                <ButtonArea class="playlist-control">
+                    <button @click="subscribe" class="sf-icon-heart-o">{{playlistData.subscribed?' 已':" "}}收藏({{$numberCount(playlistData.bookCount)}})</button>
                     <button @click="downloadList" class="sf-icon-download">下载</button>
-                </div>
+                </ButtonArea>
             </div>
             <div class="cm-playlist-content-50 playlist-desp2">
                 简介：{{playlistData.description}}
@@ -198,18 +198,5 @@
     .playlist-control{
         position: absolute;
         bottom: 0;
-    }
-    .playlist-control button{
-        padding:10px;
-        background: #fff;
-        border: 1px solid #eee;
-        color: #999999;
-        font-size: 14px;
-        margin-right: 5px;
-        border-radius: 3px;
-    }
-    .playlist-control button:hover{
-        background: #e56464;
-        color: #fff;
     }
 </style>

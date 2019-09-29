@@ -82,9 +82,9 @@
                 }
             },
             VideoPlayerCommend(commend){
-                if(!this.PlayList.length){
+                /*if(!this.PlayList.length){
                     return
-                }
+                }*/
                 let NowCount=this.NowPlay.count;
                 let AllCount=this.PlayList.length;
                 switch (commend) {
@@ -218,7 +218,7 @@
         border-radius:10px;
         -webkit-border-radius: 10px;
         -moz-border-radius: 10px;
-        background:#5b5bea;
+        background:#e56464;
     }
     .cd-player-volumn-container {
         overflow:initial;
@@ -238,7 +238,7 @@
         top:0;
         width:100%;
         height:100%;
-        background: #5b5bea;
+        background: #e56464;
         overflow: unset!important;
     }
     .cd-player-process-bar,.cd-player-volumn-slider,.cd-player-slider{
@@ -247,7 +247,7 @@
         overflow:initial;
         width:0;
         height:5px;
-        background:#5b5bea;
+        background:#e56464;
         border-radius:3px;
         -webkit-border-radius: 3px;
         -moz-border-radius: 3px;
@@ -286,6 +286,7 @@
         user-select:none;
         width:100%;
         height:100%;
+        min-height: 450px;
     }
     .cd-video-main video {
         width:100%;
@@ -301,7 +302,7 @@
         padding:5px;
         width:100%;
         height:40px;
-        background:#fff;
+        background:#000;
         overflow: unset;
         -webkit-transition:all .35s;
         -moz-transition:all .35s;
@@ -331,7 +332,7 @@
         float:left;
         height:30px;
         line-height:30px;
-        color:#5a5a5a;
+        color:#c3c3c3;
         font-size:16px;
         text-align:center;
     }
@@ -340,13 +341,13 @@
         display:inline-block;
         width:30px;
         height:30px;
-        color:#5a5a5a;
+        color:#c3c3c3;
         text-align:center;
         font-size:22px;
         line-height:30px;
     }
     .cd-video-play:hover,.cd-video-control .sf-icon-expand:hover,.cd-video-control .sf-icon-volume-up:hover,.cd-video-control .sf-icon-compress:hover {
-        color:#5b5bea;
+        color:#e56464;
         cursor:pointer;
     }
     .cd-video-player-volumn {
@@ -370,7 +371,7 @@
         padding:0 10px;
         text-align:center;
         white-space:nowrap;
-        color:#5a5a5a;
+        color:#c3c3c3;
     }
     /*音乐播放器*/
     .cd-music-player-container canvas{

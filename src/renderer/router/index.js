@@ -37,14 +37,19 @@ export default new Router({
           component: require('@/components/MusicPage/ArtistDetail.vue').default
         },
         {
-          path: '/video-detail/:id',
-          name: 'video-detail',
-          component: require('@/components/MusicPage/VideoDetail.vue').default
-        },
-        {
           path: '/playlist-detail/:id',
           name: 'playlist-detail',
           component: require('@/components/MusicPage/PlayListDetail.vue').default
+        },
+        {
+          path: '/album-detail/:id',
+          name: 'album-detail',
+          component: require('@/components/MusicPage/AlbumDetail.vue').default
+        },
+        {
+          path: '/video-detail/:id',
+          name: 'video-detail',
+          component: require('@/components/MusicPage/VideoDetail.vue').default
         },
         {
           path: '/user-detail/:id',

@@ -4,7 +4,7 @@
         <div class="content">
             <div class="content-head">
                 <div class="tag">{{tag}}</div>
-                <span class="name">{{name}}</span>
+                <span class="name">{{name}}<span class="alias">{{alias}}</span> </span>
             </div>
             <div class="content-body">
                 <slot></slot>
@@ -33,6 +33,12 @@
                         poster:'coverImgUrl',
                         tag:"歌单",
                         name:"name"
+                    },
+                    album:{
+                        poster:"blurPicUrl",
+                        alias:"alias",
+                        tag:"专辑",
+                        name:"name"
                     }
                 },
                 nowMap:{},
@@ -49,6 +55,9 @@
             },
             name(){
                 return this.data[this.nowMap.name]
+            },
+            alias(){
+                return this.data[this.nowMap.alias]?'('+this.data[this.nowMap.alias]+')':"";
             },
             poster(){
                 return this.data[this.nowMap.poster]
@@ -93,6 +102,10 @@
         font-size: 16px;
         padding-left: 10px;
         color: #333333;
+    }
+    .content-head .alias{
+        color: #807f7f;
+        padding-left: 10px;
     }
     .content-body{
         width: 100%;

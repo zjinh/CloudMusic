@@ -146,6 +146,7 @@ import NoData from "../components/MusicCom/NoData.vue"
 import TabBar from "../components/MusicCom/TabBar.vue"
 import DetailPageHead from "../components/MusicCom/DetailPageHead.vue"
 import BackToTop from "../components/MusicCom/BackToTop.vue"
+import ButtonArea from "../components/MusicCom/ButtonArea.vue"
 Vue.component('PageHeader',PageHeader);
 Vue.component('SongList',SongList);
 Vue.component('loading',loading);
@@ -153,6 +154,7 @@ Vue.component('NoData',NoData);
 Vue.component('TabBar',TabBar);
 Vue.component('DetailPageHead',DetailPageHead);
 Vue.component('BackToTop',BackToTop);
+Vue.component('ButtonArea',ButtonArea);
 //引入electron接口
 const path = require('path');
 const ipc=require('electron').ipcRenderer;
@@ -223,4 +225,11 @@ Vue.scrollEnd = Vue.prototype.$scrollEnd =(e,callback)=>{
 };
 Vue.randomRange = Vue.prototype.$randomRange =(min, max)=>{
     return Math.floor(Math.random() * (max - min)) + min;
+};
+Vue.numberCount = Vue.prototype.$numberCount =(count)=>{
+    count=parseInt(count);
+    if(count>100000){
+        return Math.round(count/10000).toFixed(0)+'万'
+    }
+    return count;
 };

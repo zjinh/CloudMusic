@@ -232,7 +232,7 @@
         color: #4d515a;
         -webkit-app-region: drag;
         position: relative;
-        z-index: 4;
+        z-index: 5;
         overflow: unset;
         display: flex;
         align-items: center;

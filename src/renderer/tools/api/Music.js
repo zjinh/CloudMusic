@@ -130,34 +130,8 @@ export default {
             })
         }
     },
-    mv:{
-        getUrl(id,callback,error){
-            Ajax({
-                url: "/open/netase/mv/url",
-                method: "get",
-                data: {
-                    id: id,
-                },
-                success: callback,
-                error: error
-            })
-        }
-    },
-    video:{
-        getUrl(id,callback,error){
-            Ajax({
-                url: "/open/netase/video/url",
-                method: "get",
-                data: {
-                    id: id,
-                },
-                success: callback,
-                error: error
-            })
-        }
-    },
     playlist: {
-        subscribe(data,offset,callback,error){
+        subscribe(data,callback,error){
             Ajax({
                 url: "/open/netase/playlist/subscribe",
                 method: "get",
@@ -205,6 +179,139 @@ export default {
                 error: error
             })
         }
+    },
+    album:{
+        musicList(id,offset,callback,error){
+            Ajax({
+                url: "/open/netase/album",
+                method: "get",
+                data: {
+                    limit:50,
+                    offset:offset,
+                    id:id
+                },
+                success: callback,
+                error: error
+            })
+        },
+        comment(id,offset,callback,error){
+            Ajax({
+                url: "/open/netase/comment/album",
+                method: "get",
+                data: {
+                    limit:200,
+                    offset:offset,
+                    id:id
+                },
+                success: callback,
+                error: error
+            })
+        },
+        subscribe(data,callback,error){
+            Ajax({
+                url: "/open/netase/album/sub",
+                method: "get",
+                data: data,
+                success: callback,
+                error: error
+            })
+        },
+        dynamic(id,callback,error){
+            Ajax({
+                url: "/open/netase/album/dynamic",
+                method: "get",
+                data: {
+                    id:id
+                },
+                success: callback,
+                error: error
+            })
+        },
+    },
+    mv:{
+        getUrl(id,callback,error){
+            Ajax({
+                url: "/open/netase/mv/url",
+                method: "get",
+                data: {
+                    id: id,
+                },
+                success: callback,
+                error: error
+            })
+        },
+        comment(id,offset,callback,error){
+            Ajax({
+                url: "/open/netase/comment/mv",
+                method: "get",
+                data: {
+                    limit:200,
+                    offset:offset,
+                    id:id
+                },
+                success: callback,
+                error: error
+            })
+        },
+        detail(id,callback,error){
+            Ajax({
+                url: "/open/netase/mv/detail",
+                method: "get",
+                data: {
+                    mvid: id,
+                },
+                success: callback,
+                error: error
+            })
+        },
+    },
+    video:{
+        getUrl(id,callback,error){
+            Ajax({
+                url: "/open/netase/video/url",
+                method: "get",
+                data: {
+                    id: id,
+                },
+                success: callback,
+                error: error
+            })
+        },
+        detail(id,callback,error){
+            Ajax({
+                url: "/open/netase/video/detail",
+                method: "get",
+                data: {
+                    id: id,
+                },
+                success: callback,
+                error: error
+            })
+        },
+        comment(id,offset,callback,error){
+            Ajax({
+                url: "/open/netase/comment/video",
+                method: "get",
+                data: {
+                    limit:200,
+                    offset:offset,
+                    id:id
+                },
+                success: callback,
+                error: error
+            })
+        },
+        related(id,callback,error){
+            Ajax({
+                url: "/open/netase/related/allvideo",
+                method: "get",
+                data: {
+                    id: id,
+                },
+                success: callback,
+                error: error
+            })
+        },
     },
     comment:{
         like(data,callback,error){

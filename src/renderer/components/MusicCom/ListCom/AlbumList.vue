@@ -23,7 +23,13 @@
         },
         methods:{
             clickToSelect(item){
-                this.$emit('callback',item);
+                this.$router.push({
+                    path:'/album-detail/'+item.id,
+                    query:{
+                        data:JSON.stringify(item)
+                    }
+                });
+                this.$emit('callback')
             },
             scrollToLoad(e){
                 this.$scrollEnd(e,()=>{

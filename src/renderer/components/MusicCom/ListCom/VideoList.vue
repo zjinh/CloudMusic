@@ -1,12 +1,12 @@
 <template>
     <div class="cm-videolist-container">
         <div class="cm-videolist-list" @scroll="scrollToLoad">
-            <div v-for="(item,index) in data" :key="index" @click="clickToSelect(item)" class="video-block" ripple="">
+            <div v-for="(item,index) in data" :key="index" @click="clickToSelect(item)" :class="type?'video-self-block':'video-block'" ripple="">
                 <img :src="item.coverUrl||item.imgurl" alt="" draggable="false">
                 <p>{{item.title||item.name}}</p>
                 <span class="creator" v-if="item.creator">by {{item.creator[0].userName}}</span>
-                <span class="count sf-icon-video"> {{item.playTime||item.playCount}}</span>
-                <span class="time">{{timeDeal(item.durationms||item.duration)}}</span>
+                <span class="count sf-icon-video"> {{$numberCount(item.playTime||item.playCount||0)}}</span>
+                <span class="time">{{timeDeal(item.durationms||item.duration||0)}}</span>
             </div>
         </div>
         <NoData v-show="data.length===0&&!loading"></NoData>
@@ -26,11 +26,12 @@
         methods:{
             clickToSelect(item){
                 this.$router.push({
-                    path:'/video-detail/'+item.vid,
+                    path:'/video-detail/'+(item.vid||item.id),
                     query:{
                         data:JSON.stringify(item)
                     }
                 });
+                this.$emit('callback')
             },
             scrollToLoad(e){
                 this.$scrollEnd(e,()=>{
@@ -68,7 +69,7 @@
         width: 100%;
         height: 100px;
     }
-    .video-block p{
+    .video-block p,.video-self-block p{
         text-overflow: ellipsis;
         display: -webkit-box;
         -webkit-box-orient: vertical;
@@ -76,11 +77,11 @@
         font-size: 12px;
         color: #333;
     }
-    .video-block .creator{
+    .video-block .creator .video-self-block .creator{
         font-size: 12px;
         color: #b9b9b9;
     }
-    .video-block .time{
+    .video-block .time, .video-self-block .time{
         position: absolute;
         right: 5px;
         top: 79px;
@@ -88,12 +89,41 @@
         font-size: 12px;
         background: rgba(0,0,0,.1);
     }
-    .video-block .count{
+    .video-block .count,.video-self-block .count{
         position: absolute;
         left: 5px;
         top: 5px;
         color: #fff;
         font-size: 12px;
         background: rgba(0,0,0,.1);
+    }
+    .video-self-block{
+        width: 100%;
+        height: 80px;
+        position: relative;
+        margin-top: 10px;
+    }
+    .video-self-block img{
+        float: left;
+        width: 150px;
+        height: 85px;
+    }
+    .video-self-block p{
+        -webkit-line-clamp: 3;
+        padding-left: 5px;
+        width: calc(100% - 150px);
+    }
+    .video-self-block .creator{
+        position: absolute;
+        bottom: 0;
+        left: 155px;
+    }
+    .video-self-block .time{
+        right: calc(100% - 145px);
+        top: 60px;
+    }
+    .video-self-block .count{
+        left: 5px;
+        top: 5px;
     }
 </style>

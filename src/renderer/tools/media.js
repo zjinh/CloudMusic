@@ -34,6 +34,9 @@ function MediaControl (media, type, fx, slider, e) {
 function secondDeal (time) {
     let m = parseInt(time / 60) < 10 ? "0" + parseInt(time / 60) : parseInt(time / 60);
     let s = parseInt(time % 60) < 10 ? "0" + parseInt(time % 60) : parseInt(time % 60);
+    if(parseInt(m)>60){
+        return secondDeal(time/1000)
+    }
     return m + ":" + s;
 };
 export default {

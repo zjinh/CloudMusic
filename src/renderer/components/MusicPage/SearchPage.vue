@@ -125,11 +125,11 @@
                     type:this.nowSearchType[1],
                     offset:page
                 },(rs)=>{
-                    let data=rs.result[type];
+                    this.loading=false;
+                    let data=rs.result[type]||[];
                     let countType=type.substring(0,type.length-1)+'Count';//拼接记录总数的key
                     this.searchParams[type].count=rs.result[countType]||rs.result[type+'Count'];//获取有搜索结果长度
                     this.searchParams[type].page=page;//记录页数
-                    this.loading=false;
                     if(page===0){
                         this.searchResult[type]=data;
                     }else{
