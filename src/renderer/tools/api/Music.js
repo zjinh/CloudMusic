@@ -197,7 +197,7 @@ export default {
                 url: "/open/netase/comment/playlist",
                 method: "get",
                 data: {
-                    limit:50,
+                    limit:200,
                     offset:offset,
                     id:id
                 },

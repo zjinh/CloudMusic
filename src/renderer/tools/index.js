@@ -83,6 +83,9 @@ Date.prototype.getDays= function(time, len, diretion) {
     return diretion === 1 ? arr.concat([result]) :
         diretion === 2 ? [result].concat(arr) : arr
 };
+JSON.handle=function(data){
+    return JSON.parse(JSON.stringify(data));
+};
 import Api from "./api/index"
 //引入iview组件
 import {Checkbox,Tooltip,Dropdown,DropdownMenu,DropdownItem,Input,InputNumber,RadioGroup,Radio,Time,Select,Option,DatePicker,Message,Icon,Spin,Progress} from 'iview';
@@ -212,18 +215,6 @@ Vue.handleListData = Vue.prototype.$handleListData =(data)=>{
     });
     return _return
 };//音乐列表处理
-Vue.handleCommentData = Vue.prototype.$handleCommentData =(data)=>{
-    let _return=[];
-    for(let i = data.length-1;i >= 0 ;i--){
-        let item=data[i];
-        item.time=new Date(item.time).format('yyyy-MM-dd HH:mm');
-        item.parent=data.filter((a,index)=>{
-            return a.commentId===item.parentCommentId;
-        })[0];
-        _return.push(item);
-    }
-    return _return
-};//评论列表处理
 Vue.scrollEnd = Vue.prototype.$scrollEnd =(e,callback)=>{
     let element=e.target;
     if(element.scrollHeight - element.scrollTop === element.clientHeight){

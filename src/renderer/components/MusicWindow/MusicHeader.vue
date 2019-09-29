@@ -6,7 +6,7 @@
         </div>
         <div :class="'cm-right-search-main '+(full?'full':'')">
             <i class="sf-icon-search"></i>
-            <input type="text" v-model="SearchKey" placeholder="搜索歌曲..." @keyup.enter="startSearch" @input="SearchInput" @blur="SearchSuggest=false">
+            <input type="text" v-model="SearchKey" placeholder="搜索歌曲..." @input="SearchInput" @keydown.enter="SearchSuggest=false" @keyup.enter="startSearch" @blur="closeSuggest">
         </div>
         <div class="cm-right-search-bubble" tabindex="-1" @keydown.enter="SearchSuggest=false" :style="{height:SearchSuggest&&SearchKey.length?'370px':0}">
             <div class="cm-right-search-bubble-content">
@@ -16,7 +16,7 @@
                         {{SearchSuggestResult.artists[0].name}}
                     </span>
                     <ul v-if="SearchSuggestResult.artists">
-                        <li v-for="(item,index) in SearchSuggestResult.artists" :style="{'z-index':SearchSuggestResult.artists.length-index,left:'-20'*index+'px'}" @click="searchSinger(item)">
+                        <li v-for="(item,index) in SearchSuggestResult.artists" class="animated slideInLeft" :style="{'z-index':SearchSuggestResult.artists.length-index,left:'-20'*index+20+'px'}" @click="searchSinger(item)">
                             <img :src="item.img1v1Url" alt="" draggable="false">
                         </li>
                     </ul>
@@ -25,7 +25,7 @@
                 </div>
                 <div class="songs">
                     <p>歌曲</p>
-                    <ul v-if="SearchSuggestResult.songs">
+                    <ul v-if="SearchSuggestResult.songs" class="animated slideInLeft">
                         <li v-for="(item,index) in SearchSuggestResult.songs" @click="playSearch(item)">
                             {{item.name}}
                         </li>
@@ -35,7 +35,7 @@
                 <div class="album">
                     <p>专辑</p>
                     <ul v-if="SearchSuggestResult.albums">
-                        <li v-for="(item,index) in SearchSuggestResult.albums">
+                        <li v-for="(item,index) in SearchSuggestResult.albums" class="animated slideInLeft">
                             <img :src="item.artist.picUrl" alt="">
                             <span>{{item.name}}</span>
                         </li>
@@ -176,29 +176,40 @@
                     });
                 });
             },//获取用户信息,
+            closeSuggest(){
+                let b=setTimeout(() => {
+                    this.SearchSuggest = false;
+                    clearTimeout(b);
+                }, 500);
+            },
             SearchInput(){
-                if(this.SearchKey.length){
-                    a=setTimeout(()=>{
+                if(a){
+                    clearTimeout(a)
+                }
+                a=setTimeout(()=>{
+                    this.SearchKey=this.SearchKey.trim();
+                    if(this.SearchSuggest !== 0 && this.SearchKey.length){
                         this.$Api.Music.searchSuggest(this.SearchKey,(rs)=>{
                             this.SearchSuggestResult=rs.result;
                             this.SearchSuggestResult.songs=this.$handleListData(this.SearchSuggestResult.songs);
-                            this.SearchSuggest=true;
                             this.fullControl(false);
-                            clearTimeout(a)
+                            this.SearchSuggest=true;
                         })
-                    },500)
-                }else{
-                    this.SearchSuggest=false;
-                }
+                    }else{
+                        this.SearchSuggest=false;
+                    }
+                    clearTimeout(a)
+                },500)
             },
             playSearch(item){
                 this.playMusic(item,[item]);
                 this.SearchSuggest=false;
             },
             startSearch(){
-                this.SearchSuggest=false;
+                this.SearchSuggest=0;
+                this.closeSuggest();
                 this.$router.push({
-                    path:'/search/1/'+this.SearchKey
+                    path:'/search/'+this.SearchKey
                 });
             },
             searchSinger(item){
@@ -341,10 +352,17 @@
         float: left;
         font-size: 20px;
         padding-left: 10px;
+        position: absolute;
+        height: 40px;
+        width: 56%;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        z-index: 0;
     }
     .cm-right-search-bubble-content .artist ul{
         float: right;
         margin-top: -5px;
+        width: 56%;
     }
     .cm-right-search-bubble-content .artist li{
         display: inline-block;
@@ -389,20 +407,26 @@
     }
     .cm-right-search-bubble-content .album ul{
         padding: 0 10px;
+        overflow: auto;
+        height: 89px;
     }
     .cm-right-search-bubble-content .album li{
         display: inline-block;
         width: 55px;
-        height: 55px;
-        overflow: unset;
+        height: 80px;
         text-align: center;
         margin-right: 5px;
         cursor: pointer;
     }
     .cm-right-search-bubble-content .album li img{
         width: 100%;
-        height: 100%;
+        height: 55px;
         border-radius: 5px;
+    }
+    .cm-right-search-bubble-content .album li span{
+        overflow: hidden;
+        height: 20px;
+        text-overflow: ellipsis;
     }
     /*用户*/
     .user-actions{

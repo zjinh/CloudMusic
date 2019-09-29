@@ -10,7 +10,7 @@
             <span class="control">操作</span>
         </div>
         <ul class="cm-songlist" @scroll="scrollToLoad">
-            <li v-for="(item,index) in data" @click="clickToPlay(item,index)" :class="item.play" ripple="">
+            <li v-for="(item,index) in listData" @click="clickToPlay(item,index)" :class="item.play" ripple="">
                 <span class="num" v-if="!item.play">
                     {{needZero(index+1)}}
                 </span>
@@ -49,6 +49,20 @@
             type:String,
             loading:Boolean
         },
+        data(){
+            return{
+                listData:[]
+            }
+        },
+        watch:{
+            data:function () {
+                if(this.type==='local'){
+                    this.listData=this.data;
+                }else {
+                    this.listData = this.$handleListData(this.data)
+                }
+            }
+        },
         methods:{
             FileSize (bytes) {
                 bytes=parseFloat(bytes);
@@ -66,7 +80,7 @@
                 return media.secondDeal(s/1000)
             },
             clickToPlay(item,index){
-                this.$emit('callback',item,this.data);
+                this.$emit('callback',item,this.listData);
             },
             scrollToLoad(e){
                 let element=e.target;

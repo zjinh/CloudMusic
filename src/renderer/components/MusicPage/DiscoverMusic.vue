@@ -52,7 +52,6 @@
             getRecommendSong(){
                 this.$Api.Music.getRecommendSong((rs)=>{
                     this.$nextTick(()=>{
-                        rs.recommend=this.$handleListData(rs.recommend);
                         this.RecommendSong=rs.recommend||[];
                     });
                 })

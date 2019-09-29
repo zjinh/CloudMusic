@@ -14,7 +14,7 @@
         </div>
         <p class="cm-comment-title">精彩评论</p>
         <ul class="cm-comment-list" @scroll="scrollToLoad">
-            <li v-for="(item,index) in data" :key="index" class="cm-comment-line">
+            <li v-for="(item,index) in listData" :key="index" class="cm-comment-line">
                 <img :src="item.user.avatarUrl" alt="" draggable="false">
                 <div class="main">
                     <div class="content">
@@ -61,10 +61,29 @@
                     video:5
                 },
                 commentType:false,
-                commentContent:""
+                commentContent:"",
+                listData:[],
+            }
+        },
+        watch:{
+            data:function () {
+                this.listData=this.handleCommentData(this.data)
             }
         },
         methods:{
+            handleCommentData(data){
+                for(let i = data.length-1;i >= 0 ;i--){
+                    let item=data[i];
+                    item.time=new Date(item.time).format('yyyy-MM-dd HH:mm');
+                    let index = data.findIndex(a=>{
+                        return a.commentId===item.parentCommentId
+                    });
+                    if(index!==-1){
+                        item.parent = data.splice(index,1)[0];
+                    }
+                }
+                return data
+            },
             clickToUser(item){
                 this.$router.push({
                     path:'/user-detail/'+item.user.userId,
@@ -92,7 +111,7 @@
                             item.likedCount++
                         }
                         item.liked=!item.liked;
-                        this.$set(this.data,index,item)
+                        this.$set(this.listData,index,item)
                     }
                 },()=>{
                     this.$Message.error('出现错误，请稍后重试')
@@ -120,7 +139,7 @@
                     if(rs.code===200){
                         this.commentContent='';
                         this.$Message.success('评论发布成功');
-                        this.data.push(rs.comment)
+                        this.listData.push(rs.comment)
                     }
                 },()=>{
                     this.$Message.error('评论发布失败');
@@ -135,7 +154,7 @@
                 },(rs)=>{
                     if(rs.code===200){
                         this.$Message.success('评论删除成功');
-                        this.data.splice(index,1)
+                        this.listData.splice(index,1)
                     }
                 },()=>{
                     this.$Message.error('评论删除失败');

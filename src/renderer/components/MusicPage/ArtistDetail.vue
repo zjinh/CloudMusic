@@ -99,15 +99,10 @@
                     this.artistDetailParams[type].page=page;//记录页数
                     this.artistDetailParams[type].hasMore=rs.hasMore||rs.more;//是否全部加载完
                     let data=rs[key]||[];
-                    if(type==='music'){
-                        data=this.$handleListData(data);
-                    }
                     if(page===0){
                         this.artistDetail[type]=data;
                     }else{
-                        data.forEach((item)=>{
-                            this.artistDetail[type].push(item);
-                        })
+                        this.artistDetail[type] = [...this.artistDetail[type],...data];
                     }
                 })
             },

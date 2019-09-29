@@ -111,7 +111,6 @@
             },
             changeType(type,index,flag){
                 this.nowSearchType=[type.type,type.value,type.name];
-                this.$route.params.type=type.value;
                 if(flag){
                     if(this.searchResult[type.type].length===0) {
                         this.searchPost(this.searchParams[type.type].page);
@@ -131,17 +130,12 @@
                     this.searchParams[type].count=rs.result[countType]||rs.result[type+'Count'];//获取有搜索结果长度
                     this.searchParams[type].page=page;//记录页数
                     this.loading=false;
-                    console.log(data)
-                    if(type==='songs'){
-                        data=this.$handleListData(data);
-                    }
                     if(page===0){
                         this.searchResult[type]=data;
                     }else{
-                        data.forEach((item)=>{
-                            this.searchResult[type].push(item);
-                        })
+                        this.searchResult[type] = [...this.searchResult[type],...data];
                     }
+                    console.log(data)
                 })
             },
             loadMore(){

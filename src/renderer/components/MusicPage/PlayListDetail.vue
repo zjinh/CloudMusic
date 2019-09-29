@@ -131,18 +131,12 @@
                     this.playListDetailParams[type].hasMore=rs.hasMore||rs.more;//是否全部加载完
                     let data=rs[key]||[];
                     if(type==='musicList'){
-                        data=rs.playlist.tracks
-                        data=this.$handleListData(data);
+                        data=rs.playlist.tracks;
                     }
                     if(page===0){
                         this.playListDetail[type]=data;
                     }else{
-                        data.forEach((item)=>{
-                            this.playListDetail[type].push(item);
-                        })
-                    }
-                    if(type==='comment'){/*因为评论的层级关系，所以需要每次加载完重新比对整个数据*/
-                        this.playListDetail[type]=this.$handleCommentData(this.playListDetail[type]);
+                        this.playListDetail[type] = [...this.playListDetail[type],...data];
                     }
                 })
             },

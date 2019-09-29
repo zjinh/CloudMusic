@@ -27,7 +27,7 @@ export default new Router({
           component: require('@/components/MusicPage/LocalMusic.vue').default
         },
         {
-          path: '/search/:type/:keywords',
+          path: '/search/:keywords',
           name: 'search',
           component: require('@/components/MusicPage/SearchPage.vue').default
         },

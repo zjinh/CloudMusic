@@ -7,7 +7,7 @@
                 <loading v-show="!login"></loading>
                 <transition  name="fade" mode="out-in">
                     <keep-alive v-if="login">
-                            <router-view></router-view>
+                        <router-view :key="$route.fullPath"></router-view>
                     </keep-alive>
                 </transition>
             </section>
@@ -70,6 +70,9 @@
         computed:{
             mainHeight(){
                 return this.PlayList.length?'calc(100% - 60px)':'100%'
+            },
+            routerKey(){
+                return new Date().getTime();
             }
         },
         mounted(){
