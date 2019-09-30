@@ -438,7 +438,7 @@ if (!gotTheLock) {
               MusicSystem.LoginWindow(data);
             })
         }
-    });
+    },true);
   });
 }
 app.on('window-all-closed', () => {

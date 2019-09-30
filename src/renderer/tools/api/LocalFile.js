@@ -1,19 +1,21 @@
 const fs= require('fs');
+import { Base64 } from 'js-base64';
 export default {
     address:process.env.HOMEDRIVE+process.env.HOMEPATH+'/CloudMusic\/',
     User:null,
+    debug:process.env.NODE_ENV === 'development',
     AccountFile:{},//用户本地文件对象
     init(user,callback){
         fs.access(this.address,fs.constants.F_OK | fs.constants.W_OK,(err)=>{
             if(err){
                 fs.mkdir(this.address,(err)=>{
-                    console.log('已创建系统文件夹，准备创建主配置文件');
+                    this.debug&&console.log('已创建系统文件夹，准备创建主配置文件');
                     this.userVerify(user,()=>{
                         this.create(user,callback);
                     });
                 })
             }else{
-                console.log('系统文件夹已存在，准备创建主配置文件');
+                this.debug&&console.log('系统文件夹已存在，准备创建主配置文件');
                 this.userVerify(user,()=>{
                     this.create(user,callback);
                 });
@@ -42,7 +44,7 @@ export default {
         callback&&callback()
     },
     create(user,callback){
-        console.log('开始创建主配置文件');
+        this.debug&&console.log('开始创建主配置文件');
         this.map(user,()=>{
             for(let i in this.AccountFile){
                 fs.appendFileSync(this.AccountFile[i],'');
@@ -51,10 +53,13 @@ export default {
         });
         callback&&callback();
     },
-    read(type,callback){
+    read(type,callback,encryption){
         this.map(this.User);
-        console.log('读取'+this.AccountFile[type]);
+        this.debug&&console.log('读取'+this.AccountFile[type]);
         fs.readFile(this.AccountFile[type],{flag:'r+',encoding:'utf8'},(err,data)=>{
+            if(encryption){
+                data=this.encryption(data,false);
+            }
             try{
                 data=JSON.parse(data)
             }catch (e) {
@@ -63,9 +68,21 @@ export default {
             callback&&callback(data,err);
         })
     },
-    write(type,data){
+    write(type,data,encryption){
         this.map(this.User);
-        console.log('写入'+this.AccountFile[type]);
-        fs.writeFile(this.AccountFile[type],JSON.stringify(data), (err)=>{});
+        this.debug&&console.log('写入'+this.AccountFile[type]);
+        data=JSON.stringify(data);
+        if(encryption){
+            data=this.encryption(data,true);
+        }
+        fs.writeFile(this.AccountFile[type],data, (err)=>{});
+    },
+    encryption(data,command){
+        if(command==='lock'||command===true) {
+            data = Base64.encode(data)
+        }else{
+            data = Base64.decode(data)
+        }
+        return data
     }
 }

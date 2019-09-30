@@ -179,6 +179,8 @@
                         case 502:
                             this.$Message.error('密码错误');
                             break;
+                        default:
+                            this.$Message.error(rs.message||rs.msg)
                     }
                 });
             },
