@@ -48,7 +48,7 @@ export default {
         this.map(user,()=>{
             for(let i in this.AccountFile){
                 fs.appendFileSync(this.AccountFile[i],'');
-                console.log('创建'+this.AccountFile[i]);
+                this.debug&&console.log('创建'+this.AccountFile[i]);
             }
         });
         callback&&callback();
