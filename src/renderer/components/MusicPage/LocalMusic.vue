@@ -96,6 +96,7 @@
                         cb(err, {
                             url: filePath,
                             size:stat.size,
+                            type:"local"
                         });
                     }
                 });

@@ -5,7 +5,7 @@
                 <img :src="item.picUrl" alt="" draggable="false">
                 <p>{{item.name}}</p>
                 <span class="creator">by {{item.dj.nickname}}</span>
-                <span class="sub">{{item.subCount}}订阅</span>
+                <span class="sub">{{$numberCount(item.subCount)}}订阅</span>
             </div>
         </div>
         <NoData v-show="data.length===0&&!loading"></NoData>
@@ -23,6 +23,12 @@
         },
         methods:{
             clickToSelect(item){
+                this.$router.push({
+                    path:'/radio-detail/'+(item.id),
+                    query:{
+                        data:JSON.stringify(item)
+                    }
+                });
                 this.$emit('callback',item);
             },
             scrollToLoad(e){

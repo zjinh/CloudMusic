@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import router from '../router'
 String.prototype.Before=function(substr){
     return this.substring(this.lastIndexOf(substr) + 1, this.length);
 };

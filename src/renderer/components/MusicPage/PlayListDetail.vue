@@ -8,7 +8,7 @@
                     by:<span>{{playlistData.creator.nickname}}</span>
                 </div>
                 <ButtonArea class="playlist-control">
-                    <button @click="subscribe" class="sf-icon-heart-o">{{playlistData.subscribed?' 已':" "}}收藏({{$numberCount(playlistData.bookCount)}})</button>
+                    <button @click="subscribe" :class="playlistData.subscribed?'sf-icon-heart':'sf-icon-heart-o'">{{playlistData.subscribed?' 已':" "}}收藏({{$numberCount(playlistData.bookCount)}})</button>
                     <button @click="downloadList" class="sf-icon-download">下载</button>
                 </ButtonArea>
             </div>

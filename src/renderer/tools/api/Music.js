@@ -79,6 +79,17 @@ export default {
             error:error
         })
     },
+    getUrl(id,callback,error){
+        Ajax({
+            url: "/open/netase/song/url",
+            method: "get",
+            data: {
+                id:id
+            },
+            success: callback,
+            error: error
+        })
+    },
     artist: {
         detail(id, callback, error) {
             Ajax({
@@ -216,6 +227,13 @@ export default {
                 error: error
             })
         },
+        sublist(callback,error){
+            Ajax({
+                url: "/open/netase/album/sublist",
+                success: callback,
+                error: error
+            })
+        },
         dynamic(id,callback,error){
             Ajax({
                 url: "/open/netase/album/dynamic",
@@ -227,6 +245,7 @@ export default {
                 error: error
             })
         },
+
     },
     mv:{
         getUrl(id,callback,error){
@@ -312,6 +331,61 @@ export default {
                 error: error
             })
         },
+    },
+    radio:{
+        subscribe(data,callback,error){
+            Ajax({
+                url: "/open/netase/dj/sub",
+                method: "get",
+                data: data,
+                success: callback,
+                error: error
+            })
+        },
+        sublist(callback,error){
+            Ajax({
+                url: "/open/netase/dj/sublist",
+                success: callback,
+                error: error
+            })
+        },
+        programs(id,offset,callback,error){
+            Ajax({
+                url: "/open/netase/dj/program",
+                method: "get",
+                data: {
+                    limit:50,
+                    offset:(offset-1)*50,
+                    rid:id
+                },
+                success: callback,
+                error: error
+            })
+        },
+        detail(id,callback,error){
+            Ajax({
+                url: "/open/netase/dj/program/detail",
+                method: "get",
+                data: {
+                    id:id
+                },
+                success: callback,
+                error: error
+            })
+        },
+        comment(id,offset,callback,error){
+            Ajax({
+                url: "/open/netase/comment/dj",
+                method: "get",
+                data: {
+                    limit:200,
+                    offset:offset,
+                    id:id
+                },
+                success: callback,
+                error: error
+            })
+        }
     },
     comment:{
         like(data,callback,error){

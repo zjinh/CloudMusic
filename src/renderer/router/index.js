@@ -52,6 +52,11 @@ export default new Router({
           component: require('@/components/MusicPage/VideoDetail.vue').default
         },
         {
+          path: '/radio-detail/:id',
+          name: 'radio-detail',
+          component: require('@/components/MusicPage/RadioDetail.vue').default
+        },
+        {
           path: '/user-detail/:id',
           name: 'user-detail',
           component: require('@/components/MusicPage/UserDetail.vue').default

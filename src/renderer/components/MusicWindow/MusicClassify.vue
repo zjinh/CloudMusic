@@ -22,6 +22,7 @@
 <script>
     export default {
         name: "MusicClassify",
+        inject:['fullControl'],
         props:{
             DiskData:{
                 type:Object
@@ -34,6 +35,7 @@
             $route:{
                 handler(){
                     this.getNowRoute();
+                    this.fullControl(false)
                 }
             }
         },

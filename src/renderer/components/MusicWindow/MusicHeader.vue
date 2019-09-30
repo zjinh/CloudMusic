@@ -35,7 +35,7 @@
                 <div class="album">
                     <p>专辑</p>
                     <ul v-if="SearchSuggestResult.albums">
-                        <li v-for="(item,index) in SearchSuggestResult.albums" class="animated slideInLeft">
+                        <li v-for="(item,index) in SearchSuggestResult.albums" @click="searchAlbum(item)" class="animated slideInLeft">
                             <img :src="item.artist.picUrl" alt="">
                             <span>{{item.name}}</span>
                         </li>
@@ -54,10 +54,10 @@
                     <span>{{UserInfo.nickname}}</span>
                 </p>
                 <DropdownMenu slot="list">
-                    <DropdownItem name="account">
+                    <!--<DropdownItem name="account">
                         <img draggable="false" :src="UserInfo.avatarUrl" alt="">
                         <span>我</span>
-                    </DropdownItem>
+                    </DropdownItem>-->
                     <DropdownItem name="about">关于</DropdownItem>
                     <DropdownItem name="logoff">退出账号</DropdownItem>
                     <DropdownItem name="exit">退出</DropdownItem>
@@ -65,6 +65,7 @@
             </Dropdown>
         </div>
         <ul class="window-actions">
+            <li class="sf-icon-cog"></li>
             <li class="sf-icon-minus" @click="mini"></li>
             <li class="sf-icon-times" style="font-size:16px" @click="close"></li>
         </ul>
@@ -76,7 +77,7 @@
     import BlurBackground from "../MusicWindow/BlurBackground"
     export default {
         name: "DiskHeader",
-        inject:['fullControl','playMusic'],
+        inject:['playMusic'],
         components:{
             BlurBackground
         },
@@ -192,7 +193,6 @@
                         this.$Api.Music.searchSuggest(this.SearchKey,(rs)=>{
                             this.SearchSuggestResult=rs.result;
                             this.SearchSuggestResult.songs=this.$handleListData(this.SearchSuggestResult.songs);
-                            this.fullControl(false);
                             this.SearchSuggest=true;
                         })
                     }else{
@@ -215,6 +215,15 @@
             searchSinger(item){
                 this.$router.push({
                     path:'/artist-detail/'+item.id,
+                    query:{
+                        data:JSON.stringify(item)
+                    }
+                });
+            },
+            searchAlbum(item){
+                console.log(item)
+                this.$router.push({
+                    path:'/album-detail/'+item.id,
                     query:{
                         data:JSON.stringify(item)
                     }

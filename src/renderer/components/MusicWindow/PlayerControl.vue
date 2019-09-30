@@ -68,7 +68,10 @@
                         item.count=index;
                         if (item.play) {
                             this.NowPlay=item;
-                            this.readyPlayer();
+                            this.readyPlayer(item).then(()=>{
+                                this.$emit('playing', this.NowPlay);
+                                this.Visual();
+                            });
                         }
                     });
                 },
@@ -170,23 +173,49 @@
                         break;
                 }
             },
-            readyPlayer(){
-                if(this.NowPlay.type!=='online') {
-                    this.mateMusic(this.NowPlay);
-                }else{
-                    this.$Api.Music.detail(this.NowPlay.id,(rs)=>{
-                        this.PlayList[this.NowPlay.count].picture=rs||this.$defaultAlbum;
-                        this.NowPlay.picture = rs|| this.$defaultAlbum;
-                        this.$emit('playing', this.NowPlay);
-                    });
-                    this.$Api.Music.getLrc(this.NowPlay.id,(rs)=>{
-                        let lrc=rs.lrc.lyric||'[00:00.000] 暂无歌词';
-                        this.start(lrc,()=>{
-                            return this.$refs.audio.currentTime;
-                        });
-                    })
-                }
-                this.Visual();
+            readyPlayer(item){
+                return new Promise((callback,fail)=>{
+                    switch (item.type||this.NowPlay.type) {
+                        case 'online':
+                            this.$Api.Music.detail(this.NowPlay.id,(rs)=>{
+                                this.PlayList[this.NowPlay.count].picture=rs||this.$defaultAlbum;
+                                this.NowPlay.picture = rs|| this.$defaultAlbum;
+                                callback(this.NowPlay);
+                            });
+                            this.$Api.Music.getLrc(this.NowPlay.id,(rs)=>{
+                                let lrc=rs.lrc.lyric||'[00:00.000] 暂无歌词';
+                                this.start(lrc,()=>{
+                                    return this.$refs.audio.currentTime;
+                                });
+                            });
+                            break;
+                        case 'local':
+                            let data=this.NowPlay;
+                            this.$Api.Music.mateMusic({
+                                name: data.name
+                            }, (rs) => {
+                                let cover=rs.cover;
+                                let lrc=rs.lrc.lyric||'[00:00.000] 暂无歌词';
+                                this.PlayList[data.count].picture=cover||this.$defaultAlbum;
+                                this.NowPlay.picture = cover|| this.$defaultAlbum;
+                                this.start(lrc,()=>{
+                                    return this.$refs.audio.currentTime;
+                                });
+                                callback(this.NowPlay);
+                            });
+                            break;
+                        case 'radio':
+                            if(item.url){
+                                return callback(this.NowPlay);
+                            }
+                            this.$Api.Music.radio.detail(item.id,(rs)=>{
+                                item.mainTrackId=rs.program.mainTrackId;
+                                item.url='https://music.163.com/song/media/outer/url?id='+item.mainTrackId+'.mp3';
+                                callback(this.NowPlay);
+                            });
+                            break;
+                    }
+                });
             },
             ChangeVolume(){
                 let media=this.$refs.audio;
@@ -244,20 +273,6 @@
                 }
                 renderFrame();
                 this.VisualState=false;
-            },
-            mateMusic(data){
-                this.$Api.Music.mateMusic({
-                    name: data.name
-                }, (rs) => {
-                    let cover=rs.cover;
-                    let lrc=rs.lrc.lyric||'[00:00.000] 暂无歌词';
-                    this.PlayList[data.count].picture=cover||this.$defaultAlbum;
-                    this.NowPlay.picture = cover|| this.$defaultAlbum;
-                    this.start(lrc,()=>{
-                        return this.$refs.audio.currentTime;
-                    });
-                    this.$emit('playing', this.NowPlay);
-                })
             },
             start(txt, callback) {
                 if (typeof(txt) !== 'string' || txt.length < 1 || typeof(callback) !== 'function') return; /* 停止前面执行的歌曲 */

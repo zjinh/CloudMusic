@@ -6,7 +6,6 @@
                 <p class="album-desp">歌曲数: {{albumData.size}}首</p>
                 <p class="album-desp">歌手: {{albumData.artist_text}}</p>
                 <ButtonArea class="album-control">
-<!--                    <button @click="subscribe" class="sf-icon-heart-o">{{albumData.subscribed?' 已':" "}}收藏({{$numberCount(albumData.bookCount)}})</button>-->
                     <button @click="downloadList" class="sf-icon-download">下载</button>
                 </ButtonArea>
             </div>
@@ -15,7 +14,7 @@
         <div class="cm-album-detail-main">
             <SongList v-show="nowType.type==='musicList'" :data="albumDetail.musicList" :loading="loading" @callback="playMusic"></SongList>
             <CommentList v-show="nowType.type==='comment'" :data="albumDetail.comment" type="album" :loading="loading"></CommentList>
-            <div class="cm-album-description" v-show="nowType.type==='description'">{{albumData.description}}</div>
+            <div class="cm-album-description" v-show="nowType.type==='description'">{{albumData.description||'暂无数据'}}</div>
         </div>
         <BackToTop></BackToTop>
     </div>
@@ -85,10 +84,14 @@
                 if(this.$route.query.data) {
                     this.albumData = JSON.parse(this.$route.query.data);
                     this.albumData.publishTime=new Date(this.albumData.publishTime).format('yyyy-MM-dd');
-                    let artist_text='';
-                    this.albumData.artists.forEach((item,index)=>{
-                        artist_text=artist_text+item.name+(index!==this.albumData.artists.length-1?'/':'')
-                    });
+                    let artist_text=this.albumData.artist.name;
+                    if(this.albumData.artists) {
+                        this.albumData.artists.forEach((item, index) => {
+                            artist_text = artist_text + item.name + (index !== this.albumData.artists.length - 1 ? '/' : '')
+                        });
+                    }else{
+                        this.albumData.blurPicUrl=this.albumData.artist.picUrl;
+                    }
                     this.albumData.artist_text=artist_text;
                 }
                 for(let i in this.albumDetail){

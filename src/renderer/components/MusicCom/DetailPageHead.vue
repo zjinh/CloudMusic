@@ -1,6 +1,6 @@
 <template>
     <div class="cm-page-detail-head">
-        <img :src="poster" alt="" class="poster">
+        <img :src="poster" alt="" class="poster" draggable="false">
         <div class="content">
             <div class="content-head">
                 <div class="tag">{{tag}}</div>
@@ -38,6 +38,11 @@
                         poster:"blurPicUrl",
                         alias:"alias",
                         tag:"专辑",
+                        name:"name"
+                    },
+                    radio:{
+                        poster:"picUrl",
+                        tag:"电台",
                         name:"name"
                     }
                 },

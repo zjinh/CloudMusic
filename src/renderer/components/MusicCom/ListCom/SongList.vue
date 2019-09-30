@@ -31,7 +31,7 @@
                     {{FileSize(item.size)}}
                 </span>
                 <span class="control">
-                    <button class="sf-icon-youtube-play" v-if="item.mvid"></button>
+                    <button class="sf-icon-youtube-play" @click.stop="playMv(item)" v-if="item.mvid"></button>
                 </span>
             </li>
         </ul>
@@ -87,6 +87,14 @@
                 if(element.scrollHeight - element.scrollTop === element.clientHeight){
                     this.$emit('scroll-end')
                 }
+            },
+            playMv(item){
+                this.$router.push({
+                    path:'/video-detail/'+(item.mvid),
+                    query:{
+                        data:JSON.stringify(item)
+                    }
+                });
             }
         },
     }
