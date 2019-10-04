@@ -85,7 +85,7 @@
                     this.albumData = JSON.parse(this.$route.query.data);
                     this.albumData.publishTime=new Date(this.albumData.publishTime).format('yyyy-MM-dd');
                     let artist_text=this.albumData.artist.name;
-                    if(this.albumData.artists) {
+                    if(this.albumData.artists&&!artist_text) {
                         this.albumData.artists.forEach((item, index) => {
                             artist_text = artist_text + item.name + (index !== this.albumData.artists.length - 1 ? '/' : '')
                         });

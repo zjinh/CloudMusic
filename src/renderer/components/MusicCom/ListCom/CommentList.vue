@@ -1,5 +1,6 @@
 <template>
     <div class="cm-comment-container" id="comment">
+        <slot></slot>
         <div class="cm-comment-send-container">
             <div class="container">
                 <textarea v-model="commentContent"></textarea>
@@ -45,6 +46,7 @@
     export default {
         name: "ArtistList",
         props:{
+            _id:[Number,String],
             data:Array,
             type:String,
             loading:Boolean,
@@ -67,6 +69,7 @@
         },
         watch:{
             data:function () {
+                this.userId=this.$Api.User.UserId;
                 this.listData=this.handleCommentData(this.data)
             }
         },
@@ -99,7 +102,7 @@
             },
             thumbsUp(item,index){
                 this.$Api.Music.comment.like({
-                    id:this.$route.params.id,
+                    id:this._id||this.$route.params.id,
                     cid:item.commentId,
                     t:item.liked?0:1,
                     type:this.resourceType[this.type]
@@ -130,7 +133,7 @@
                     return this.$Message.warning('评论内容不能为空')
                 }
                 this.$Api.Music.comment.control({
-                    id:this.$route.params.id,
+                    id:this._id||this.$route.params.id,
                     t:this.commentType?2:1,//回复还是发送
                     content:this.commentContent,
                     commentId:this.commentType.commentId,
@@ -139,26 +142,32 @@
                     if(rs.code===200){
                         this.commentContent='';
                         this.$Message.success('评论发布成功');
-                        this.listData.push(rs.comment)
+                        this.listData.unshift(0,rs.comment)
                     }
                 },()=>{
                     this.$Message.error('评论发布失败');
                 })
             },
             deleteComment(item,index){
-                this.$Api.Music.comment.control({
-                    id:this.$route.params.id,
-                    t:0,//删除
-                    commentId:item.commentId,
-                    type:this.resourceType[this.type]
-                },(rs)=>{
-                    if(rs.code===200){
-                        this.$Message.success('评论删除成功');
-                        this.listData.splice(index,1)
+                this.Confrim({
+                    title:'删除评论',
+                    tips:'确认删除这条评论吗',
+                    callback:()=> {
+                        this.$Api.Music.comment.control({
+                            id:this._id||this.$route.params.id,
+                            t:0,//删除
+                            commentId:item.commentId,
+                            type:this.resourceType[this.type]
+                        },(rs)=>{
+                            if(rs.code===200){
+                                this.$Message.success('评论删除成功');
+                                this.listData.splice(index,1)
+                            }
+                        },()=>{
+                            this.$Message.error('评论删除失败');
+                        })
                     }
-                },()=>{
-                    this.$Message.error('评论删除失败');
-                })
+                });
             }
         }
     }
@@ -169,6 +178,7 @@
         width: 100%;
         height: 100%;
         position: relative;
+        border-radius: 5px;
     }
     .cm-comment-send-container{
         width: 96%;
@@ -177,8 +187,8 @@
         padding: 15px 20px;
         background: #f3f3f3;
         margin: 20px auto;
+        border-radius: 5px;
     }
-
     .cm-comment-send-container .container textarea{
         width: 100%;
         height: 120px;
@@ -186,6 +196,11 @@
         padding: 10px;
         color: #8a8a8a;
         resize: none;
+        background: rgba(255,255,255,.5);
+        border-radius: 5px;
+    }
+    .cm-comment-send-container .container textarea:focus{
+        border: 1px solid #e56464;
     }
     .cm-comment-send-container .control .tips{
         float: left;
@@ -200,7 +215,7 @@
     }
     .cm-comment-send-container .control button{
         float: right;
-        padding: 5px 10px;
+        padding: 5px 15px;
         background: #fff;
         border: 1px solid #eee;
         border-radius: 3px;
@@ -219,6 +234,7 @@
         min-height: 330px;
         margin-top: 10px;
         overflow: auto;
+        padding-bottom: 30px;
     }
     .cm-comment-list li{
         width: 100%;
@@ -254,7 +270,7 @@
         justify-content: space-between;
     }
     .cm-comment-line .main .time{
-        color: #b9b9b9;
+        color: #6b6b6b;
     }
     .cm-comment-line .main .user{
         color: #e56464;
@@ -263,7 +279,7 @@
     .cm-comment-line .main button{
         background: none;
         margin-left: 10px;
-        color: #b9b9b9;
+        color: #6b6b6b;
     }
     .cm-comment-line .main button:hover{
         color: #333;

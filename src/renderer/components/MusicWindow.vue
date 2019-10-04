@@ -13,7 +13,7 @@
                 </transition>
             </section>
         </section>
-        <FullPlayer ref="fully" :analyser="analyser" :PlayList="PlayList" :NowPlay="NowPlay" :playState="playState" @control="playerControl" :style="{top:showFull?'0':'100%'}" ></FullPlayer>
+        <FullPlayer ref="fully" :analyser="analyser" :PlayList="PlayList" :NowPlay="NowPlay" :playState="playState" :style="{top:showFull?'0':'100%'}" ></FullPlayer>
         <PlayerControl ref="player" :analyser="analyser" :PlayList="PlayList" @playing="playing" @full="playerControl" @playState="playStateUpdate" :style="{height:PlayList.length?'60px':0}"></PlayerControl>
         <BlurBackground :url="NowPlay.picture" :style="{height:PlayList.length?'60px':0}"></BlurBackground>
     </div>
@@ -46,11 +46,17 @@
                     }
                     this.PlayList=playlist;
                 },
+                playerControl:(data)=>{
+                    this.playerControl(data)
+                },
                 fullControl:(flag)=>{
                     this.showFull=flag!==undefined?flag:!this.showFull;
                 },
                 menuControl:(flag)=>{
                     this.fullPage=flag!==undefined?flag:!this.fullPage;
+                },
+                isFull:()=>{
+                    return this.showFull
                 }
             }
         },

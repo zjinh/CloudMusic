@@ -24,7 +24,7 @@
     color: #fff;
 }
 #cm-full-music-lrc-list{
-    height: calc(100% - 50px);
+    height:calc(100% - 70px);
     color: #cecece;
     font-size: 14px;
     overflow: scroll;
@@ -43,4 +43,13 @@
     color: #fff;
     font-size: 16px;
     font-weight: bold;
+}
+.cm-full-player-comment .cm-comment-list .cm-comment-line .main .content .reply{
+    background: none!important;
+}
+.cm-full-player-comment .cm-comment-list .cm-comment-line .main button,.cm-full-player-comment .cm-comment-list .cm-comment-line .main .time{
+    color:#dedede;
+}
+.cm-full-player-comment .cm-comment-send-container{
+    background: rgba(255,255,255,.1)!important;
 }

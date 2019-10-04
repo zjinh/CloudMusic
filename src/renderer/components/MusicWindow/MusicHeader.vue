@@ -1,7 +1,7 @@
 <template>
     <div class="cm-right-head">
         <div :class="'cm-right-round '+(full?'full':'')">
-            <button class="sf-icon-angle-left" @click="$router.back()"></button>
+            <button class="sf-icon-angle-left" @click="navBack"></button>
             <button class="sf-icon-angle-right" @click="$router.forward()"></button>
         </div>
         <div :class="'cm-right-search-main '+(full?'full':'')">
@@ -77,7 +77,7 @@
     import BlurBackground from "../MusicWindow/BlurBackground"
     export default {
         name: "DiskHeader",
-        inject:['playMusic'],
+        inject:['playMusic','fullControl','isFull'],
         components:{
             BlurBackground
         },
@@ -137,18 +137,18 @@
             },
             SystemDropDown (command) {
                 this.LastCommand=command;
-                if(command!=='switch'&&command!=='exit') {
+                if(command!=='logoff'&&command!=='exit') {
                     this.$ipc.send('system', command,command==='account'?this.UserInfo:"");
                 }else{
                     let tips='',type='';
-                    type=(command==='switch'?'切换':'退出');
+                    type=(command==='logoff'?'登出':'退出');
                     if(this.count>0){
                         tips=this.count+'个传输任务未完成，'+type+'将暂停传输<br>'
                     }
                     switch (command){
-                        case 'switch':
+                        case 'logoff':
                             this.Confrim({
-                                title:'切换账号',
+                                title:'退出账号',
                                 tips:tips+'确认退出当前账号吗',
                                 callback:()=> {
                                     this.QuitFlag=true;
@@ -221,13 +221,18 @@
                 });
             },
             searchAlbum(item){
-                console.log(item)
                 this.$router.push({
                     path:'/album-detail/'+item.id,
                     query:{
                         data:JSON.stringify(item)
                     }
                 });
+            },
+            navBack(){
+                if(this.isFull()){
+                    return this.fullControl(false)
+                }
+                this.$router.back()
             }
         }
     }

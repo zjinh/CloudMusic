@@ -27,6 +27,25 @@ export default {
             error:error
         })
     },
+    getRecommendPlayList(callback,error){
+        Ajax({
+            url:"/open/netase/recommend/resource",
+            success:callback,
+            error:error
+        })
+    },
+    getRecommendNEWSong(callback,error){
+        Ajax({
+            url:"/open/netase/personalized/newsong",
+            success:(rs)=>{
+                rs.result.forEach((item,index)=>{
+                    rs.result[index]=item.song
+                });
+                callback(rs)
+            },
+            error:error
+        })
+    },
     getRecommendSong(callback,error){
         Ajax({
             url:"/open/netase/recommend/songs",
@@ -90,6 +109,39 @@ export default {
             error: error
         })
     },
+    simiMusic(id,callback,error){
+        Ajax({
+            url: "/open/netase/simi/song",
+            method: "get",
+            data: {
+                id:id
+            },
+            success: callback,
+            error: error
+        })
+    },
+    simiPlayList(id,callback,error){
+        Ajax({
+            url: "/open/netase/simi/playlist",
+            method: "get",
+            data: {
+                id:id
+            },
+            success: callback,
+            error: error
+        })
+    },
+    simiUser(id,callback,error){
+        Ajax({
+            url: "/open/netase/simi/user",
+            method: "get",
+            data: {
+                id:id
+            },
+            success: callback,
+            error: error
+        })
+    },
     artist: {
         detail(id, callback, error) {
             Ajax({
@@ -108,7 +160,8 @@ export default {
                 method: "get",
                 data: {
                     id: id,
-                    offset:offset
+                    limit:50,
+                    offset:offset*50
                 },
                 success: callback,
                 error: error
@@ -120,8 +173,8 @@ export default {
                 method: "get",
                 data: {
                     id: id,
-                    offset:offset,
                     limit:50,
+                    offset:offset*50,
                 },
                 success: callback,
                 error: error
@@ -133,8 +186,8 @@ export default {
                 method: "get",
                 data: {
                     id: id,
-                    offset:offset,
                     limit:50,
+                    offset:offset*50,
                 },
                 success: callback,
                 error: error
@@ -156,9 +209,9 @@ export default {
                 url: "/open/netase/playlist/subscribers",
                 method: "get",
                 data: {
-                    limit:30,
-                    offset:offset,
-                    id:id
+                    id:id,
+                    limit:50,
+                    offset:offset*50,
                 },
                 success: callback,
                 error: error
@@ -169,9 +222,9 @@ export default {
                 url: "/open/netase/playlist/detail",
                 method: "get",
                 data: {
+                    id:id,
                     limit:50,
-                    offset:offset,
-                    id:id
+                    offset:offset*50,
                 },
                 success: callback,
                 error: error
@@ -182,9 +235,9 @@ export default {
                 url: "/open/netase/comment/playlist",
                 method: "get",
                 data: {
+                    id:id,
                     limit:200,
-                    offset:offset,
-                    id:id
+                    offset:page*200,
                 },
                 success: callback,
                 error: error
@@ -197,9 +250,9 @@ export default {
                 url: "/open/netase/album",
                 method: "get",
                 data: {
+                    id:id,
                     limit:50,
-                    offset:offset,
-                    id:id
+                    offset:offset*50,
                 },
                 success: callback,
                 error: error
@@ -211,7 +264,7 @@ export default {
                 method: "get",
                 data: {
                     limit:200,
-                    offset:offset,
+                    offset:offset*200,
                     id:id
                 },
                 success: callback,
@@ -265,7 +318,7 @@ export default {
                 method: "get",
                 data: {
                     limit:200,
-                    offset:offset,
+                    offset:offset*200,
                     id:id
                 },
                 success: callback,
@@ -313,7 +366,7 @@ export default {
                 method: "get",
                 data: {
                     limit:200,
-                    offset:offset,
+                    offset:offset*200,
                     id:id
                 },
                 success: callback,
@@ -379,7 +432,22 @@ export default {
                 method: "get",
                 data: {
                     limit:200,
-                    offset:offset,
+                    offset:offset*200,
+                    id:id
+                },
+                success: callback,
+                error: error
+            })
+        }
+    },
+    song:{
+        comment(id,offset,callback,error){
+            Ajax({
+                url: "/open/netase/comment/music",
+                method: "get",
+                data: {
+                    limit:200,
+                    offset:offset*200,
                     id:id
                 },
                 success: callback,

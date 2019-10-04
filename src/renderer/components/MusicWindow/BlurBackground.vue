@@ -26,7 +26,7 @@
         left: 0;
         bottom: 0;
         position: absolute;
-        z-index: 2;
+        z-index: 0;
         background-repeat: no-repeat!important;
         background-size: cover!important;
         overflow:hidden;

@@ -95,18 +95,9 @@ Vue.component('Tooltip', Tooltip);
 Vue.component('Dropdown', Dropdown);
 Vue.component('DropdownMenu', DropdownMenu);
 Vue.component('DropdownItem', DropdownItem);
-Vue.component('Input', Input);
-Vue.component('InputNumber', InputNumber);
-Vue.component('RadioGroup', RadioGroup);
-Vue.component('Radio', Radio);
 Vue.component('Time', Time);
-Vue.component('Select', Select);
-Vue.component('Option', Option);
-Vue.component('DatePicker', DatePicker);
 Vue.component('Message',Message);
 Vue.prototype.$Message=Message;
-Vue.component('Icon',Icon);
-Vue.component('Spin',Spin);
 Vue.component('Progress',Progress);
 Vue.prototype.$IVIEW = {};
 //引入element的部分组件
@@ -203,6 +194,7 @@ Vue.handleListData = Vue.prototype.$handleListData =(data)=>{
         list={
             id:item.id,
             artistId:artist[0].id,
+            picture:album.picUrl||'',
             type:"online",
             title:item.name,
             name:item.name,

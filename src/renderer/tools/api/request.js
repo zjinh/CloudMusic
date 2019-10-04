@@ -9,6 +9,9 @@ axios.interceptors.response.use(function (response) {
 function severAddress() {
     return 'https://api.zjinh.cn'
 }
+function updateServer() {
+    return 'https://update.zjinh.cn/c-music'
+}
 let paramHandel = {
     removeKey: ['_index', '_rowKey', '_disabled', '_checked'],
     param(obj) {
@@ -53,5 +56,5 @@ function Ajax(options) {
     });
 }
 export {
-    Ajax,severAddress
+    Ajax,severAddress,updateServer
 }

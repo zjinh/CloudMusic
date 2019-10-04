@@ -35,7 +35,7 @@
     import VideoList from "../MusicCom/ListCom/VideoList";
     export default {
         name: "VideoDetail",
-        inject:['menuControl'],
+        inject:['menuControl','playerControl'],
         components:{
             VideoPlayer,CommentList,VideoList
         },
@@ -71,7 +71,10 @@
                     this.videoType='mv';
                 }
                 this.videoData=JSON.parse(this.$route.query.data);
-                console.log(this.videoData)
+                let media=document.getElementById('audio');
+                if(!media.paused) {
+                    this.playerControl('play');
+                }
                 this.getUrl();
                 this.getDetail();
                 this.getRelatedVideo();

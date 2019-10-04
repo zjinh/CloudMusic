@@ -167,9 +167,6 @@
                             this.PlayButtonState='sf-icon-play';
                             this.$ipc.send('player-control','play')
                         }
-                        if(this.VisualState) {
-                            this.Visual();
-                        }
                         break;
                 }
             },
@@ -198,6 +195,7 @@
                                 let lrc=rs.lrc.lyric||'[00:00.000] 暂无歌词';
                                 this.PlayList[data.count].picture=cover||this.$defaultAlbum;
                                 this.NowPlay.picture = cover|| this.$defaultAlbum;
+                                this.NowPlay.id=rs.song_id;
                                 this.start(lrc,()=>{
                                     return this.$refs.audio.currentTime;
                                 });
@@ -205,6 +203,8 @@
                             });
                             break;
                         case 'radio':
+                            document.getElementById('cm-full-music-lrc-list').innerHTML=this.NowPlay.data.description;
+                            document.getElementById(this.prefixid).innerHTML=this.NowPlay.data.description;
                             if(item.url){
                                 return callback(this.NowPlay);
                             }
@@ -350,7 +350,7 @@
                 if(lrc_List[pivot]) {
                     tmpobj[pivot].className+= ' animated slideInLeft ' + thisobj.hoverClass;
                     lrc_List[pivot].className=thisobj.hoverClass;
-                    tmp = lrc_List[pivot].offsetTop - lrc_List[pivot].parentNode.offsetTop - this.hoverTop;
+                    tmp = lrc_List[pivot].offsetTop - lrc_List[pivot].parentNode.offsetTop - this.hoverTop-30;
                     tmp = tmp > 0 ? tmp * 1 : 0;//如果不设置滚动条使用margin设置为-1
                     //lrc_List[pivot].parentNode.scrollTop = tmp;//这里可以用margintop
                     lrc_List[pivot].parentNode.scrollTo({
@@ -445,7 +445,7 @@
     .cm-control-button li{
         width: 30px;
         height: 30px;
-        color: #f306;
+        color: #fff6;
         text-align: center;
         line-height: 36px;
         border-radius: 100%;

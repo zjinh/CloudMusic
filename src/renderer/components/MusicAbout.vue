@@ -110,10 +110,15 @@
                             }
                         }
                     });
-                })
+                });
+                window.onbeforeunload=()=>{
+                    if(this.percent>0&&this.percent!==100){
+                        return false
+                    }
+                };
             },
             checkUpdate () {
-                this.$ipc.send('system','check-for-update','https://update.zjinh.cn/c-music'/*localStorage.server*/);
+                this.$ipc.send('system','check-for-update',this.$Api.Public.updateServer());
                 this.loading = true;
             },
             close() {

@@ -123,19 +123,19 @@
                 this.$Api.Music.search({
                     keywords:this.$route.params.keywords,
                     type:this.nowSearchType[1],
-                    offset:page
+                    limit:50,
+                    offset:(page)*50
                 },(rs)=>{
                     this.loading=false;
                     let data=rs.result[type]||[];
                     let countType=type.substring(0,type.length-1)+'Count';//拼接记录总数的key
-                    this.searchParams[type].count=rs.result[countType]||rs.result[type+'Count'];//获取有搜索结果长度
                     this.searchParams[type].page=page;//记录页数
                     if(page===0){
+                        this.searchParams[type].count=rs.result[countType]||rs.result[type+'Count'];//获取有搜索结果长度
                         this.searchResult[type]=data;
                     }else{
                         this.searchResult[type] = [...this.searchResult[type],...data];
                     }
-                    console.log(data)
                 })
             },
             loadMore(){
