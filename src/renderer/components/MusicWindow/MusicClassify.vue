@@ -5,17 +5,17 @@
             <span><img class="logo-text" :src="$static+'/img/logo/c-music-white.png'" alt=""></span>
             <p>愿每个人都被时光温柔以待</p>
         </div>
-        <ul class="cm-left-menu">
-            <li v-for="(item,index) in ClassifyMenuData" ripple :class="item.active" @click="change(index)">
-                <i :class="item.icon"></i>{{item.name}}<div v-show="item.count>0">{{item.count}}</div>
-            </li>
-            <div class="cm-left-bottom">
-                <div class="tower" :style="{background:'url('+TowerSrc+')'}"></div>
-                <section v-show="show">
-                    <div class="cm-select-tips"></div>
-                </section>
+        <div class="cm-left-menu">
+            <div class="cm-left-menu-container" v-for="(item,index) in MenuData">
+                <p>{{item.name}}</p>
+                <ul>
+                    <li v-for="(menu,m_index) in item.children" ripple :class="menu.active" @click="change(index,m_index)">
+                        <span class="sf-icon-music" v-if="index===2&&menu.icon==='sf-icon-bars'"></span>
+                        <i :class="menu.icon"></i>{{menu.name}}<div v-show="menu.count>0">{{menu.count}}</div>
+                    </li>
+                </ul>
             </div>
-        </ul>
+        </div>
     </section>
 </template>
 
@@ -40,26 +40,31 @@
             }
         },
         beforeMount(){
-            setInterval(() => {
-                this.background();
-            }, 1000);
+            let time=setInterval(()=>{
+                if(this.$Api.User.UserId) {
+                    clearInterval(time);
+                    this.getUserPlayList();
+                }
+            },500)
         },
         data(){
             return{
                 MenuData:[
                     {
-                        name:"探索",
+                        name:"发现音乐",
                         children:[
                             {
-                                name:"发现音乐",
+                                name:"今日推荐",
                                 icon:"sf-icon-music",
+                                data:"/discover",
                                 active:'active'
                             },
                             {
                                 name:"私人FM",
-                                icon:"sf-icon-music",
-                                active:'active'
-                            }
+                                icon:" sf-icon-scrubber",
+                                data:"/fm",
+                                active:''
+                            },
                         ],
                     },
                     {
@@ -67,18 +72,33 @@
                         children:[
                             {
                                 name:"本地音乐",
-                                icon:"sf-icon-music",
-                                active:'active'
+                                icon:"sf-icon-hdd",
+                                data:"/local",
+                                active:''
                             },
                             {
                                 name:"下载管理",
-                                icon:"sf-icon-music",
-                                active:'active'
+                                icon:"sf-icon-download",
+                                data:"/download",
+                                active:''
                             },
                             {
                                 name:"播放历史",
-                                icon:"sf-icon-history",
-                                active:'active'
+                                icon:"sf-icon-clock",
+                                data:"/history",
+                                active:''
+                            },
+                            {
+                                name:"我的电台",
+                                icon:"sf-icon-bullseye",
+                                data:"",
+                                active:''
+                            },
+                            {
+                                name:"我的收藏",
+                                icon:"sf-icon-star-o",
+                                data:"",
+                                active:''
                             }
                         ],
                     },
@@ -87,93 +107,45 @@
                         children:[
                             {
                                 name:"我喜欢的音乐",
-                                icon:"sf-icon-music",
-                                active:'active'
+                                icon:"sf-icon-heart-o",
+                                active:''
                             }
                         ],
                     },
                 ],
-                ClassifyMenuData:[
-                    {
-                        name:"发现音乐",
-                        icon:"sf-icon-music",
-                        data:"/discover",
-                        active:'active'
-                    },
-                    {
-                        name:"私人FM",
-                        icon:" sf-icon-scrubber",
-                        data:"/fm",
-                        active:''
-                    },
-                    {
-                        name:"本地音乐",
-                        icon:"sf-icon-music",
-                        data:"/local",
-                        active:''
-                    },
-                    {
-                        name:"下载管理",
-                        icon:"sf-icon-download",
-                        active:''
-                    },
-                    {
-                        name:"播放历史",
-                        icon:"sf-icon-redo",
-                        active:''
-                    },
-                    {
-                        name:"我喜欢的音乐",
-                        icon:"sf-icon-heart-o",
-                        active:''
-                    }
-                ],
-                /*自动切换背景*/
-                TowerSrc: require('../../../../static/img/bg/Autumn-bottom-1.png'),
             }
         },
         methods:{
-            background(){
-                let season = 'Spring';
-                let tag = 0;
-                let D = new Date();
-                let month = D.getMonth()+1;
-                let hHour = D.getHours();
-                if (month > 2 && month < 6) {
-                    season = 'Spring'
-                } else if (month > 5 && month < 9) {
-                    season = 'Summer';
-                } else if (month > 8 && month < 12) {
-                    season = 'Autumn'
-                } else if (month === 12 || month === 1 || month === 2) {
-                    season = 'Winter'
-                }
-                if (hHour >= 1 && hHour <= 8) {
-                    tag = 0;
-                } else if (hHour > 8 && hHour <= 16) {
-                    tag = 1
-                } else if (hHour > 16 && hHour <= 18) {
-                    tag = 2
-                } else if (hHour > 18 && hHour <= 24) {
-                    tag = 3
-                }
-                this.TowerSrc = require('../../../../static/img/bg/'+ season + '-bottom-' + tag +  '.png');
-            },
-            change(index) {
+            change(index,m_index) {
                 this.$router.push({
-                    path:this.ClassifyMenuData[index].data
+                    path:this.MenuData[index].children[m_index].data
                 });
             },
             getNowRoute(){
-                this.ClassifyMenuData.forEach(function (item) {
-                    item.active = false
+                this.MenuData.forEach(function (item) {
+                    item.children.forEach((menu)=>{
+                        menu.active = false
+                    })
                 });
-                for (let i = 0; i < this.ClassifyMenuData.length; i++) {
-                    if (this.$route.path === this.ClassifyMenuData[i].data) {
-                        this.$set(this.ClassifyMenuData[i],'active','active');
+                for (let i = 0; i < this.MenuData.length; i++) {
+                    for(let j=0;j<this.MenuData[i].children.length;j++){
+                        if (this.$route.path === this.MenuData[i].children[j].data) {
+                            this.$set(this.MenuData[i].children[j],'active','active');
+                        }
                     }
                 }
             },
+            getUserPlayList(){
+                this.$Api.Music.getUserPlayList(this.$Api.User.UserId,(rs)=>{
+                    rs.playlist.forEach((item)=>{
+                        item.data='/user-playlist/'+item.id;
+                        item.active=false;
+                        item.icon=item.privacy===10?'sf-icon-lock-alt':(item.specialType===5?'sf-icon-heart-o':'sf-icon-bars');
+                    });
+                    console.log(rs.playlist)
+                    this.MenuData[2].children=rs.playlist;
+                })
+            }
         }
     }
 </script>
@@ -230,18 +202,28 @@
     }
     .cm-left-menu li{
         width: 100%;
-        height: 35px;
-        line-height: 35px;
+        height: 32px;
+        line-height: 32px;
         cursor: pointer;
-        font-size: 14px;
-        margin: 8px auto;
+        font-size: 12.5px;
+        margin-top: 5px;
         color: #39585a;
+        position: relative;
         border-left: 4px solid rgba(0,0,0,0);
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
     .cm-left-menu li:hover,.cm-left-menu .active{
         color: #e56464!important;
         background-color: #EAECF0;
         border-left: 4px solid #e56464;
+    }
+    .cm-left-menu li span{
+        position: absolute;
+        width: 12px;
+        font-size: 20px;
+        left: 16px;
+        top: 7px;
     }
     .cm-left-menu i{
         float: left;
@@ -250,28 +232,23 @@
         display: block;
         text-align: center;
         line-height: 35px;
-        font-size: 16px;
-        margin-right: 12px;
+        font-size: 14px;
+        margin-right: 2px;
+    }
+    .cm-left-menu .sf-icon-bars{
+        font-size: 12px;
+        text-indent: -5px;
     }
     .cm-left-menu li div{
         float: right;
         padding: 0 6px;
     }
-    /*底部*/
-    .cm-left-bottom{
-        width: 200px;
-        height: 134px;
-        position: absolute;
-        bottom: 0;
+    .cm-left-menu-container p{
+        font-size: 12px;
+        color: #484848;
         font-weight: normal;
-    }
-    .cm-left-bottom .tower{
-        width: 110px;
-        height: 100%;
-        background-size: cover!important;
-        -webkit-transition: background 0.4s ease-in-out;
-        -moz-transition: background 0.4s ease-in-out;
-        -o-transition: background 0.4s ease-in-out;
-        transition: background 0.4s ease-in-out;
+        text-indent: 10px;
+        line-height: 25px;
+        padding-top: 5px;
     }
 </style>

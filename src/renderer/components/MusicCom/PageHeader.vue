@@ -33,7 +33,7 @@
         display: inline-block;
     }
     .cm-page-head .title{
-        font-size: 15px;
+        font-size: 16px;
         color: #e56464;
         font-weight: bold;
     }

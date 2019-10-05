@@ -135,7 +135,6 @@
 
 <style scoped>
     .cm-page-main{
-        overflow: auto;
         background: #fff;
         z-index: 4;
     }

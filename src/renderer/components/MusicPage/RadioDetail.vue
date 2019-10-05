@@ -142,9 +142,6 @@
 </script>
 
 <style scoped>
-    .cm-page-main{
-        overflow: auto;
-    }
     .cm-radio-detail-main{
         width: 100%;
     }

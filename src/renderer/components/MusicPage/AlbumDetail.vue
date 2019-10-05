@@ -167,9 +167,6 @@
 </script>
 
 <style scoped>
-    .cm-page-main{
-        overflow: auto;
-    }
     .cm-album-detail-main{
         width: 100%;
     }

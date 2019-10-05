@@ -191,6 +191,7 @@ button[disabled="disabled"]{
 	height: 100%;
 	padding: 15px;
 	position: relative;
+	overflow: auto;
 }
 /*滚动条*/
 *::-webkit-scrollbar{

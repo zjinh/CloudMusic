@@ -131,9 +131,6 @@
 </script>
 
 <style scoped>
-    .cm-page-main{
-        overflow: auto;
-    }
     .cm-artist-detail-main{
         width: 100%;
     }

@@ -78,6 +78,17 @@ export default {
             error:error
         })
     },
+    getUserPlayList(id,callback,error){
+        Ajax({
+            url:"/open/netase/user/playlist",
+            method:"get",
+            data:{
+                uid:id,
+            },
+            success:callback,
+            error:error
+        })
+    },
     search(data,callback,error){
         Ajax({
             url:"/open/netase/search",

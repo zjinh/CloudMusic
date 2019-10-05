@@ -160,9 +160,6 @@
 </script>
 
 <style scoped>
-    .cm-page-main{
-        overflow: auto;
-    }
     .cm-playlist-detail-main{
         width: 100%;
     }

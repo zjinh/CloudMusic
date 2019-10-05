@@ -1,7 +1,8 @@
 <template>
     <div class="cm-page-main">
         <PageHeader title="本地音乐" :count="localMusic.length" prefix="歌曲">
-            <button @click="changeDir" class="cm-dir-button">选择目录</button>
+            <button @click="scanLocalMusic" class="cm-dir-button">重新扫描</button>
+            /<button @click="changeDir" class="cm-dir-button">选择目录</button>
         </PageHeader>
         <div class="cm-local-list">
             <SongList :data="localMusic" type="local" :loading="loading" @callback="playMusic"></SongList>
@@ -134,6 +135,5 @@
     }
     .cm-local-list{
         width: 100%;
-        height: calc(100% - 30px);
     }
 </style>

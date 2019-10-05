@@ -27,6 +27,21 @@ export default new Router({
           component: require('@/components/MusicPage/LocalMusic.vue').default
         },
         {
+          path: '/download',
+          name: 'download',
+          component: require('@/components/MusicPage/DownloadPage.vue').default
+        },
+        {
+          path: '/history',
+          name: 'history',
+          component: require('@/components/MusicPage/PlayHistory.vue').default
+        },
+        {
+          path: '/user-playlist/:id',
+          name: 'user-playlist',
+          component: require('@/components/MusicPage/UserPlayList.vue').default
+        },
+        {
           path: '/search/:keywords',
           name: 'search',
           component: require('@/components/MusicPage/SearchPage.vue').default
