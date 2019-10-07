@@ -248,7 +248,7 @@ export default {
                 data: {
                     id:id,
                     limit:200,
-                    offset:page*200,
+                    offset:offset*200,
                 },
                 success: callback,
                 error: error

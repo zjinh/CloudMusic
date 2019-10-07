@@ -79,7 +79,7 @@
                 return this.PlayList.length?'calc(100% - 60px)':'100%'
             },
             routerKey(){
-                if(this.$route.path.Exist('artist-detail')){
+                if(this.$route.path.Exist('artist-detail,user-playlist')){
                     return new Date().getTime();
                 }
                 return false
