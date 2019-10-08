@@ -24,13 +24,13 @@
             }
         },
         created(){
+            this.localDir=localStorage.localDir;
             this.$Api.LocalFile.read('local-music',(data)=>{
                 if(data.length){
                     this.localMusic=data;
                     this.loading=false;
                 }else{
-                    if(localStorage.localDir!==undefined){
-                        this.localDir=localStorage.localDir;
+                    if(this.localDir==='undefined'||this.localDir===''){
                         this.scanLocalMusic();
                     }else{
                         this.$Message.info('请选择本地音乐目录');
@@ -47,6 +47,7 @@
                 const folderPath = this.localDir;
                 fs.readdir(folderPath, (err, files) => {
                     if (err) {
+                        this.loading=false;
                         return this.$Message.error('对不起，无法检索该目录');
                     }
                     localStorage.localDir=this.localDir;
@@ -69,6 +70,7 @@
             displayFiles(err, files) {
                 // 该函数的作用是显示文件列表信息
                 if (err) {
+                    this.loading=false;
                     return this.$Message.error('对不起，无法检索该目录下的文件');
                 }
                 let count=0;

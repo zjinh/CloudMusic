@@ -57,6 +57,9 @@
                 },
                 isFull:()=>{
                     return this.showFull
+                },
+                nowPlay:()=>{
+                    return this.NowPlay
                 }
             }
         },

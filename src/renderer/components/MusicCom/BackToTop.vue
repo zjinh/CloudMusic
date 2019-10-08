@@ -32,14 +32,14 @@
         width: 45px;
         height: 45px;
         position: fixed;
-        right: 30px;
         bottom: 80px;
+        right: 0;
         background: #e56464;
         color: #fff;
         text-align: center;
         font-size: 20px;
         line-height: 45px;
-        border-radius: 100px;
+        border-radius: 100px 0 0 100px;
         cursor: pointer;
     }
 </style>

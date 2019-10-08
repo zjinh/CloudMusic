@@ -39,7 +39,7 @@ export default new Router({
         {
           path: '/user-playlist/:id',
           name: 'user-playlist',
-          component: require('@/components/MusicPage/UserPlayList.vue').default
+          component: require('@/components/MusicPage/PlayListDetail.vue').default
         },
         {
           path: '/search/:keywords',
@@ -87,6 +87,11 @@ export default new Router({
       path: '/music-about/:version',
       name: 'MusicAbout',
       component: require('@/components/MusicAbout').default
+    },
+    {
+      path: '/lrc',
+      name: 'lrc',
+      component: require('@/components/LrcWindow').default
     },
     {
       path: '*',

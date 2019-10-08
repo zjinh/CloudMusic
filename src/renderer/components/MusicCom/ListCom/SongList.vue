@@ -17,6 +17,7 @@
                 <span class="num sf-icon-volume-up" v-else></span>
                 <span class="name">
                     {{item.title}}
+                    <button class="sf-icon-youtube-play" @click.stop="playMv(item)" v-if="item.mvid"></button>
                 </span>
                 <span class="singer">
                     {{item.artist}}
@@ -31,11 +32,14 @@
                     {{FileSize(item.size)}}
                 </span>
                 <span class="control">
-                    <button class="sf-icon-youtube-play" @click.stop="playMv(item)" v-if="item.mvid"></button>
+                    <button :class="item.like?'sf-icon-heart':'sf-icon-heart-o'" @click.stop="likeMusic(item,index)" v-if="type!=='local'"></button>
+                    <button class="sf-icon-plus"></button>
+                    <button class="sf-icon-download"></button>
+                    <button class="sf-icon-trash-alt" @click.stop="removeMusic(item,index)" v-if="type==='local'||playListData.creator.userId===$Api.User.UserId"></button>
                 </span>
             </li>
         </ul>
-        <NoData v-show="data.length===0&&!loading"></NoData>
+        <NoData v-show="listData.length===0&&!loading"></NoData>
         <loading v-show="loading"></loading>
     </div>
 </template>
@@ -44,6 +48,7 @@
     import media from "../../../tools/media";
     export default {
         name: "SongList",
+        inject:['nowPlay'],
         props:{
             data:Array,
             type:String,
@@ -51,16 +56,33 @@
         },
         data(){
             return{
-                listData:[]
+                listData:[],
+                playListData:{
+                    creator:{
+                        userId:""
+                    }
+                }
             }
         },
         watch:{
             data:function () {
+                if(this.data.length===0){
+                    return this.listData=[];
+                }
                 if(this.type==='local'){
                     this.listData=this.data;
                 }else {
-                    this.listData = this.$handleListData(this.data)
+                    if(this.$route.query.list) {
+                        this.playListData = JSON.parse(this.$route.query.list);
+                    }
+                    this.listData = this.$handleListData(this.data,this.playListData.id||'local',true)
                 }
+                this.listData.some((item,index)=>{
+                    if(item.id!==undefined&&item.id===this.nowPlay().id&&item.playList===this.nowPlay().playList){
+                        item.play='playing';
+                        this.$set(this.listData,index,item);
+                    }
+                })
             }
         },
         methods:{
@@ -95,6 +117,40 @@
                         data:JSON.stringify(item)
                     }
                 });
+            },
+            likeMusic(item,index){
+                this.$Api.Music.likeMusic({
+                    id:item.id,
+                    like:!item.like
+                },(rs)=>{
+                    if(rs.code===200){
+                        this.$Message.success(item.like?'已取消喜欢歌曲':'已添加至喜欢');
+                        if(item.like){
+                            this.listData.splice(index,1)
+                        }else{
+                            item.like=true;
+                        }
+                    }
+                })
+            },
+            removeMusic(item,index){
+                this.Confrim({
+                    title:'移除歌曲',
+                    tips:'确认将这首歌从歌单移除吗',
+                    callback:()=> {
+                        this.$Api.Music.removeMusicFromList({
+                            pid:this.$route.params.id,
+                            tracks:item.id
+                        },(rs)=>{
+                            if(rs.code===200){
+                                this.listData.splice(index,1);
+                                this.$emit('remove',rs.count);
+                            }else{
+                                this.$Message.error('删除失败')
+                            }
+                        })
+                    }
+                });
             }
         },
     }
@@ -126,35 +182,41 @@
         white-space: nowrap;
     }
     .cm-songlist li *{
-        color: #b9b9b9;
+        color: #888888;
     }
     .cm-songlist li .num,.cm-songlist-head .num{
         width: 50px;
         text-align: center;
     }
     .cm-songlist li .name,.cm-songlist-head .name{
-        width: calc(30% - 50px);
+        width: calc(40% - 50px);
         color: #333;
     }
     .cm-songlist li .singer,.cm-songlist-head .singer{
-        width: 15%;
+        width: calc(30% - 95px);
     }
     .cm-songlist li .album,.cm-songlist-head .album{
-        width: 15%;
+        width: calc(30% - 95px);
     }
     .cm-songlist li .size,.cm-songlist-head .size{
-        width: 10%;
+        width: 60px;
     }
     .cm-songlist li .time,.cm-songlist-head .time{
-        width: 10%;
+        width: 60px;
     }
     .cm-songlist li .control,.cm-songlist-head .control{
-        width: 20%;
+        width: 100px;
     }
-    .cm-songlist li .control button{
+    .cm-songlist li .control button,.cm-songlist li .name button{
         background: none;
-        color: #e56464;
         padding: 0 3px;
+        color: #737373;
+    }
+    .cm-songlist li .name .sf-icon-youtube-play,.cm-songlist li .control .sf-icon-youtube-play{
+        color: #e56464;
+    }
+    .cm-songlist li .control .sf-icon-heart{
+        color: #e56464;
     }
     .cm-songlist li:nth-child(odd){
         background: #f9f9f9;
@@ -163,6 +225,7 @@
         color: #e56464;
     }
     .cm-songlist li:hover,.playing{
+        color: #333333!important;
         background: #efefef!important;
     }
 </style>

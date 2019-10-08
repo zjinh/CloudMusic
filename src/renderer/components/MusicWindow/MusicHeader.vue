@@ -67,7 +67,7 @@
         <ul class="window-actions">
             <li class="sf-icon-cog"></li>
             <li class="sf-icon-minus" @click="mini"></li>
-            <li class="sf-icon-times" style="font-size:16px" @click="close"></li>
+            <li class="sf-icon-times" style="font-size:14px" @click="close"></li>
         </ul>
     </div>
 </template>
@@ -192,7 +192,7 @@
                     if(this.SearchSuggest !== 0 && this.SearchKey.length){
                         this.$Api.Music.searchSuggest(this.SearchKey,(rs)=>{
                             this.SearchSuggestResult=rs.result;
-                            this.SearchSuggestResult.songs=this.$handleListData(this.SearchSuggestResult.songs);
+                            this.SearchSuggestResult.songs=this.$handleListData(this.SearchSuggestResult.songs,'searchSuggest');
                             this.SearchSuggest=true;
                         })
                     }else{

@@ -5,20 +5,22 @@
                 <p class="playlist-desp">歌曲数:{{playlistData.trackCount}}首</p>
                 <p class="playlist-desp">播放数:{{$numberCount(playlistData.playCount)}}次</p>
                 <div class="playlist-author">
-                    by:<span>{{playlistData.creator.nickname}}</span>
+                    <img :src="playlistData.creator.avatarUrl" alt="">
+                    <span>{{playlistData.creator.nickname}}</span>
                 </div>
                 <ButtonArea class="playlist-control">
-                    <button @click="subscribe" :class="playlistData.subscribed?'sf-icon-heart':'sf-icon-heart-o'">{{playlistData.subscribed?' 已':" "}}收藏({{$numberCount(playlistData.bookCount)}})</button>
+                    <button class="sf-icon-play-circle" @click="playAll"> 播放全部</button>
+                    <button @click="subscribe" :disabled="this.$Api.User.UserId===playlistData.creator.userId" :class="playlistData.subscribed?'sf-icon-heart':'sf-icon-heart-o'">{{playlistData.subscribed?' 已':" "}}收藏({{$numberCount(playlistData.bookCount||playlistData.subscribedCount)}})</button>
                     <button @click="downloadList" class="sf-icon-download">下载</button>
                 </ButtonArea>
             </div>
             <div class="cm-playlist-content-50 playlist-desp2">
-                简介：{{playlistData.description}}
+                简介：{{playlistData.description||'暂无简介'}}
             </div>
         </DetailPageHead>
         <TabBar :data="playlistDataType" align="left" @select="tabBarChange"></TabBar>
         <div class="cm-playlist-detail-main">
-            <SongList v-show="nowType.type==='musicList'" :data="playListDetail.musicList" :loading="loading" @callback="playMusic"></SongList>
+            <SongList ref="songList" v-show="nowType.type==='musicList'" :data="playListDetail.musicList" :loading="loading" @callback="playMusic" @remove="removeCallback"></SongList>
             <CommentList v-show="nowType.type==='comment'" :data="playListDetail.comment" type="playlist" :loading="loading"></CommentList>
             <UserList v-show="nowType.type==='subscribers'" :data="playListDetail.subscribers"></UserList>
         </div>
@@ -91,8 +93,8 @@
         },
         methods:{
             init(){
-                if(this.$route.query.data) {
-                    this.playlistData = JSON.parse(this.$route.query.data);
+                if(this.$route.query.data||this.$route.query.list) {
+                    this.playlistData = JSON.parse(this.$route.query.data||this.$route.query.list);
                 }
                 for(let i in this.playListDetail){
                     this.playListDetail[i]=[];
@@ -117,6 +119,9 @@
                 },()=>{
                     this.$Message.error('出现错误，请稍后重试')
                 })
+            },
+            playAll(){
+                this.$refs.songList.clickToPlay(this.$refs.songList.listData[0],this.$refs.songList.listData)
             },
             downloadList(){
                 this.$Message.info('敬请期待')
@@ -154,6 +159,9 @@
                         this.getPlaylistData(this.playListDetailParams[type].page)
                     }
                 })
+            },
+            removeCallback(count){
+                this.playlistData.trackCount=count;
             }
         }
     }
@@ -181,8 +189,17 @@
     }
     .playlist-author{
         color: #929292;
+        display: flex;
+        justify-items: center;
+        align-items: center;
+    }
+    .playlist-author img{
+        width: 30px;
+        height: 30px;
+        border-radius: 100%;
     }
     .playlist-author span{
+        margin-left: 10px;
         color: #808080;
     }
     .playlist-desp2{

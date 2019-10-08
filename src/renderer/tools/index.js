@@ -180,7 +180,12 @@ Vue.getMusicInfo = Vue.prototype.$getMusicInfo =(file,cb)=>{
         }
     });
 };//音乐解析
-Vue.handleListData = Vue.prototype.$handleListData =(data)=>{
+Vue.handleListData = Vue.prototype.$handleListData =(data,parent,flag)=>{
+    if(flag) {
+        if(new Date().getTime() - Vue.likeList.time >= 2 * 60 * 1000) {
+            Vue.getLikeList();
+        }
+    }
     let _return=[];
     let list={};
     data.forEach((item,index)=>{
@@ -193,6 +198,10 @@ Vue.handleListData = Vue.prototype.$handleListData =(data)=>{
         });
         list={
             id:item.id,
+            playList:parent,
+            like:!!Vue.likeList.data.filter((like)=>{
+                return like===item.id
+            })[0],
             artistId:artist[0].id,
             picture:album.picUrl||'',
             type:"online",
@@ -224,3 +233,15 @@ Vue.numberCount = Vue.prototype.$numberCount =(count)=>{
     }
     return count;
 };
+Vue.likeList=Vue.prototype.$likeList={
+    data:[],
+    time:[]
+};
+Vue.getLikeList=Vue.prototype.$getLikeList=(callback)=>{
+    Api.Music.getLikeList((rs)=>{
+        Vue.likeList.data=rs.ids;
+        Vue.likeList.time=rs.checkPoint;
+        callback&&callback()
+    })
+};
+Vue.getLikeList();

@@ -10,7 +10,7 @@
                 <p>{{item.name}}</p>
                 <ul>
                     <li v-for="(menu,m_index) in item.children" ripple :class="menu.active" @click="change(index,m_index)">
-                        <span class="sf-icon-music" v-if="index===2&&menu.icon==='sf-icon-bars'"></span>
+                        <span class="sf-icon-music" v-if="index>1&&menu.icon==='sf-icon-bars'"></span>
                         <i :class="menu.icon"></i>{{menu.name}}<div v-show="menu.count>0">{{menu.count}}</div>
                     </li>
                 </ul>
@@ -112,13 +112,20 @@
                             }
                         ],
                     },
+                    {
+                        name:"收藏的歌单",
+                        children:[],
+                    },
                 ],
             }
         },
         methods:{
             change(index,m_index) {
                 this.$router.push({
-                    path:this.MenuData[index].children[m_index].data
+                    path:this.MenuData[index].children[m_index].data,
+                    query:index>1?{
+                        list:JSON.stringify(this.MenuData[index].children[m_index])
+                    }:{}
                 });
             },
             getNowRoute(){
@@ -142,8 +149,12 @@
                         item.active=false;
                         item.icon=item.privacy===10?'sf-icon-lock-alt':(item.specialType===5?'sf-icon-heart-o':'sf-icon-bars');
                     });
-                    console.log(rs.playlist)
-                    this.MenuData[2].children=rs.playlist;
+                    this.MenuData[2].children=rs.playlist.filter((item)=>{
+                        return item.creator.userId===this.$Api.User.UserId;
+                    });
+                    this.MenuData[3].children=rs.playlist.filter((item)=>{
+                        return item.creator.userId!==this.$Api.User.UserId;
+                    });
                 })
             }
         }

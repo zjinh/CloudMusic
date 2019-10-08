@@ -1,4 +1,5 @@
 import {Ajax} from "./request";
+import User from "./User";
 export default {
     Download:function (data,callback,error) {
         Ajax({
@@ -149,6 +150,51 @@ export default {
             data: {
                 id:id
             },
+            success: callback,
+            error: error
+        })
+    },
+    getLikeList(callback,error){
+        let time=setInterval(()=>{
+            if(User.UserId){
+                Ajax({
+                    url: "/open/netase/likelist",
+                    method: "get",
+                    data: {
+                        uid:User.UserId
+                    },
+                    success: callback,
+                    error: error
+                });
+                clearInterval(time)
+            }
+        },500);
+    },
+    likeMusic(data,callback,error){
+        Ajax({
+            url: "/open/netase/like",
+            method: "get",
+            data: data,
+            success: callback,
+            error: error
+        })
+    },
+    removeMusicFromList(data,callback,error){
+        data.op='del';
+        Ajax({
+            url: "/open/netase/playlist/tracks",
+            method: "get",
+            data: data,
+            success: callback,
+            error: error
+        })
+    },
+    addMusicToList(data,callback,error){
+        data.op='add';
+        Ajax({
+            url: "/open/netase/playlist/tracks",
+            method: "get",
+            data: data,
             success: callback,
             error: error
         })

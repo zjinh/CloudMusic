@@ -135,8 +135,10 @@
 
 <style scoped>
     .cm-page-main{
+        max-width: 1050px;
         background: #fff;
         z-index: 4;
+        margin: 0 auto;
     }
     .cm-video-detail-head{
         width: 100%;

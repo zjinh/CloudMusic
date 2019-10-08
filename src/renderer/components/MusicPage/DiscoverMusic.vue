@@ -66,7 +66,7 @@
             },
             getRecommendNewSong(){
                 this.$Api.Music.getRecommendNEWSong((rs)=>{
-                    rs.result=this.$handleListData(rs.result);
+                    rs.result=this.$handleListData(rs.result,'recommend');
                     this.RecommendNewSong=rs.result;
                     console.log(rs.result)
                 })

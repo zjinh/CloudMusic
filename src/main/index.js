@@ -9,7 +9,7 @@ if (process.env.NODE_ENV !== 'development') {
   global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
 }
 let version=require("../../package.json").version;
-let LoginWindow,MainWindow,PopupWindow,AboutWindow,AccountWindow,FeedBackWindow;
+let LoginWindow,MainWindow,PopupWindow,AboutWindow,AccountWindow,LrcWindow;
 /*播放按钮*/
 let PlayerIcon = path.join(__static, '/img/player');
 let NextBtn = nativeImage.createFromPath(path.join(PlayerIcon, 'next.png'));
@@ -247,6 +247,23 @@ let MusicSystem= {
       resizable:false,
       onclose:()=>{
         AccountWindow=null;
+      }
+    });
+  },
+  LrcWindow:()=>{
+    if(LrcWindow){
+      return WindowControl.Active(LrcWindow);
+    }
+    LrcWindow=WindowControl.New({
+      url:'lrc/',
+      title:'关于CloudMusic',
+      width: 666,
+      height: 110,
+      maximizable:false,
+      minimizable:false,
+      resizable:false,
+      onclose:()=>{
+        LrcWindow=null;
       }
     });
   },

@@ -171,7 +171,7 @@
             },
             getSimiMusic(){
                 this.$Api.Music.simiMusic(this.NowPlay.id,(rs)=>{
-                    rs.songs=this.$handleListData(rs.songs);
+                    rs.songs=this.$handleListData(rs.songs,'simiMusic');
                     this.simiMusicList=rs.songs;
                 })
             },
@@ -210,12 +210,9 @@
         top: 59px;
         z-index: 3;
     }
-    .cm-full-music-player .cm-back-to-top{
-        right: 0;
-        border-radius: 100px 0 0 100px;
-    }
     .cm-full-music-container{
         width: 90%;
+        max-width: 1050px;
         height: calc(100% - 120px);
         position: relative;
         z-index: 1;
@@ -229,6 +226,7 @@
         background: rgba(255,255,255,.2);
     }
     .cm-full-music-control-btn {
+        left: 60px;
         width: calc(100% - 120px);
         position: fixed;
         z-index: 1;
@@ -422,7 +420,7 @@
         position: absolute;
         left: 45px;
         bottom: 10px;
-        color: #c5c5c5;
+        color: #dedede;
         font-size: 12px;
     }
     .cm-full-simi-music li:hover,.cm-full-simi-user li:hover{
