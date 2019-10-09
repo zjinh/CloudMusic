@@ -125,11 +125,10 @@
                 },(rs)=>{
                     if(rs.code===200){
                         this.$Message.success(item.like?'已取消喜欢歌曲':'已添加至喜欢');
-                        if(item.like){
+                        if(JSON.parse(this.$route.query.data||'{}').specialType===5){
                             this.listData.splice(index,1)
-                        }else{
-                            item.like=true;
                         }
+                        item.like=!item.like;
                     }
                 })
             },

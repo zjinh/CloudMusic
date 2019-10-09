@@ -94,7 +94,9 @@
         created(){
             this.$ipc.on('win-data',(event,data)=>{
                 this.$Api.User.Login(data,()=>{
-                    this.login=true;
+                    this.$getLikeList(()=>{
+                        this.login=true;
+                    });
                     this.$Api.LocalFile.read('user',(data)=>{
                         if(data.userId){
                             this.$nextTick(()=>{
@@ -146,6 +148,7 @@
         -o-transition: all 350ms;
         -moz-transition: all 350ms;
         -webkit-transition: all 350ms;
+        position: relative;
     }
     .full-page{
         position: absolute;

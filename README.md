@@ -19,6 +19,7 @@ C-Music是一款简洁的音乐播放器。
 - ✨ MV在线播放
 - ✨ 音乐在线搜索
 - ✨ 本地音乐播放
+- ✨ 桌面歌词
 
 ## 🛠 使用的技术栈
 - [Electron](https://electronjs.org/)

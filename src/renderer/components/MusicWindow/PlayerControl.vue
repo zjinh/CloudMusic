@@ -29,9 +29,9 @@
         </div>
         <div id="cm-control-lrc"></div>
         <ul class="cm-play-mode">
-            <li :class="'sf-icon-random '+(playMethod==='random'?'active':'')" @click="playMethod='random'" ripple="" title="随机播放"></li>
-            <li :class="'sf-icon-repeat '+(playMethod==='repeat'?'active':'')" @click="playMethod='repeat'" ripple="" title="单曲循环"></li>
-            <li :class="'sf-icon-list '+(playMethod==='list'?'active':'')" @click="playMethod='list'" ripple="" title="顺序播放"></li>
+            <li :class="'sf-icon-random '+(playMethod==='random'?'active':'')" @click="changePlayMethod('random')" ripple="" title="随机播放"></li>
+            <li :class="'sf-icon-repeat '+(playMethod==='repeat'?'active':'')" @click="changePlayMethod('repeat')" ripple="" title="单曲循环"></li>
+            <li :class="'sf-icon-list '+(playMethod==='list'?'active':'')" @click="changePlayMethod('list')" ripple="" title="顺序播放"></li>
         </ul>
         <canvas width="600" height="240" id="canvas"></canvas>
         <audio ref="audio"
@@ -129,6 +129,7 @@
             this.$ipc.on('Play',()=>{
                 this.PlayerCommend('play')
             });
+            this.playMethod=(localStorage.playMethod===undefined?'list':localStorage.playMethod);
         },
         methods:{
             PlayerCommend(commend){
@@ -266,6 +267,10 @@
                 let media=this.$refs.audio;
                 this.TimeText=Media.secondDeal(media.currentTime);
                 this.ProcessWidth=Math.round(media.currentTime) / Math.round(media.duration) * 100 + "%";
+            },
+            changePlayMethod(method){
+                this.playMethod=method;
+                localStorage.playMethod=method;
             },
             Visual(){
                 let ctx=null;

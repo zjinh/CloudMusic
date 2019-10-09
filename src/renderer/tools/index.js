@@ -244,4 +244,3 @@ Vue.getLikeList=Vue.prototype.$getLikeList=(callback)=>{
         callback&&callback()
     })
 };
-Vue.getLikeList();
