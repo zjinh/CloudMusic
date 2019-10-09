@@ -71,13 +71,7 @@
                     this.videoType='mv';
                 }
                 this.videoData=JSON.parse(this.$route.query.data);
-                let media=document.getElementById('audio');
-                if(!media.paused) {
-                    this.playerControl('play');
-                }else{
-                    media.pause();
-                    this.playerControl('play');
-                }
+                this.playerControl('stop');
                 this.getUrl();
                 this.getDetail();
                 this.getRelatedVideo();

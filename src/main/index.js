@@ -379,16 +379,20 @@ function BindIpc() {
       case 'pause':
         MusicButtons[1].icon = PauseBtn;
         MusicButtons[1].tooltip='暂停';
+        MainWindow.setThumbarButtons(MusicButtons);
         break;
       case 'play':
         MusicButtons[1].icon =PlayBtn;
         MusicButtons[1].tooltip='播放';
+        MainWindow.setThumbarButtons(MusicButtons);
+        break;
+      case 'stop':
+        MainWindow.setThumbarButtons([]);
         break;
       case 'lrc':
         LrcWindow.webContents.send('data',data);
         break;
     }
-    MainWindow.setThumbarButtons(MusicButtons);
   });
   /*下载事件控制*/
   ipcMain.on('download',(event,type,data)=>{

@@ -37,7 +37,7 @@
         <audio ref="audio"
                id="audio"
                crossOrigin="anonymous"
-               @ended="PlayerCommend('next','end')"
+               @ended="PlayerCommend('end')"
                @timeupdate="MusicProcess"
                @error="PlayerCommend('next')"
                @durationchange="PlayButtonState='sf-icon-pause'"
@@ -131,12 +131,13 @@
             });
         },
         methods:{
-            PlayerCommend(commend,state){
+            PlayerCommend(commend){
                 if(!this.PlayList.length){
                     return
                 }
                 let NowCount=this.NowPlay.count;
                 let AllCount=this.PlayList.length;
+                let media=this.$refs.audio;
                 switch (commend) {
                     case 'prev':
                         if(NowCount!==0){
@@ -157,12 +158,7 @@
                                     next_play=NowCount + 1;
                                     break;
                                 case "repeat":
-                                    next_play=NowCount;
-                                    if(state) {
-                                        this.$refs.audio.currentTime = 0;
-                                    }else{
-                                        next_play=NowCount + 1;
-                                    }
+                                    next_play=NowCount + 1;
                                     break;
                                 case "random":
                                     next_play=this.randomCount(0,AllCount-1);
@@ -174,7 +170,6 @@
                         }
                         break;
                     case 'play':
-                        let media=this.$refs.audio;
                         if(media.paused){
                             media.play();
                             this.PlayButtonState='sf-icon-pause';
@@ -183,6 +178,18 @@
                             media.pause();
                             this.PlayButtonState='sf-icon-play';
                             this.$ipc.send('player-control','play')
+                        }
+                        break;
+                    case 'stop':
+                        media.pause();
+                        this.PlayButtonState='sf-icon-play';
+                        this.$ipc.send('player-control','stop');
+                        break;
+                    case 'end':
+                        if(this.playMethod==='repeat'){
+                            this.$refs.audio.currentTime = 0;
+                        }else{
+                            this.PlayerCommend('next');
                         }
                         break;
                 }
