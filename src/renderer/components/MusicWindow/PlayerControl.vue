@@ -29,9 +29,9 @@
         </div>
         <div id="cm-control-lrc"></div>
         <ul class="cm-play-mode">
-            <li :class="'sf-icon-random '+(playMethod==='random'?'active':'')" @click="playMethod='random'"></li>
-            <li :class="'sf-icon-repeat '+(playMethod==='repeat'?'active':'')" @click="playMethod='repeat'"></li>
-            <li :class="'sf-icon-list '+(playMethod==='list'?'active':'')" @click="playMethod='list'"></li>
+            <li :class="'sf-icon-random '+(playMethod==='random'?'active':'')" @click="playMethod='random'" ripple="" title="随机播放"></li>
+            <li :class="'sf-icon-repeat '+(playMethod==='repeat'?'active':'')" @click="playMethod='repeat'" ripple="" title="单曲循环"></li>
+            <li :class="'sf-icon-list '+(playMethod==='list'?'active':'')" @click="playMethod='list'" ripple="" title="顺序播放"></li>
         </ul>
         <canvas width="600" height="240" id="canvas"></canvas>
         <audio ref="audio"
@@ -151,7 +151,19 @@
                             this.PlayList.forEach((item)=>{
                                 item.play=false;
                             });
-                            this.PlayList[NowCount+1].play='playing'
+                            let next_play=NowCount + 1;
+                            switch (this.playMethod) {
+                                case "list":
+                                    next_play=NowCount + 1;
+                                    break;
+                                case "repeat":
+                                    next_play=NowCount;
+                                    break;
+                                case "random":
+                                    next_play=this.randomCount(0,AllCount-1);
+                                    break;
+                            }
+                            this.PlayList[next_play].play='playing'
                         }else{
                             this.PlayerCommend('play');
                         }
@@ -169,6 +181,9 @@
                         }
                         break;
                 }
+            },
+            randomCount(x,y){
+                return Math.ceil((Math.random()*(y-x+1))+x-1);
             },
             readyPlayer(item){
                 return new Promise((callback,fail)=>{
@@ -364,7 +379,7 @@
                         top: tmp,
                         behavior: "smooth"
                     });
-                    document.getElementById('cm-fully-music-line-lrc').innerHTML=lrc_List[pivot].innerHTML;
+                    document.getElementById('cm-fully-music-line-lrc').innerHTML=lrc_List[pivot]?lrc_List[pivot].innerHTML:"";
                     if(pivot%2===1) {
                         this.$ipc.send('player-control', 'lrc', {
                             left:lrc_List[pivot].innerHTML,
