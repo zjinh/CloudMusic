@@ -5,7 +5,7 @@
             <MusicHeader :UserInfo="UserInfo" :NowPlay="NowPlay" :full="showFull"></MusicHeader>
             <section :class="'cm-right-main '+(fullPage?'full-page':'')">
                 <loading v-show="!login"></loading>
-                <transition  name="fade" mode="out-in">
+                <transition name="fade" mode="out-in">
                     <keep-alive v-if="login">
                         <router-view v-if="routerKey" :key="routerKey"></router-view>
                         <router-view v-else></router-view>
