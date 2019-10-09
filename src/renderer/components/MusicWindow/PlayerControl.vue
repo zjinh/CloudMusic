@@ -358,6 +358,19 @@
                         behavior: "smooth"
                     });
                     document.getElementById('cm-fully-music-line-lrc').innerHTML=lrc_List[pivot].innerHTML;
+                    if(pivot%2===1) {
+                        this.$ipc.send('player-control', 'lrc', {
+                            left: lrc_List[pivot] ? lrc_List[pivot].innerHTML : "",
+                            now: lrc_List[pivot].innerHTML,
+                            right: lrc_List[pivot + 1] ? lrc_List[pivot + 1].innerHTML : ""
+                        })
+                    }else{
+                        this.$ipc.send('player-control', 'lrc', {
+                            left: lrc_List[pivot+1] ? lrc_List[pivot+1].innerHTML : "",
+                            now: lrc_List[pivot].innerHTML,
+                            right: lrc_List[pivot] ? lrc_List[pivot].innerHTML : ""
+                        })
+                    }
                 }
             },
             /* 停止执行歌曲 */

@@ -44,27 +44,25 @@ let appTray = null;//托盘变量
 let WindowControl={
   New:(options)=>{
     Menu.setApplicationMenu(null);
-    let win = new BrowserWindow({
-      width: options.width||800,
-      height: options.height||600,
-      minWidth: options.minWidth,
-      minHeight: options.minHeight,
-      title:options.title||'CloudMusic',
+    let defaultOptions={
+      width: 800,
+      height: 600,
+      title:'CloudMusic',
       frame:false,
-      useContentSize:options.useContentSize||false,
-      transparent:options.transparent||false,
-      x:options.x,
-      y:options.y,
-      minimizable:options.minimizable === undefined ? true : options.minimizable,
-      maximizable:options.maximizable === undefined ? true : options.maximizable,
-      resizable:options.resizable === undefined ? true : options.resizable,
-      alwaysOnTop:options.alwaysOnTop === undefined ? false : options.alwaysOnTop,
+      useContentSize:false,
+      transparent:false,
+      minimizable: true ,
+      maximizable:true,
+      resizable: true,
+      alwaysOnTop:false,
       show:false,
       webPreferences:{
         nodeIntegration:true,
         webSecurity:!(process.env.NODE_ENV === 'development')
       }
-    });
+    };
+    options=Object.assign(defaultOptions, options);
+    let win = new BrowserWindow(options);
     options.backgroundColor&&(win.backgroundColor=options.backgroundColor);
     win.name=options.url;
     win.loadURL(WindowControl.CheckRouter(options.url));
@@ -160,12 +158,6 @@ let MusicSystem= {
         click: function () {}
       },
       {
-        label: '反馈',//菜单显示文本项
-        click: function () {
-          MusicSystem.FeedBackWindow();
-        }
-      },
-      {
         label: '关于',//菜单显示文本项
         click: function () {
           MusicSystem.AboutWindow();
@@ -213,6 +205,7 @@ let MusicSystem= {
           if(LoginWindow){
             LoginWindow.close();
           }
+          MusicSystem.LrcWindow();
       }
     });
   },
@@ -256,14 +249,22 @@ let MusicSystem= {
     }
     LrcWindow=WindowControl.New({
       url:'lrc/',
-      title:'关于CloudMusic',
+      title:'桌面歌词',
       width: 666,
-      height: 110,
+      height: 80,
       maximizable:false,
       minimizable:false,
       resizable:false,
+      skipTaskbar:true,
+      alwaysOnTop:true,
+      transparent:true,
+      x:screen.getPrimaryDisplay().workAreaSize.width/2-333,
+      y:screen.getPrimaryDisplay().workAreaSize.height-100,
       onclose:()=>{
         LrcWindow=null;
+      },
+      callback:()=>{
+        LrcWindow.setIgnoreMouseEvents(true)
       }
     });
   },
@@ -373,13 +374,19 @@ function BindIpc() {
     }
   });
   /*播放器操作事件*/
-  ipcMain.on('player-control',(event,data)=>{
-    if(data==='pause') {
-      MusicButtons[1].icon = PauseBtn;
-      MusicButtons[1].tooltip='暂停'
-    }else{
-      MusicButtons[1].icon =PlayBtn;
-      MusicButtons[1].tooltip='播放'
+  ipcMain.on('player-control',(event,type,data)=>{
+    switch (type) {
+      case 'pause':
+        MusicButtons[1].icon = PauseBtn;
+        MusicButtons[1].tooltip='暂停';
+        break;
+      case 'play':
+        MusicButtons[1].icon =PlayBtn;
+        MusicButtons[1].tooltip='播放';
+        break;
+      case 'lrc':
+        LrcWindow.webContents.send('data',data);
+        break;
     }
     MainWindow.setThumbarButtons(MusicButtons);
   });
