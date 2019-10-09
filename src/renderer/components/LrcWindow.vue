@@ -1,7 +1,7 @@
 <template>
     <div class="cm-desktop-lrc">
-        <p :class="'left'+(lrcData.left===lrcData.now?' now':'')">{{lrcData.left}}</p>
-        <p :class="'right'+(lrcData.right===lrcData.now?' now':'')">{{lrcData.right}}</p>
+        <p :class="'left'+(lrcData.now==='left'?' now':'')">{{lrcData.left}}</p>
+        <p :class="'right'+(lrcData.now==='right'?' now':'')">{{lrcData.right}}</p>
     </div>
 </template>
 
@@ -11,7 +11,6 @@
         created(){
             this.$ipc.on('data',(e,msg)=>{
                 this.lrcData=Object.assign(this.lrcData,msg);
-                console.log(this.lrcData)
             })
         },
         data(){
@@ -23,9 +22,6 @@
                 }
             }
         },
-        methods:{
-
-        }
     }
 </script>
 

@@ -2,7 +2,7 @@
     <div class="cm-playlist-container">
         <ul :class="'cm-playlist-'+(type)" @scroll="scrollToLoad">
             <li v-for="(item,index) in data" :key="index" @click="clickToSelect(item)" ripple="">
-                <img :src="item.coverImgUrl" alt="" draggable="false">
+                <img :src="item.coverImgUrl||item.picUrl" alt="" draggable="false">
                 <span>{{item.name}}</span>
                 <div class="play_count">{{$numberCount(item.playCount)}}</div>
                 <div class="count">{{item.trackCount}}首</div>
@@ -51,7 +51,7 @@
         height: 100%;
         position: relative;
     }
-    .cm-playlist-list,.cm-playlist-block{
+    .cm-playlist-list,.cm-playlist-block,.cm-playlist-recommend{
         width: 100%;
         height: 100%;
         min-height: 330px;
@@ -111,7 +111,24 @@
         margin-left: 70px;
         font-size: 12px;
     }
-    .cm-playlist-block li:hover{
+    .cm-playlist-list li:hover,.cm-playlist-block li:hover,.cm-playlist-recommend li:hover{
         background: rgba(255,255,255,.1);
+    }
+    .cm-playlist-recommend li{
+        float: left;
+        width: 145px;
+        height: 180px;
+        margin: 6px;
+        cursor: pointer;
+    }
+    .cm-playlist-recommend li img{
+        width: 100%;
+        height: 145px;
+    }
+    .cm-playlist-recommend li span{
+        width: 100%;
+    }
+    .cm-playlist-recommend .play_count,.cm-playlist-recommend .count,.cm-playlist-recommend .creator{
+        display: none;
     }
 </style>

@@ -150,6 +150,9 @@
 </script>
 
 <style scoped>
+    .cm-page-main{
+        overflow: hidden;
+    }
     .cm-search-head{
         width: 100%;
         height: 30px;

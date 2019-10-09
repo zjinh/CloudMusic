@@ -137,6 +137,7 @@
                     let data=rs[key]||[];
                     if(type==='musicList'){
                         data=rs.playlist.tracks;
+                        this.playlistData=rs.playlist;
                     }
                     if(page===0){
                         this.playListDetail[type]=data;

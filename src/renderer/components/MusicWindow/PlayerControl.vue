@@ -172,6 +172,13 @@
             },
             readyPlayer(item){
                 return new Promise((callback,fail)=>{
+                    this.$ipc.send('player-control', 'lrc', {
+                        left:"",
+                        now:"",
+                        right:""
+                    });
+                    document.getElementById(this.prefixid).innerHTML='';
+                    document.getElementById('cm-full-music-lrc-list').innerHTML='';
                     switch (item.type||this.NowPlay.type) {
                         case 'online':
                             this.$Api.Music.detail(this.NowPlay.id,(rs)=>{
@@ -180,7 +187,7 @@
                                 callback(this.NowPlay);
                             });
                             this.$Api.Music.getLrc(this.NowPlay.id,(rs)=>{
-                                let lrc=rs.lrc.lyric||'[00:00.000] 暂无歌词';
+                                let lrc=rs.lrc?rs.lrc.lyric:'[00:00.000] 暂无歌词';
                                 this.start(lrc,()=>{
                                     return this.$refs.audio.currentTime;
                                 });
@@ -192,7 +199,7 @@
                                 name: data.name
                             }, (rs) => {
                                 let cover=rs.cover;
-                                let lrc=rs.lrc.lyric||'[00:00.000] 暂无歌词';
+                                let lrc=rs.lrc?rs.lrc.lyric:'[00:00.000] 暂无歌词';
                                 this.PlayList[data.count].picture=cover||this.$defaultAlbum;
                                 this.NowPlay.picture = cover|| this.$defaultAlbum;
                                 this.NowPlay.id=rs.song_id;
@@ -360,15 +367,15 @@
                     document.getElementById('cm-fully-music-line-lrc').innerHTML=lrc_List[pivot].innerHTML;
                     if(pivot%2===1) {
                         this.$ipc.send('player-control', 'lrc', {
-                            left: lrc_List[pivot] ? lrc_List[pivot].innerHTML : "",
-                            now: lrc_List[pivot].innerHTML,
+                            left:lrc_List[pivot].innerHTML,
+                            now: 'left',
                             right: lrc_List[pivot + 1] ? lrc_List[pivot + 1].innerHTML : ""
                         })
                     }else{
                         this.$ipc.send('player-control', 'lrc', {
                             left: lrc_List[pivot+1] ? lrc_List[pivot+1].innerHTML : "",
-                            now: lrc_List[pivot].innerHTML,
-                            right: lrc_List[pivot] ? lrc_List[pivot].innerHTML : ""
+                            now: 'right',
+                            right: lrc_List[pivot].innerHTML
                         })
                     }
                 }
