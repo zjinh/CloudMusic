@@ -21,6 +21,7 @@
     import media from "../../../tools/media";
     export default {
         name: "RadioItem",
+        inject:['nowPlay','playMusic'],
         props:{
             data:Array,
             type:String,
@@ -33,7 +34,13 @@
         },
         watch:{
             data:function () {
-                this.listData=this.handleData(this.data)
+                this.listData=this.handleData(this.data);
+                this.listData.some((item)=>{
+                    if(item.id===this.nowPlay().id){
+                        item.play='playing';
+                        this.playMusic(item,this.listData);
+                    }
+                })
             }
         },
         methods:{

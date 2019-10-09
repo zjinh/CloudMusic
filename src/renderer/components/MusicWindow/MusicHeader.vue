@@ -66,7 +66,7 @@
         </div>
         <ul class="window-actions">
             <li class="sf-icon-cog"></li>
-            <li class="sf-icon-minus" @click="mini"></li>
+            <li class="sf-icon-minus" style="font-size: 10px" @click="mini"></li>
             <li class="sf-icon-times" style="font-size:14px" @click="close"></li>
         </ul>
     </div>
@@ -505,7 +505,7 @@
         font-size: 12px;
         -webkit-app-region: no-drag;
         cursor: pointer;
-        border-radius: 0 0 5px 5px;
+        border-radius: 5px;
         -webkit-transition: all .35s;
         -moz-transition: all .35s;
         -o-transition: all .35s

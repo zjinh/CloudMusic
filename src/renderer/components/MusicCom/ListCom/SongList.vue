@@ -48,7 +48,7 @@
     import media from "../../../tools/media";
     export default {
         name: "SongList",
-        inject:['nowPlay'],
+        inject:['nowPlay','playMusic'],
         props:{
             data:Array,
             type:String,
@@ -77,10 +77,10 @@
                     }
                     this.listData = this.$handleListData(this.data,this.playListData.id||'local',true)
                 }
-                this.listData.some((item,index)=>{
+                this.listData.some((item)=>{
                     if(item.id!==undefined&&item.id===this.nowPlay().id&&item.playList===this.nowPlay().playList){
                         item.play='playing';
-                        this.$set(this.listData,index,item);
+                        this.playMusic(item,this.listData);
                     }
                 })
             }

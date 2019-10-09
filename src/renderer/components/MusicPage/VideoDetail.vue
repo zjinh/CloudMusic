@@ -74,6 +74,9 @@
                 let media=document.getElementById('audio');
                 if(!media.paused) {
                     this.playerControl('play');
+                }else{
+                    media.pause();
+                    this.playerControl('play');
                 }
                 this.getUrl();
                 this.getDetail();

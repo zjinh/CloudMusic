@@ -37,7 +37,7 @@
         <audio ref="audio"
                id="audio"
                crossOrigin="anonymous"
-               @ended="PlayerCommend('next')"
+               @ended="PlayerCommend('next','end')"
                @timeupdate="MusicProcess"
                @error="PlayerCommend('next')"
                @durationchange="PlayButtonState='sf-icon-pause'"
@@ -131,7 +131,7 @@
             });
         },
         methods:{
-            PlayerCommend(commend){
+            PlayerCommend(commend,state){
                 if(!this.PlayList.length){
                     return
                 }
@@ -158,6 +158,11 @@
                                     break;
                                 case "repeat":
                                     next_play=NowCount;
+                                    if(state) {
+                                        this.$refs.audio.currentTime = 0;
+                                    }else{
+                                        next_play=NowCount + 1;
+                                    }
                                     break;
                                 case "random":
                                     next_play=this.randomCount(0,AllCount-1);
