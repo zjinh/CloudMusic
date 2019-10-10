@@ -100,6 +100,11 @@ Vue.component('Message',Message);
 Vue.prototype.$Message=Message;
 Vue.component('Progress',Progress);
 Vue.prototype.$IVIEW = {};
+import VueLazyload from 'vue-lazyload'
+Vue.use(VueLazyload);
+import VueVirtualScroller from 'vue-virtual-scroller'
+import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
+Vue.use(VueVirtualScroller);
 //引入element的部分组件
 import { MessageBox,Dialog} from 'element-ui';
 Vue.prototype.$msgbox = MessageBox;

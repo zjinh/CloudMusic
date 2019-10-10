@@ -2,7 +2,7 @@
     <div class="cm-radio-list-container">
         <div class="cm-radio-list-list" @scroll="scrollToLoad">
             <div v-for="(item,index) in data" :key="index" @click="clickToSelect(item)" class="radio-block" ripple="">
-                <img :src="item.picUrl" alt="" draggable="false">
+                <img v-lazy="item.picUrl" alt="" draggable="false">
                 <p>{{item.name}}</p>
                 <span class="creator">by {{item.dj.nickname}}</span>
                 <span class="sub">{{$numberCount(item.subCount)}}订阅</span>

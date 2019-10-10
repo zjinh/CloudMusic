@@ -2,7 +2,7 @@
     <div class="cm-videolist-container">
         <div class="cm-videolist-list" @scroll="scrollToLoad">
             <div v-for="(item,index) in data" :key="index" @click="clickToSelect(item)" :class="type?'video-self-block':'video-block'" ripple="">
-                <img :src="item.coverUrl||item.imgurl" alt="" draggable="false">
+                <img v-lazy="item.coverUrl||item.imgurl" alt="" draggable="false">
                 <p>{{item.title||item.name}}</p>
                 <span class="creator" v-if="item.creator">by {{item.creator[0].userName}}</span>
                 <span class="count sf-icon-video"> {{$numberCount(item.playTime||item.playCount||0)}}</span>

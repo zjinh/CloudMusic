@@ -9,8 +9,15 @@
             <span class="size" v-else>大小</span>
             <span class="control">操作</span>
         </div>
-        <ul class="cm-songlist" @scroll="scrollToLoad">
-            <li v-for="(item,index) in listData" @click="clickToPlay(item,index)" :class="item.play" ripple="">
+        <DynamicScroller
+                class="cm-songlist"
+                :items="listData"
+                :min-item-size="0"
+                :item-size="40"
+                :page-mode="page"
+                @scroll.native.passive="scrollToLoad"
+                v-slot="{ item,index }">
+            <li @click="clickToPlay(item,index)" :class="item.play" ripple="">
                 <span class="num" v-if="!item.play">
                     {{needZero(index+1)}}
                 </span>
@@ -38,7 +45,7 @@
                     <button class="sf-icon-trash-alt" @click.stop="removeMusic(item,index)" v-if="type==='local'||playListData.creator.userId===$Api.User.UserId"></button>
                 </span>
             </li>
-        </ul>
+        </DynamicScroller>
         <NoData v-show="listData.length===0&&!loading"></NoData>
         <loading v-show="loading"></loading>
     </div>
@@ -52,7 +59,13 @@
         props:{
             data:Array,
             type:String,
-            loading:Boolean
+            loading:Boolean,
+            page:{
+                type:Boolean,
+                default:()=>{
+                    return true
+                }
+            }
         },
         data(){
             return{
@@ -217,7 +230,7 @@
     .cm-songlist li .control .sf-icon-heart{
         color: #e56464;
     }
-    .cm-songlist li:nth-child(odd){
+    .cm-songlist >div >div:nth-child(odd) li{
         background: #f9f9f9;
     }
     .cm-songlist li .sf-icon-volume-up{

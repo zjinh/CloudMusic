@@ -4,7 +4,7 @@
             <li v-for="(item,index) in listData" :key="index" :class="item.play" @click="clickToPlay(item,index)" ripple="">
                 <span class="number" v-if="!item.play">{{item.serialNum}}</span>
                 <span class="number sf-icon-volume-up" v-else></span>
-                <img :src="item.picture" alt="" draggable="false">
+                <img v-lazy="item.picture" alt="" draggable="false">
                 <p>{{item.name}}</p>
                 <span class="play-count">播放:{{$numberCount(item.listenerCount)}}</span>
                 <span class="likes">赞:{{$numberCount(item.likedCount)}}</span>

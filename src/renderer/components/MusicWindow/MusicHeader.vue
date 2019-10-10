@@ -17,7 +17,7 @@
                     </span>
                     <ul v-if="SearchSuggestResult.artists">
                         <li v-for="(item,index) in SearchSuggestResult.artists" class="animated slideInLeft" :style="{'z-index':SearchSuggestResult.artists.length-index,left:'-20'*index+20+'px'}" @click="searchSinger(item)">
-                            <img :src="item.img1v1Url" alt="" draggable="false">
+                            <img v-lazy="item.img1v1Url" alt="" draggable="false">
                         </li>
                     </ul>
                     <NoData v-else></NoData>
@@ -36,7 +36,7 @@
                     <p>专辑</p>
                     <ul v-if="SearchSuggestResult.albums">
                         <li v-for="(item,index) in SearchSuggestResult.albums" @click="searchAlbum(item)" class="animated slideInLeft">
-                            <img :src="item.artist.picUrl" alt="">
+                            <img v-lazy="item.artist.picUrl" alt="">
                             <span>{{item.name}}</span>
                         </li>
                     </ul>
@@ -50,12 +50,12 @@
         <div class="user-actions">
             <Dropdown placement="bottom-start" @on-click="SystemDropDown">
                 <p class="item">
-                    <img draggable="false" :src="UserInfo.avatarUrl" alt="">
+                    <img draggable="false" v-lazy="UserInfo.avatarUrl" alt="">
                     <span>{{UserInfo.nickname}}</span>
                 </p>
                 <DropdownMenu slot="list">
                     <!--<DropdownItem name="account">
-                        <img draggable="false" :src="UserInfo.avatarUrl" alt="">
+                        <img draggable="false" v-lazy="UserInfo.avatarUrl" alt="">
                         <span>我</span>
                     </DropdownItem>-->
                     <DropdownItem name="about">关于</DropdownItem>

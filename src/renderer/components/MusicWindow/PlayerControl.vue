@@ -67,7 +67,7 @@
                     this.PlayList.forEach((item, index) => {
                         item.count=index;
                         if (item.play) {
-                            this.NowPlay=item;
+                            this.NowPlay=JSON.handle(item);
                             this.readyPlayer(item).then(()=>{
                                 this.$emit('playing', this.NowPlay);
                                 this.Visual();
@@ -213,6 +213,8 @@
                                 this.PlayList[this.NowPlay.count].picture=rs||this.$defaultAlbum;
                                 this.NowPlay.picture = rs|| this.$defaultAlbum;
                                 callback(this.NowPlay);
+                            },()=>{
+                                callback(this.NowPlay);
                             });
                             this.$Api.Music.getLrc(this.NowPlay.id,(rs)=>{
                                 let lrc=rs.lrc?rs.lrc.lyric:'[00:00.000] 暂无歌词';
@@ -235,6 +237,8 @@
                                     return this.$refs.audio.currentTime;
                                 });
                                 callback(this.NowPlay);
+                            },()=>{
+                                callback(this.NowPlay);
                             });
                             break;
                         case 'radio':
@@ -246,6 +250,8 @@
                             this.$Api.Music.radio.detail(item.id,(rs)=>{
                                 item.mainTrackId=rs.program.mainTrackId;
                                 item.url='https://music.163.com/song/media/outer/url?id='+item.mainTrackId+'.mp3';
+                                callback(this.NowPlay);
+                            },()=>{
                                 callback(this.NowPlay);
                             });
                             break;

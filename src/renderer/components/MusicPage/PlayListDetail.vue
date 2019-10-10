@@ -5,7 +5,7 @@
                 <p class="playlist-desp">歌曲数:{{playlistData.trackCount}}首</p>
                 <p class="playlist-desp">播放数:{{$numberCount(playlistData.playCount)}}次</p>
                 <div class="playlist-author">
-                    <img :src="playlistData.creator.avatarUrl" alt="">
+                    <img v-lazy="playlistData.creator.avatarUrl" alt="">
                     <span>{{playlistData.creator.nickname}}</span>
                 </div>
                 <ButtonArea class="playlist-control">

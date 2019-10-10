@@ -78,7 +78,10 @@
     "jsmediatags": "^3.9.2",
     "vue": "^2.5.16",
     "vue-electron": "^1.0.6",
+    "vue-lazyload": "^1.3.3",
     "vue-router": "3.0.0",
+    "vue-virtual-scroll-list": "^1.4.2",
+    "vue-virtual-scroller": "^1.0.0-rc.2",
     "vuex": "^3.0.1",
     "vuex-electron": "^1.0.0"
   },

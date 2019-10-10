@@ -16,7 +16,7 @@
         <p class="cm-comment-title">精彩评论</p>
         <ul class="cm-comment-list" @scroll="scrollToLoad">
             <li v-for="(item,index) in listData" :key="index" class="cm-comment-line">
-                <img :src="item.user.avatarUrl" alt="" draggable="false">
+                <img v-lazy="item.user.avatarUrl" alt="" draggable="false">
                 <div class="main">
                     <div class="content">
                         <span class="user" @click="clickToUser(item)">{{item.user.nickname}}:</span>

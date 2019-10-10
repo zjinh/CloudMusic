@@ -1,6 +1,6 @@
 <template>
     <div class="cm-page-detail-head">
-        <img :src="poster" alt="" class="poster" draggable="false">
+        <img v-lazy="poster" alt="" class="poster" draggable="false">
         <div class="content">
             <div class="content-head">
                 <div class="tag">{{tag}}</div>

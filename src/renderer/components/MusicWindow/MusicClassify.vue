@@ -1,8 +1,8 @@
 <template>
     <section class="cm-left">
         <div class="cm-left-head">
-            <img draggable="false" class="logo" :src="$static+'/img/bar/music.png'" alt="">
-            <span><img class="logo-text" :src="$static+'/img/logo/c-music-white.png'" alt=""></span>
+            <img draggable="false" class="logo" v-lazy="$static+'/img/bar/music.png'" alt="">
+            <span><img class="logo-text" v-lazy="$static+'/img/logo/c-music-white.png'" alt=""></span>
             <p>愿每个人都被时光温柔以待</p>
         </div>
         <div class="cm-left-menu">

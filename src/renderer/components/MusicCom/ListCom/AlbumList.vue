@@ -2,7 +2,7 @@
     <div class="cm-albumlist-container">
         <ul class="cm-albumlist-list" @scroll="scrollToLoad">
             <li v-for="(item,index) in data" :key="index" @click="clickToSelect(item)" ripple="">
-                <img :src="item.picUrl" alt="" draggable="false">
+                <img v-lazy="item.picUrl" alt="" draggable="false">
                 <i class="sf-icon-dot-circle"></i>
                 <span>{{item.name}}</span>
                 <div class="name">{{item.artists[0].name}}</div>

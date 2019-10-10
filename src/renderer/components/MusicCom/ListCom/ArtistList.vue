@@ -2,7 +2,7 @@
     <div class="cm-artist-container">
         <ul class="cm-artist-list" @scroll="scrollToLoad">
             <li v-for="(item,index) in data" :key="index" @click="clickToSelect(item)" ripple="">
-                <img :src="item.picUrl" alt="" draggable="false">
+                <img v-lazy="item.picUrl||item.img1v1Url" alt="" draggable="false">
                 <span>{{item.name}}</span>
             </li>
         </ul>

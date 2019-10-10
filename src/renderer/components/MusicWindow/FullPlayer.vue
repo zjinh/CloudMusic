@@ -15,7 +15,7 @@
                 <div class="cm-full-poster-container">
                     <canvas id="wrap" height="300" width="300"></canvas>
                     <div class="cm-full-music-poster">
-                        <img :src="NowPlay.picture" alt="" draggable="false">
+                        <img v-lazy="NowPlay.picture" alt="" draggable="false">
                         <button :class="playState+' animated fadeIn'" v-show="!mode" @click="playerControl('play')"></button>
                     </div>
                     <p id="cm-fully-music-line-lrc" class="animated slideInDown" v-show="!mode"></p>
@@ -41,7 +41,7 @@
                 </div>
                 <ul class="cm-full-simi-music">
                    <li v-for="(item,index) in simiMusicList" @click="playMusic(item,simiMusicList)">
-                       <img :src="item.picture" alt="">
+                       <img v-lazy="item.picture" alt="">
                        <span>{{item.title}}</span>
                    </li>
                 </ul>
@@ -54,7 +54,7 @@
                 </div>
                 <ul class="cm-full-simi-user">
                     <li v-for="(item,index) in simiUser" @click="goUserDetail(item)">
-                        <img :src="item.avatarUrl" alt="">
+                        <img v-lazy="item.avatarUrl" alt="">
                         <span class="name">{{item.nickname}}</span>
                         <span class="reason">{{item.recommendReason}}</span>
                     </li>

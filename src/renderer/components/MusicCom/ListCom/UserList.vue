@@ -2,7 +2,7 @@
     <div class="cm-user-list-container">
         <div class="cm-user-list-list" @scroll="scrollToLoad">
             <div v-for="(item,index) in data" :key="index" @click="clickToSelect(item)" class="user-block" ripple="">
-                <img :src="item.avatarUrl" alt="" draggable="false">
+                <img v-lazy="item.avatarUrl" alt="" draggable="false">
                 <p>{{item.nickname}}</p>
             </div>
         </div>

@@ -97,6 +97,7 @@
                         cb(err);
                     } else {
                         cb(err, {
+                            id:this.$randomRange(0,9999999),
                             url: filePath,
                             size:stat.size,
                             type:"local"

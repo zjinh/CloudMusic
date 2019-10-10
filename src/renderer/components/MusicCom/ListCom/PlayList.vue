@@ -2,7 +2,7 @@
     <div class="cm-playlist-container">
         <ul :class="'cm-playlist-'+(type)" @scroll="scrollToLoad">
             <li v-for="(item,index) in data" :key="index" @click="clickToSelect(item)" ripple="">
-                <img :src="item.coverImgUrl||item.picUrl" alt="" draggable="false">
+                <img v-lazy="item.coverImgUrl||item.picUrl" alt="" draggable="false">
                 <span>{{item.name}}</span>
                 <div class="play_count">{{$numberCount(item.playCount)}}</div>
                 <div class="count">{{item.trackCount}}首</div>
