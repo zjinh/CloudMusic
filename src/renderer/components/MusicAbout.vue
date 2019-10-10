@@ -46,7 +46,6 @@
                 NewVersion:'',
                 message:'',
                 percent:0,
-
                 header:{
                     color:"#666",
                     title:"",

@@ -47,7 +47,7 @@ function Ajax(options) {
         data: params,
         emulateJSON:true,
         withCredentials:true,
-        url: severAddress()+options.url,
+        url: options.url.indexOf('http')>-1?options.url:severAddress()+options.url,
         headers:options.upload?{"Content-Type": "application/x-www-form-urlencoded"}:{},
     }).then((response) => {
         options.success&&typeof options.success==='function'?options.success(response.data):'';

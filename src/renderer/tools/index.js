@@ -87,7 +87,7 @@ JSON.handle=function(data){
 };
 import Api from "./api/index"
 //引入iview组件
-import {Checkbox,Tooltip,Dropdown,DropdownMenu,DropdownItem,Input,InputNumber,RadioGroup,Radio,Time,Select,Option,DatePicker,Message,Icon,Spin,Progress} from 'iview';
+import {Checkbox,Tooltip,Dropdown,DropdownMenu,DropdownItem,Time,Message,Progress} from 'iview';
 import 'iview/dist/styles/iview.css';
 import '../../../src/renderer/assets/css/iview.css';//定制样式
 Vue.component('Checkbox', Checkbox);

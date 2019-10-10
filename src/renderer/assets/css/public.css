@@ -380,6 +380,9 @@ button[disabled="disabled"]{
 	border-color: #e56464!important;
 	color: #FFF!important;
 }
+.ivu-progress-bg{
+	background-color: #e56464!important;
+}
 /*头部*/
 .cm-drag-head-big{
 	width: 100%;
