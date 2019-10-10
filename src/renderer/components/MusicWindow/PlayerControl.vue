@@ -52,7 +52,7 @@
     import Media from '../../tools/media';
     import lyric from "../../tools/lyric";
     lyric.prefixId='cm-full-music-lrc-list,cm-control-lrc';
-    lyric.hoverClass=',animated slideInLeft this_lrc';
+    lyric.hoverClass='this_lrc,animated slideInLeft this_lrc';
     lyric.hoverPrefixId='cm-fully-music-line-lrc';
     export default {
         name: "PlayerControl",
@@ -195,8 +195,7 @@
                             },()=>{
                                 callback(this.NowPlay);
                             });
-                            this.$Api.Music.getLrc(this.NowPlay.name,(rs)=>{
-                                rs=JSON.parse(rs)
+                            this.$Api.Music.getLrc(this.NowPlay.id,(rs)=>{
                                 this.startLyric(rs);
                             });
                             break;

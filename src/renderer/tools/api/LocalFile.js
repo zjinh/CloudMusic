@@ -1,5 +1,5 @@
 const fs= require('fs');
-import { Base64 } from 'js-base64';
+import encrypt from "../encrypt";
 export default {
     address:process.env.HOMEDRIVE+process.env.HOMEPATH+'/CloudMusic\/',
     User:null,
@@ -79,9 +79,9 @@ export default {
     },
     encryption(data,command){
         if(command==='lock'||command===true) {
-            data = Base64.encode(data)
+            data=encrypt.encode(data,'qwert23yuiopassdf64jklmnbvcxz','qwert23yuiopass212df64jklmnbvcxz');
         }else{
-            data = Base64.decode(data)
+            data=encrypt.decode(data,'qwert23yuiopassdf64jklmnbvcxz','qwert23yuiopass212df64jklmnbvcxz');
         }
         return data
     }

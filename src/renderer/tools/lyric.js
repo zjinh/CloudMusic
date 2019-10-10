@@ -30,11 +30,15 @@ export default {
     autoScroll:true,
     init(data){
         for(let k=0;k<this.prefixIdHandle.length;k++){
-            document.getElementById(this.prefixIdHandle[k]).innerHTML = data||'';
+            this.prefixIdHandle[k].innerHTML = data||'';
         }
     },
     start(txt, callback,cb) {
-        this.prefixIdHandle=this.prefixId.split(',');
+        this.prefixIdHandle=[];
+        let ids=this.prefixId.split(',');
+        for (let i=0;i<ids.length;i++){
+            this.prefixIdHandle.push(document.getElementById(ids[i]));
+        }
         if (typeof(txt) !== 'string' || txt.length < 1 || typeof(callback) !== 'function') return; /* 停止前面执行的歌曲 */
         this.stop();
         this.callback = callback;
@@ -59,9 +63,7 @@ export default {
             for (let i = 0; i < this.list.length; i++) {
                 html += this.format.replace(/\{html\}/gi, this.list[i][1]);
             }/* 赋值到指定容器 */
-            for(let k=0;k<this.prefixIdHandle.length;k++){
-                document.getElementById(this.prefixIdHandle[k]).innerHTML = html;
-            }
+            this.init(html);
             /* 定时调用回调函数，监听歌曲进度 */
             if(typeof (callback())==='number') {
                 this.handle = setInterval(()=>{
@@ -102,18 +104,15 @@ export default {
         if (pivot === this.pivot) return;
         this.pivot = pivot;
         for(let i=0;i<this.prefixIdHandle.length;i++){
-            let childNodes=document.getElementById(this.prefixIdHandle[i]).childNodes;
-            for(let k=0;k<childNodes.length;k++){
-                childNodes[i].className='';
+            for(let k=0;k<this.prefixIdHandle[i].childNodes.length;k++){
+                this.prefixIdHandle[i].childNodes[k].className='';
             }
         }
-        let scrollList=document.getElementById(this.prefixIdHandle[0]).childNodes;//滚动条计算拿第一个
+        let scrollList=this.prefixIdHandle[0].childNodes;//滚动条计算拿第一个
         if(scrollList[pivot]) {
             document.getElementById(this.hoverPrefixId).innerHTML=scrollList[pivot].innerHTML;
             for(let i=0;i<this.prefixIdHandle.length;i++){
-                let childNodes=document.getElementById(this.prefixIdHandle[i]).childNodes;
-                childNodes[pivot].className=this.hoverClass.split(',')[i];
-                console.log(this.hoverClass.split(',')[i])
+                this.prefixIdHandle[i].childNodes[pivot].className=this.hoverClass.split(',')[i];
             }
             tmp = scrollList[pivot].offsetTop - scrollList[pivot].parentNode.offsetTop - this.hoverTop-30;
             tmp = tmp > 0 ? tmp : 0;//如果不设置滚动条使用margin设置为-1
