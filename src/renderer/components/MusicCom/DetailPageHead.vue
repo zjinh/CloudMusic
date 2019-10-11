@@ -44,6 +44,11 @@
                         poster:"picUrl",
                         tag:"电台",
                         name:"name"
+                    },
+                    user:{
+                        poster:"avatarUrl",
+                        tag:"用户",
+                        name:"nickname"
                     }
                 },
                 nowMap:{},

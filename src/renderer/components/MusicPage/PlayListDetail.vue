@@ -11,7 +11,7 @@
                 <ButtonArea class="playlist-control">
                     <button class="sf-icon-play-circle" @click="playAll"> 播放全部</button>
                     <button @click="subscribe" :disabled="this.$Api.User.UserId===playlistData.creator.userId" :class="playlistData.subscribed?'sf-icon-heart':'sf-icon-heart-o'">{{playlistData.subscribed?' 已':" "}}收藏({{$numberCount(playlistData.bookCount||playlistData.subscribedCount)}})</button>
-                    <button @click="downloadList" class="sf-icon-download">下载</button>
+                    <button @click="downloadList" class="sf-icon-arrow-to-bottom">下载</button>
                 </ButtonArea>
             </div>
             <div class="cm-playlist-content-50 playlist-desp2">

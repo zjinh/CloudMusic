@@ -39,9 +39,9 @@
                     {{FileSize(item.size)}}
                 </span>
                 <span class="control">
-                    <button :class="item.like?'sf-icon-heart':'sf-icon-heart-o'" @click.stop="likeMusic(item,index)" v-if="type!=='local'"></button>
+                    <LikeMusic :music="item" :index="index" :list="listData" @like="likeCallback"></LikeMusic>
                     <button class="sf-icon-plus"></button>
-                    <button class="sf-icon-download"></button>
+                    <button class="sf-icon-arrow-to-bottom"></button>
                     <button class="sf-icon-trash-alt" @click.stop="removeMusic(item,index)" v-if="type==='local'||playListData.creator.userId===$Api.User.UserId"></button>
                 </span>
             </li>
@@ -53,9 +53,13 @@
 
 <script>
     import media from "../../../tools/media";
+    import LikeMusic from "../Button/LikeMusic";
     export default {
         name: "SongList",
         inject:['nowPlay','playMusic'],
+        components:{
+            LikeMusic
+        },
         props:{
             data:Array,
             type:String,
@@ -131,19 +135,12 @@
                     }
                 });
             },
-            likeMusic(item,index){
-                this.$Api.Music.likeMusic({
-                    id:item.id,
-                    like:!item.like
-                },(rs)=>{
-                    if(rs.code===200){
-                        this.$Message.success(item.like?'已取消喜欢歌曲':'已添加至喜欢');
-                        if(JSON.parse(this.$route.query.data||'{}').specialType===5){
-                            this.listData.splice(index,1)
-                        }
-                        item.like=!item.like;
+            likeCallback(item,index){
+                if(item.like===false) {
+                    if (JSON.parse(this.$route.query.list || '{}').specialType === 5) {
+                        this.listData.splice(index, 1)
                     }
-                })
+                }
             },
             removeMusic(item,index){
                 this.Confrim({

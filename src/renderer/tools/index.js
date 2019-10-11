@@ -140,7 +140,7 @@ import loading from "../components/MusicCom/loading.vue"
 import NoData from "../components/MusicCom/NoData.vue"
 import TabBar from "../components/MusicCom/TabBar.vue"
 import DetailPageHead from "../components/MusicCom/DetailPageHead.vue"
-import BackToTop from "../components/MusicCom/BackToTop.vue"
+import BackToTop from "../components/MusicCom/Button/BackToTop.vue"
 import ButtonArea from "../components/MusicCom/ButtonArea.vue"
 Vue.component('PageHeader',PageHeader);
 Vue.component('SongList',SongList);

@@ -26,11 +26,11 @@
         created(){
             this.localDir=localStorage.localDir;
             this.$Api.LocalFile.read('local-music',(data)=>{
-                if(data.length){
+                if(data.constructor===Array&&data.length){
                     this.localMusic=data;
                     this.loading=false;
                 }else{
-                    if(this.localDir==='undefined'||this.localDir===''){
+                    if(this.localDir!==undefined&&this.localDir.length){
                         this.scanLocalMusic();
                     }else{
                         this.$Message.info('请选择本地音乐目录');

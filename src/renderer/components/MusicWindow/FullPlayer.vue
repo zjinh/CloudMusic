@@ -18,6 +18,11 @@
                         <img v-lazy="NowPlay.picture" alt="" draggable="false">
                         <button :class="playState+' animated fadeIn'" v-show="!mode" @click="playerControl('play')"></button>
                     </div>
+                    <div class="cm-full-music-button">
+                        <LikeMusic :music="NowPlay"></LikeMusic>
+                        <button class="sf-icon-star-o"></button>
+                        <button class="sf-icon-arrow-to-bottom" :disabled="NowPlay.type==='local'"></button>
+                    </div>
                     <p id="cm-fully-music-line-lrc" class="animated slideInDown" v-show="!mode"></p>
                 </div>
                 <div class="cm-full-next-container">
@@ -70,6 +75,7 @@
     import BlurBackground from "./BlurBackground"
     import CommentList from "../MusicCom/ListCom/CommentList";
     import PlayList from "../MusicCom/ListCom/PlayList";
+    import LikeMusic from "../MusicCom/Button/LikeMusic";
     export default {
         name: "FullPlayer",
         inject:['playerControl','playMusic'],
@@ -105,7 +111,7 @@
             }
         },
         components:{
-            BlurBackground,CommentList,PlayList
+            BlurBackground,CommentList,PlayList,LikeMusic
         },
         computed:{
             commentType:function () {
@@ -285,6 +291,25 @@
         width: 100%;
         font-size: 16px;
         color: #fff;
+    }
+    .cm-full-music-button{
+        width: 100%;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        top: 100%;
+    }
+    .cm-full-music-button button{
+        width: 40px;
+        height: 40px;
+        text-align: center;
+        line-height: 40px;
+        color: #fff;
+        font-size: 18px;
+        background: none;
+        margin: 0 10px;
+        position: relative;
+        border-radius: 100%;
     }
     .cm-full-music-poster{
         width: 235px;

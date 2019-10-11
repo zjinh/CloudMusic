@@ -88,4 +88,14 @@ export default {
             error:error
         })
     },
+    detail(id,callback,error){
+        Ajax({
+            url:"/open/netase/user/detail",
+            data:{
+                uid:id
+            },
+            success:callback,
+            error:error
+        })
+    }
 }

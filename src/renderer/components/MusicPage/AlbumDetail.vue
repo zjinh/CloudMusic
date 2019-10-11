@@ -6,7 +6,7 @@
                 <p class="album-desp">歌曲数: {{albumData.size}}首</p>
                 <p class="album-desp">歌手: {{albumData.artist_text}}</p>
                 <ButtonArea class="album-control">
-                    <button @click="downloadList" class="sf-icon-download">下载</button>
+                    <button @click="downloadList" class="sf-icon-arrow-to-bottom">下载</button>
                 </ButtonArea>
             </div>
         </DetailPageHead>

@@ -147,7 +147,7 @@
                             }
                             this.PlayList[next_play].play='playing'
                         }else{
-                            this.PlayerCommend('play');
+                            this.PlayerCommend('stop');
                         }
                         break;
                     case 'play':

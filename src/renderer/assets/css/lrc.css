@@ -2,7 +2,8 @@
     float: left;
     padding-left: 28px;
     width: calc(100% - 595px);
-    height: 25px;
+    height: calc(100% - 3px);
+    line-height: 50px;
     font-size: 14px;
     color: #fff;
     -o-transition: all 350ms;
@@ -10,7 +11,7 @@
     -webkit-transition: all 350ms;
     position: absolute;
     right: 146px;
-    top: 18px;
+    top: 3px;
 }
 #cm-control-lrc *{
     display: none;

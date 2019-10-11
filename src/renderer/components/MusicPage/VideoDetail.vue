@@ -8,7 +8,7 @@
             <VideoPlayer v-if="url" :url="url"></VideoPlayer>
             <ButtonArea class="video-button-area">
 <!--                <button @click="subscribe" class="sf-icon-heart-o">{{playlistData.subscribed?' 已':" "}}收藏({{playlistData.subscribeCount}})</button>-->
-                <button @click="downloadVideo" class="sf-icon-download">下载</button>
+                <button @click="downloadVideo" class="sf-icon-arrow-to-bottom">下载</button>
             </ButtonArea>
             <div class="video-title">
                 视频评论

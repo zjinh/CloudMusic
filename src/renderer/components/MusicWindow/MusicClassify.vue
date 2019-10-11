@@ -78,7 +78,7 @@
                             },
                             {
                                 name:"下载管理",
-                                icon:"sf-icon-download",
+                                icon:"sf-icon-arrow-to-bottom",
                                 data:"/download",
                                 active:''
                             },
