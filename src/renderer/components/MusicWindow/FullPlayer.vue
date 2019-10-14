@@ -18,7 +18,7 @@
                         <img v-lazy="NowPlay.picture" alt="" draggable="false">
                         <button :class="playState+' animated fadeIn'" v-show="!mode" @click="playerControl('play')"></button>
                     </div>
-                    <div class="cm-full-music-button">
+                    <div class="cm-full-music-button" v-show="mode">
                         <LikeMusic :music="NowPlay"></LikeMusic>
                         <button class="sf-icon-star-o"></button>
                         <button class="sf-icon-arrow-to-bottom" :disabled="NowPlay.type==='local'"></button>

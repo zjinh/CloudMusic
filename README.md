@@ -4,7 +4,17 @@
 
 ## 🖥 应用界面
 #### 主界面
-
+   ![主界面](screen/music.png)
+   ![主界面](screen/about.png)
+#### 展开的播放页
+   ![展开的播放页](screen/full-player.gif)
+#### 简约的播放页
+   ![展开的播放页](screen/simple-player.png)
+#### 桌面歌词
+   ![展开的播放页](screen/lrc.gif)
+#### 歌单
+   ![歌单](screen/local.png)
+   ![歌单](screen/playlist.png)
   
 ---
 ## 头脑第二次发热开发的音乐小应用
@@ -13,12 +23,13 @@ C-Music是一款简洁的音乐播放器。
 
 ## ✨ 功能亮点
 - 🕹 简洁的图形操作界面
-- 💾 支持断点下载歌曲/MV
+- 💾 支持断点下载歌曲/MV（未完成）
 - 🔔 传输任务完成通知提醒
-- ✨ 每日歌曲推荐
-- ✨ MV在线播放
+- ✨ 每日歌曲/歌单推荐
+- ✨ MV在线播放（未完全完成）
 - ✨ 音乐在线搜索
 - ✨ 本地音乐播放
+- ✨ 本地音乐匹配歌词、封面
 - ✨ 桌面歌词
 
 ## 🛠 使用的技术栈
@@ -30,6 +41,10 @@ C-Music是一款简洁的音乐播放器。
 - [iView](https://www.iviewui.com/)
 - [Element](https://element.eleme.io)
 
+## :star2: 数据接口
+- [NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)
+
+### 部分功能未开发完成
 
 ## ⌨️ 本地开发
 
