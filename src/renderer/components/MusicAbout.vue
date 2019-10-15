@@ -23,7 +23,7 @@
                 </div>
             </div>
             <div class="bottom">
-                <p class="release">©2019 CloudMusic ZJINH </p>
+                <p class="release">©2019 GPL CloudMusic ZJINH </p>
                 <button class="cm-cancel-button" @click="checkUpdate">
                     <span v-if="!loading">{{CheckText}}</span>
                     <span v-else>{{ProcessText}}</span>
