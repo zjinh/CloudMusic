@@ -68,7 +68,7 @@
         watch:{
             PlayList: {
                 handler() {
-                    this.PlayList.forEach((item, index) => {
+                    this.PlayList.some((item, index) => {
                         item.count=index;
                         if (item.play) {
                             this.NowPlay=JSON.handle(item);
@@ -148,6 +148,11 @@
                             this.PlayList[next_play].play='playing'
                         }else{
                             this.PlayerCommend('stop');
+                            this.$parent.PlayList.forEach((item)=>{
+                                item.play=false;
+                            });
+                            this.$parent.PlayList=[];
+                            this.$parent.showFull=false;
                         }
                         break;
                     case 'play':
@@ -289,7 +294,6 @@
                     requestAnimationFrame(renderFrame);
                 }
                 renderFrame();
-                this.VisualState=false;
             },
             startLyric(rs){
                 let lrc=rs.lrc?rs.lrc.lyric:'[00:00.000] 暂无歌词';

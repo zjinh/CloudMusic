@@ -5,7 +5,7 @@
         </div>
         <TabBar :data="searchType" @select="tabBarSelect"></TabBar>
         <div class="cm-search-main">
-            <SongList v-show="nowSearchType[0]==='songs'" :data="searchResult.songs" :loading="loading" :page="false" @callback="playMusic" @scroll-end="loadMore"></SongList>
+            <SongList v-show="nowSearchType[0]==='songs'" :data="searchResult.songs" :loading="loading" :page="false" @scroll-end="loadMore"></SongList>
             <ArtistList v-show="nowSearchType[0]==='artists'" :data="searchResult.artists" :loading="loading" @scroll-end="loadMore"></ArtistList>
             <PlayList v-show="nowSearchType[0]==='playlists'" :data="searchResult.playlists" :loading="loading" @scroll-end="loadMore"></PlayList>
             <AlbumList v-show="nowSearchType[0]==='albums'" :data="searchResult.albums" :loading="loading" @scroll-end="loadMore"></AlbumList>
@@ -23,7 +23,6 @@
     import RadioList from "../MusicCom/ListCom/RadioList";
     export default {
         name: "SearchPage",
-        inject:['playMusic'],
         components:{
             ArtistList,PlayList,AlbumList,VideoList,RadioList
         },

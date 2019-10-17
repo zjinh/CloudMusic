@@ -5,7 +5,7 @@
         </DetailPageHead>
         <TabBar :data="artistDataType" align="left" @select="tabBarChange"></TabBar>
         <div class="cm-artist-detail-main">
-            <SongList v-show="nowType.type==='music'" :data="artistDetail.music" :loading="loading" @callback="playMusic"></SongList>
+            <SongList v-show="nowType.type==='music'" :data="artistDetail.music" :loading="loading"></SongList>
             <VideoList v-show="nowType.type==='mv'" :data="artistDetail.mv" :loading="loading"></VideoList>
             <ArtistList v-show="nowType.type==='simi'" :data="artistDetail.simi" @callback="init" :loading="loading"></ArtistList>
         </div>
@@ -18,7 +18,6 @@
     import ArtistList from "../MusicCom/ListCom/ArtistList";
     export default {
         name: "ArtistDetail",
-        inject:['playMusic'],
         components:{
             VideoList,ArtistList
         },
@@ -75,6 +74,7 @@
         },
         methods:{
             init(){
+                this.loading=true;
                 if(this.$route.query.data) {
                     this.artistData = JSON.parse(this.$route.query.data);
                 }

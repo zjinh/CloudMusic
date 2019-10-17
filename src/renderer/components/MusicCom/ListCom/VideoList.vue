@@ -5,8 +5,8 @@
                 <img v-lazy="item.coverUrl||item.imgurl" alt="" draggable="false">
                 <p>{{item.title||item.name}}</p>
                 <span class="creator" v-if="item.creator">by {{item.creator[0].userName}}</span>
-                <span class="count sf-icon-video"> {{$numberCount(item.playTime||item.playCount||0)}}</span>
-                <span class="time">{{timeDeal(item.durationms||item.duration||0)}}</span>
+                <CountTag class="count sf-icon-video"> {{$numberCount(item.playTime||item.playCount||0)}}</CountTag>
+                <CountTag class="time"> {{timeDeal(item.durationms||item.duration||0)}}</CountTag>
             </div>
         </div>
         <NoData v-show="data.length===0&&!loading"></NoData>
@@ -82,20 +82,15 @@
         color: #b9b9b9;
     }
     .video-block .time, .video-self-block .time{
-        position: absolute;
-        right: 5px;
+        right: 0;
         top: 79px;
-        color: #fff;
-        font-size: 12px;
-        background: rgba(0,0,0,.1);
+        bottom: unset;
     }
     .video-block .count,.video-self-block .count{
-        position: absolute;
-        left: 5px;
-        top: 5px;
-        color: #fff;
-        font-size: 12px;
-        background: rgba(0,0,0,.1);
+        bottom: unset;
+        right: unset;
+        left: 0;
+        top: 0;
     }
     .video-self-block{
         width: 100%;
@@ -119,11 +114,7 @@
         left: 155px;
     }
     .video-self-block .time{
-        right: calc(100% - 145px);
+        right: calc(100% - 150px);
         top: 60px;
-    }
-    .video-self-block .count{
-        left: 5px;
-        top: 5px;
     }
 </style>

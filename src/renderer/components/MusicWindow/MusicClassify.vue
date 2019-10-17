@@ -91,13 +91,13 @@
                             {
                                 name:"我的电台",
                                 icon:"sf-icon-bullseye",
-                                data:"",
+                                data:"/my-radio",
                                 active:''
                             },
                             {
                                 name:"我的收藏",
                                 icon:"sf-icon-star-o",
-                                data:"",
+                                data:"/my-collect",
                                 active:''
                             }
                         ],

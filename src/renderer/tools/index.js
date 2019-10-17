@@ -142,6 +142,7 @@ import TabBar from "../components/MusicCom/TabBar.vue"
 import DetailPageHead from "../components/MusicCom/DetailPageHead.vue"
 import BackToTop from "../components/MusicCom/Button/BackToTop.vue"
 import ButtonArea from "../components/MusicCom/ButtonArea.vue"
+import CountTag from "../components/MusicCom/CountTag";
 Vue.component('PageHeader',PageHeader);
 Vue.component('SongList',SongList);
 Vue.component('loading',loading);
@@ -150,6 +151,7 @@ Vue.component('TabBar',TabBar);
 Vue.component('DetailPageHead',DetailPageHead);
 Vue.component('BackToTop',BackToTop);
 Vue.component('ButtonArea',ButtonArea);
+Vue.component('CountTag',CountTag);
 //引入electron接口
 const path = require('path');
 const ipc=require('electron').ipcRenderer;

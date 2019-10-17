@@ -37,6 +37,16 @@ export default new Router({
           component: require('@/components/MusicPage/PlayHistory.vue').default
         },
         {
+          path: '/my-radio',
+          name: 'my-radio',
+          component: require('@/components/MusicPage/MyRadio.vue').default
+        },
+        {
+          path: '/my-collect',
+          name: 'my-collect',
+          component: require('@/components/MusicPage/MyCollect.vue').default
+        },
+        {
           path: '/user-playlist/:id',
           name: 'user-playlist',
           component: require('@/components/MusicPage/PlayListDetail.vue').default

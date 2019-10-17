@@ -5,7 +5,7 @@
                 <img v-lazy="item.picUrl" alt="" draggable="false">
                 <p>{{item.name}}</p>
                 <span class="creator">by {{item.dj.nickname}}</span>
-                <span class="sub">{{$numberCount(item.subCount)}}订阅</span>
+                <CountTag>{{$numberCount(item.subCount)}}订阅</CountTag>
             </div>
         </div>
         <NoData v-show="data.length===0&&!loading"></NoData>
@@ -18,7 +18,10 @@
         name: "RadioList",
         props:{
             data:Array,
-            type:String,
+            type:{
+                type: String,
+                default:'list'
+            },
             loading:Boolean
         },
         methods:{
@@ -76,14 +79,6 @@
     .radio-block .creator{
         font-size: 12px;
         color: #b9b9b9;
-    }
-    .radio-block .sub{
-        position: absolute;
-        right: 5px;
-        bottom: 55px;
-        color: #fff;
-        font-size: 12px;
-        background: rgba(0,0,0,.1);
     }
     .radio-block .count{
         position: absolute;

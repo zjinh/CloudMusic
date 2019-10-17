@@ -20,7 +20,7 @@
         </DetailPageHead>
         <TabBar :data="playlistDataType" align="left" @select="tabBarChange"></TabBar>
         <div class="cm-playlist-detail-main">
-            <SongList ref="songList" v-show="nowType.type==='musicList'" :data="playListDetail.musicList" :loading="loading" @callback="playMusic" @remove="removeCallback"></SongList>
+            <SongList ref="songList" v-show="nowType.type==='musicList'" :data="playListDetail.musicList" :loading="loading" @remove="removeCallback"></SongList>
             <CommentList v-show="nowType.type==='comment'" :data="playListDetail.comment" type="playlist" :loading="loading"></CommentList>
             <UserList v-show="nowType.type==='subscribers'" :data="playListDetail.subscribers"></UserList>
         </div>
@@ -33,7 +33,6 @@
     import UserList from "../MusicCom/ListCom/UserList";
     export default {
         name: "PlayListDetail",
-        inject:['playMusic'],
         components:{
             CommentList,UserList
         },
@@ -93,6 +92,7 @@
         },
         methods:{
             init(){
+                this.loading=true;
                 if(this.$route.query.data||this.$route.query.list) {
                     this.playlistData = JSON.parse(this.$route.query.data||this.$route.query.list);
                 }

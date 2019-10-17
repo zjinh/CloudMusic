@@ -14,7 +14,7 @@
         </DetailPageHead>
         <TabBar :data="playlistDataType" align="left" @select="tabBarChange"></TabBar>
         <div class="cm-radio-detail-main">
-            <RadioItem v-show="nowType.type==='programs'" :data="radioDetail.programs" :loading="loading" @callback="playMusic"></RadioItem>
+            <RadioItem v-show="nowType.type==='programs'" :data="radioDetail.programs" :loading="loading"></RadioItem>
         </div>
         <BackToTop></BackToTop>
     </div>
@@ -25,7 +25,6 @@
     import RadioItem from "../MusicCom/ListCom/RadioItem";
     export default {
         name: "RadioDetail",
-        inject:['playMusic'],
         components:{
             RadioItem,UserList
         },
@@ -71,6 +70,7 @@
         },
         methods:{
             init(){
+                this.loading=true;
                 if(this.$route.query.data) {
                     this.radioData = JSON.parse(this.$route.query.data);
                 }

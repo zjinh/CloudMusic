@@ -2,6 +2,7 @@
     <div class="cm-page-head">
         <span class="title">{{title}}</span>
         <span class="dots">·</span>
+        <span class="prefix">{{left}}</span>
         <span class="number">{{count}}</span>
         <span class="prefix">{{prefix}}</span>
         <div class="slot">
@@ -16,6 +17,7 @@
         props:{
             title:String,
             count:Number,
+            left:String,
             prefix:String
         }
     }

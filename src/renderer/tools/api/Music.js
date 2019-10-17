@@ -199,6 +199,31 @@ export default {
             error: error
         })
     },
+    getRecordList(uid,callback,error){
+        Ajax({
+            url: "/open/netase/user/record",
+            method: "get",
+            data: {
+                type:1,
+                uid:uid?uid:User.UserId
+            },
+            success: (rs)=>{
+                let data=[];
+                let count=0;
+                let max = rs.weekData&&rs.weekData[0].playCount||0;
+                if(rs.weekData) {
+                    rs.weekData.forEach((item) => {
+                        data.push(item.song);
+                        count = count + item.playCount;
+                    });
+                }
+                callback(data,{
+                    count,max
+                })
+            },
+            error: error
+        })
+    },
     artist: {
         detail(id, callback, error) {
             Ajax({

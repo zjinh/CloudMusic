@@ -12,7 +12,7 @@
         </DetailPageHead>
         <TabBar :data="playlistDataType" align="left" @select="tabBarChange"></TabBar>
         <div class="cm-album-detail-main">
-            <SongList v-show="nowType.type==='musicList'" :data="albumDetail.musicList" :loading="loading" @callback="playMusic"></SongList>
+            <SongList v-show="nowType.type==='musicList'" :data="albumDetail.musicList" :loading="loading"></SongList>
             <CommentList v-show="nowType.type==='comment'" :data="albumDetail.comment" type="album" :loading="loading"></CommentList>
             <div class="cm-album-description" v-show="nowType.type==='description'">{{albumData.description||'暂无数据'}}</div>
         </div>
@@ -25,7 +25,6 @@
     import UserList from "../MusicCom/ListCom/UserList";
     export default {
         name: "AlbumDetail",
-        inject:['playMusic'],
         components:{
             CommentList,UserList
         },
@@ -81,6 +80,7 @@
         },
         methods:{
             init(){
+                this.loading=true;
                 if(this.$route.query.data) {
                     this.albumData = JSON.parse(this.$route.query.data);
                     this.albumData.publishTime=new Date(this.albumData.publishTime).format('yyyy-MM-dd');

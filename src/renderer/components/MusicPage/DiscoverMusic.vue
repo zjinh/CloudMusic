@@ -12,7 +12,7 @@
                 </p>
             </div>
         </div>
-        <SongList v-show="showType" :data="RecommendSong" :loading="loading" @callback="playMusic"></SongList>
+        <SongList v-show="showType" :data="RecommendSong" :loading="loading"></SongList>
         <PlayList v-show="!showType" :data="RecommendPlayList" :loading="loading2" type="recommend"></PlayList>
     </div>
 </template>
@@ -21,7 +21,6 @@
     import PlayList from "../MusicCom/ListCom/PlayList";
     export default {
         name: "DiscoverMusic",
-        inject:['playMusic'],
         components:{PlayList},
         created() {
             this.getDay();

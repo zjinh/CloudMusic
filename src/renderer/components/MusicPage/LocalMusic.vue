@@ -5,7 +5,7 @@
             /<button @click="changeDir" class="cm-dir-button">选择目录</button>
         </PageHeader>
         <div class="cm-local-list">
-            <SongList :data="localMusic" type="local" :loading="loading" @callback="playMusic"></SongList>
+            <SongList :data="localMusic" type="local" :loading="loading"></SongList>
         </div>
     </div>
 </template>
@@ -15,7 +15,6 @@
     const async = require('async');
     export default {
         name: "LocalMusic",
-        inject:['playMusic'],
         data(){
             return{
                 localDir:"",

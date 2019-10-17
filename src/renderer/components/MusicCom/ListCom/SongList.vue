@@ -118,8 +118,8 @@
             timeDeal(s){
                 return media.secondDeal(s/1000)
             },
-            clickToPlay(item,index){
-                this.$emit('callback',item,this.listData);
+            clickToPlay(item){
+                this.playMusic(item,this.listData);
             },
             scrollToLoad(e){
                 let element=e.target;

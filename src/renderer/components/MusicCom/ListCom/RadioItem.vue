@@ -68,8 +68,8 @@
                 });
                 return _return;
             },
-            clickToPlay(item,index){
-                this.$emit('callback',item,this.listData);
+            clickToPlay(item){
+                this.playMusic(item,this.listData);
             },
             scrollToLoad(e){
                 this.$scrollEnd(e,()=>{
