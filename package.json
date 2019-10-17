@@ -1,9 +1,9 @@
 {
   "name": "CloudMusic",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "ZJINH <2665229856@qq.com>",
   "description": "CloudMusic",
-  "license": null,
+  "license": "ZJINH",
   "main": "./dist/electron/main.js",
   "scripts": {
     "build": "node .electron-vue/build.js && electron-builder",
