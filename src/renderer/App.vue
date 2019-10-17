@@ -20,6 +20,10 @@
       window.addEventListener( "drop", function (e) {
         e.preventDefault();
       }, false );
+      this.$Message.config({
+        top:80,
+        duration: 2.5,
+      });
     }
   }
 </script>

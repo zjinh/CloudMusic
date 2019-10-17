@@ -24,7 +24,7 @@
             </div>
             <div class="bottom">
                 <p class="release">©2019 GPL CloudMusic ZJINH </p>
-                <button class="cm-cancel-button" @click="checkUpdate">
+                <button class="cm-cancel-button" @click="checkUpdate" :disabled="percent>0&&percent!==100">
                     <span v-if="!loading">{{CheckText}}</span>
                     <span v-else>{{ProcessText}}</span>
                 </button>
