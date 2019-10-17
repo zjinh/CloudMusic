@@ -20,8 +20,8 @@
                     </div>
                     <div class="cm-full-music-button" v-show="mode">
                         <LikeMusic :music="NowPlay"></LikeMusic>
-                        <button class="sf-icon-star-o"></button>
-                        <button class="sf-icon-arrow-to-bottom" :disabled="NowPlay.type==='local'"></button>
+                        <AddMusic icon="sf-icon-star-o" :music="NowPlay"></AddMusic>
+                        <DownMusic :music="NowPlay"></DownMusic>
                     </div>
                     <p id="cm-fully-music-line-lrc" class="animated slideInDown" v-show="!mode"></p>
                 </div>
@@ -76,6 +76,8 @@
     import CommentList from "../MusicCom/ListCom/CommentList";
     import PlayList from "../MusicCom/ListCom/PlayList";
     import LikeMusic from "../MusicCom/Button/LikeMusic";
+    import AddMusic from "../MusicCom/Button/AddMusic";
+    import DownMusic from "../MusicCom/Button/DownMusic";
     export default {
         name: "FullPlayer",
         inject:['playerControl','playMusic'],
@@ -111,7 +113,7 @@
             }
         },
         components:{
-            BlurBackground,CommentList,PlayList,LikeMusic
+            BlurBackground,CommentList,PlayList,LikeMusic,AddMusic,DownMusic
         },
         computed:{
             commentType:function () {

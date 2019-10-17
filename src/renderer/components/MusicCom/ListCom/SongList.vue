@@ -39,9 +39,9 @@
                     {{FileSize(item.size)}}
                 </span>
                 <span class="control">
-                    <LikeMusic :music="item" :index="index" :list="listData" @like="likeCallback"></LikeMusic>
-                    <button class="sf-icon-plus"></button>
-                    <button class="sf-icon-arrow-to-bottom"></button>
+                    <LikeMusic :music="item" :index="index" @like="likeCallback"></LikeMusic>
+                    <AddMusic :music="item"></AddMusic>
+                    <DownMusic :music="item"></DownMusic>
                     <button class="sf-icon-trash-alt" @click.stop="removeMusic(item,index)" v-if="type==='local'||playListData.creator.userId===$Api.User.UserId"></button>
                 </span>
             </li>
@@ -54,11 +54,13 @@
 <script>
     import media from "../../../tools/media";
     import LikeMusic from "../Button/LikeMusic";
+    import AddMusic from "../Button/AddMusic";
+    import DownMusic from "../Button/DownMusic";
     export default {
         name: "SongList",
         inject:['nowPlay','playMusic'],
         components:{
-            LikeMusic
+            LikeMusic,AddMusic,DownMusic
         },
         props:{
             data:Array,
@@ -143,10 +145,18 @@
                 }
             },
             removeMusic(item,index){
+                if(item.play){
+                    return this.$Message.warning('你不能删除一首正在播放的歌')
+                }
                 this.Confrim({
                     title:'移除歌曲',
                     tips:'确认将这首歌从歌单移除吗',
                     callback:()=> {
+                        if(item.type==='local'){
+                            this.listData.splice(index,1);
+                            this.$Api.LocalFile.write('local-music',this.listData);
+                            return this.$emit('remove',this.listData.length);
+                        }
                         this.$Api.Music.removeMusicFromList({
                             pid:this.$route.params.id,
                             tracks:item.id

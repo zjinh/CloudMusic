@@ -26,6 +26,9 @@
             this.localDir=localStorage.localDir;
             this.$Api.LocalFile.read('local-music',(data)=>{
                 if(data.constructor===Array&&data.length){
+                    data.forEach((item)=>{
+                        item.play=false;
+                    });
                     this.localMusic=data;
                     this.loading=false;
                 }else{
