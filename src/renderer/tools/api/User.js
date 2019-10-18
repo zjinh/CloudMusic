@@ -11,6 +11,7 @@ export default {
                 this.UserId=rs.profile.userId;
                 LocalFile.init(rs.profile.userId, () => {
                     LocalFile.write('user', rs.profile);
+                    LocalFile.write('key', rs.account.id);
                     LocalFile.write('login', JSON.parse(JSON.stringify(data)),true);
                     callback && callback(rs.profile);
                 });
