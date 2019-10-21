@@ -45,13 +45,13 @@
                 this.showType=!this.showType;
             },
             getRecommendSong(){
-                this.$Api.Music.getRecommendSong((rs)=>{
+                this.$Api.Music.song.recommend((rs)=>{
                     this.RecommendSong=rs.recommend||[];
                     this.loading=false;
                 })
             },
             getRecommendPlayList(){
-                this.$Api.Music.getRecommendPlayList((rs)=>{
+                this.$Api.Music.playlist.recommend((rs)=>{
                     this.RecommendPlayList=rs.recommend||[];
                     this.loading2=false;
                 })

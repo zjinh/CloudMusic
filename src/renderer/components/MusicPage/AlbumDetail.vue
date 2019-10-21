@@ -2,10 +2,11 @@
     <div class="cm-page-main" @scroll="loadMore">
         <DetailPageHead :data="albumData" type="album">
             <div class="cm-album-content">
-                <p class="album-desp">时间: {{albumData.publishTime}}</p>
+                <p class="album-desp">{{albumData.publishTime?'':'收藏'}}时间: {{albumData._time}}</p>
                 <p class="album-desp">歌曲数: {{albumData.size}}首</p>
                 <p class="album-desp">歌手: {{albumData.artist_text}}</p>
                 <ButtonArea class="album-control">
+                    <button @click="subscribe" :class="subscribed?'sf-icon-star':'sf-icon-star-o'">{{subscribed?' 已':" "}}收藏</button>
                     <button @click="downloadList" class="sf-icon-arrow-to-bottom">下载</button>
                 </ButtonArea>
             </div>
@@ -66,6 +67,7 @@
                     type:"musicList",
                     value:'songs',
                 },
+                subscribed:false,
                 loading:false
             }
         },
@@ -83,8 +85,8 @@
                 this.loading=true;
                 if(this.$route.query.data) {
                     this.albumData = JSON.parse(this.$route.query.data);
-                    this.albumData.publishTime=new Date(this.albumData.publishTime).format('yyyy-MM-dd');
-                    let artist_text=this.albumData.artist.name;
+                    this.albumData._time=new Date(this.albumData.publishTime||this.albumData.subTime).format('yyyy-MM-dd');
+                    let artist_text=this.albumData.artist&&this.albumData.artist.name||'';
                     if(this.albumData.artists&&!artist_text) {
                         this.albumData.artists.forEach((item, index) => {
                             artist_text = artist_text + item.name + (index !== this.albumData.artists.length - 1 ? '/' : '')
@@ -99,23 +101,26 @@
                 }
                 if(this.$route.params.id) {
                     this.getPlaylistData(0);
+                    this.getSubAlbum();
                 }
             },
             subscribe(){
-                this.$Api.Music.album.subscribe({
+                this.$Api.Music.subscribe.album({
                     id:this.$route.params.id,
-                    t:this.albumData.subscribed?2:1
+                    t:this.subscribed?2:1
                 },(rs)=>{
                     if(rs.code===200){
-                        if(this.albumData.subscribed){
-                            this.albumData.bookCount--
-                        }else{
-                            this.albumData.bookCount++
-                        }
-                        this.albumData.subscribed=!this.albumData.subscribed;
+                        this.subscribed=!this.subscribed;
                     }
                 },()=>{
                     this.$Message.error('出现错误，请稍后重试')
+                })
+            },
+            getSubAlbum(){
+                this.$Api.Music.sublist.album(0,(rs)=>{
+                    this.subscribed=rs.data.filter((item)=>{
+                        return parseInt(item.id)===parseInt(this.$route.params.id);
+                    })[0];
                 })
             },
             downloadList(){

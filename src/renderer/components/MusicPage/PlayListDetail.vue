@@ -104,7 +104,7 @@
                 }
             },
             subscribe(){
-                this.$Api.Music.playlist.subscribe({
+                this.$Api.Music.subscribe.playlist({
                     id:this.$route.params.id,
                     t:this.playlistData.subscribed?2:1
                 },(rs)=>{

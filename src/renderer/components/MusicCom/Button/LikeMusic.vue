@@ -10,8 +10,8 @@
             index:Number,
         },
         methods:{
-            likeMusic(item,index){
-                this.$Api.Music.likeMusic({
+            likeMusic(item){
+                this.$Api.Music.song.like({
                     id:item.id,
                     like:!item.like
                 },(rs)=>{

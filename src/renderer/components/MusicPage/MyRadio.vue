@@ -20,14 +20,16 @@
                 radioListData:[],
                 hasMore:false,
                 loading:true,
+                page:0,
             }
         },
         activated(){
-            this.getSubRadio()
+            this.getSubRadio(0)
         },
         methods:{
-            getSubRadio(){
-                this.$Api.Music.radio.sublist((rs)=>{
+            getSubRadio(page){
+                this.$Api.Music.sublist.radio(page,(rs)=>{
+                    this.page=page;
                     this.radioListData=rs.djRadios;
                     this.radioCount=rs.count;
                     this.hasMore=rs.hasMore;
@@ -35,7 +37,10 @@
                 })
             },
             loadMore(){
-
+                if(this.hasMore){
+                    this.page++;
+                    this.getSubRadio(this.page);
+                }
             }
         }
     }

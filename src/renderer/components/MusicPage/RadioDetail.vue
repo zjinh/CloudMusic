@@ -83,7 +83,7 @@
                 }
             },
             subscribe(){
-                this.$Api.Music.radio.subscribe({
+                this.$Api.Music.subscribe.radio({
                     rid:this.$route.params.id,
                     t:this.subscribed?2:1
                 },(rs)=>{
@@ -100,7 +100,7 @@
                 })
             },
             getSubRadio(){
-                this.$Api.Music.radio.sublist((rs)=>{
+                this.$Api.Music.sublist.radio(0,(rs)=>{
                     this.subscribed=rs.djRadios.filter((item)=>{
                         return item.id===parseInt(this.$route.params.id);
                     })[0];

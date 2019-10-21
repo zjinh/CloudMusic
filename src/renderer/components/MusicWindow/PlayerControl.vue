@@ -5,19 +5,19 @@
             <p class="name">{{NowPlay.title}}</p>
             <p class="singer">{{NowPlay.artist}}</p>
         </section>
-        <ul class="cm-control-button">
-            <li ripple="" @click="PlayerCommend('prev')">
+        <div class="cm-control-button">
+            <button @click="PlayerCommend('prev')">
                 <i class="sf-icon-step-backward"></i>
-            </li>
-            <li ripple="" @click="PlayerCommend('play')">
+            </button>
+            <button @click="PlayerCommend('play')">
                 <i :class="PlayButtonState"></i>
-            </li>
-            <li ripple="" @click="PlayerCommend('next')">
+            </button>
+            <button @click="PlayerCommend('next')">
                 <i class="sf-icon-step-forward"></i>
-            </li>
-        </ul>
-        <div class="cm-volume-container"  @mousedown="ChangeVolume" ref="volume">
-            <div class="cm-volume-slider"></div>
+            </button>
+            <div class="cm-volume-container"  @mousedown="ChangeVolume" ref="volume">
+                <div class="cm-volume-slider"></div>
+            </div>
         </div>
         <div class="slider-bar-container" @mousedown="TimeChange" ref="slider">
             <div class="slider-bar" :style="{width:ProcessWidth}">
@@ -193,20 +193,20 @@
                     lyric.init();
                     switch (item.type||this.NowPlay.type) {
                         case 'online':
-                            this.$Api.Music.detail(this.NowPlay.id,(rs)=>{
+                            this.$Api.Music.song.detail(this.NowPlay.id,(rs)=>{
                                 this.PlayList[this.NowPlay.count].picture=rs||this.$defaultAlbum;
                                 this.NowPlay.picture = rs|| this.$defaultAlbum;
                                 callback(this.NowPlay);
                             },()=>{
                                 callback(this.NowPlay);
                             });
-                            this.$Api.Music.getLrc(this.NowPlay.id,(rs)=>{
+                            this.$Api.Music.song.lrc(this.NowPlay.id,(rs)=>{
                                 this.startLyric(rs);
                             });
                             break;
                         case 'local':
                             let data=this.NowPlay;
-                            this.$Api.Music.mateMusic({
+                            this.$Api.Music.song.mate({
                                 name: data.name
                             }, (rs) => {
                                 let cover=rs.cover;
@@ -380,7 +380,7 @@
     }
     .cm-control-button{
         float: left;
-        width: 150px;
+        width: 230px;
         height: calc(100% - 3px);
         margin-top: 3px;
         display: flex;
@@ -389,20 +389,20 @@
         position: relative;
         z-index: 1;
     }
-    .cm-control-button li{
-        width: 30px;
-        height: 30px;
+    .cm-control-button button{
+        width: 32px;
+        height: 32px;
         color: #fff6;
         text-align: center;
-        line-height: 36px;
+        line-height: 37px;
         border-radius: 100%;
         cursor: pointer;
-        margin-top: -3px;
+        background: none;
     }
-    .cm-control-button li i{
+    .cm-control-button button i{
         font-size: 16px;
     }
-    .cm-control-button li:nth-child(2){
+    .cm-control-button button:nth-child(2){
         width: 32px;
         height: 32px;
         background: rgba(255,255,255,.3);
@@ -410,7 +410,7 @@
         margin: 0 15px;
         line-height: 34px;
     }
-    .cm-control-button li:nth-child(2) i{
+    .cm-control-button button:nth-child(2) i{
         font-size: 14px;
     }
     .cm-volume-container{
@@ -418,8 +418,6 @@
         height: 5px;
         background: #636363;
         border-radius: 10px;
-        float: left;
-        margin-top: 26px;
         cursor: pointer;
         position: relative;
         z-index: 1;

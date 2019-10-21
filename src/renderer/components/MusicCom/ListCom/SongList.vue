@@ -157,7 +157,7 @@
                             this.$Api.LocalFile.write('local-music',this.listData);
                             return this.$emit('remove',this.listData.length);
                         }
-                        this.$Api.Music.removeMusicFromList({
+                        this.$Api.Music.song.removeFromList({
                             pid:this.$route.params.id,
                             tracks:item.id
                         },(rs)=>{

@@ -22,7 +22,7 @@
         },
         methods:{
             getPlayHistory(){
-                this.$Api.Music.getRecordList(undefined,(rs,data)=>{
+                this.$Api.Music.song.history(undefined,(rs,data)=>{
                     if(data.max) {
                         this.prefix = '首歌曲，共' + data.count + '次，其中“' + rs[0].name + '”播放了' + data.max + '次';
                     }

@@ -35,7 +35,7 @@
                         name:"name"
                     },
                     album:{
-                        poster:"blurPicUrl",
+                        poster:"picUrl",
                         alias:"alias",
                         tag:"专辑",
                         name:"name"

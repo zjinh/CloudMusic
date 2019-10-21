@@ -245,7 +245,7 @@ Vue.likeList=Vue.prototype.$likeList={
     time:[]
 };
 Vue.getLikeList=Vue.prototype.$getLikeList=(callback)=>{
-    Api.Music.getLikeList((rs)=>{
+    Api.Music.song.likeList((rs)=>{
         Vue.likeList.data=rs.ids;
         Vue.likeList.time=rs.checkPoint;
         callback&&callback()
