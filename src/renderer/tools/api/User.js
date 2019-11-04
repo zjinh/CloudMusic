@@ -98,5 +98,49 @@ export default {
             success:callback,
             error:error
         })
-    }
+    },
+    playList(id,callback,error){
+        Ajax({
+            url:"/open/netase/user/playlist",
+            method:"get",
+            data:{
+                uid:id,
+            },
+            success:callback,
+            error:error
+        })
+    },
+    follows(id,callback,error){
+        Ajax({
+            url:"/open/netase/user/follows",
+            method:"get",
+            data:{
+                uid:id,
+            },
+            success:callback,
+            error:error
+        })
+    },
+    followeds(id,callback,error){
+        Ajax({
+            url:"/open/netase/user/followeds",
+            method:"get",
+            data:{
+                uid:id,
+            },
+            success:callback,
+            error:error
+        })
+    },
+    dj(id,callback,error){
+        Ajax({
+            url:"/open/netase/user/dj",
+            method:"get",
+            data:{
+                uid:id,
+            },
+            success:callback,
+            error:error
+        })
+    },
 }

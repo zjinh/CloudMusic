@@ -246,17 +246,6 @@ export default {
                 success:callback,
                 error:error
             })
-        },
-        getByUser(id,callback,error){
-            Ajax({
-                url:"/open/netase/user/playlist",
-                method:"get",
-                data:{
-                    uid:id,
-                },
-                success:callback,
-                error:error
-            })
         }
     },/*歌单*/
     album:{

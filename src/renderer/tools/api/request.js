@@ -7,7 +7,7 @@ axios.interceptors.response.use(function (response) {
     return Promise.reject(err.response.data);
 });
 function severAddress() {
-    return 'https://api.zjinh.cn'
+    return ''
 }
 function updateServer() {
     return 'https://update.zjinh.cn/c-music'
