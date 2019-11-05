@@ -11,6 +11,7 @@
             <AlbumList v-show="nowSearchType[0]==='albums'" :data="searchResult.albums" :loading="loading" @scroll-end="loadMore"></AlbumList>
             <VideoList v-show="nowSearchType[0]==='videos'" :data="searchResult.videos" :loading="loading" @scroll-end="loadMore"></VideoList>
             <RadioList v-show="nowSearchType[0]==='djRadios'" :data="searchResult.djRadios" :loading="loading" @scroll-end="loadMore"></RadioList>
+            <UserList v-show="nowSearchType[0]==='userprofiles'" :data="searchResult.userprofiles" :loading="loading" @scroll-end="loadMore"></UserList>
         </div>
     </div>
 </template>
@@ -21,10 +22,11 @@
     import AlbumList from "../MusicCom/ListCom/AlbumList";
     import VideoList from "../MusicCom/ListCom/VideoList";
     import RadioList from "../MusicCom/ListCom/RadioList";
+    import UserList from "../MusicCom/ListCom/UserList";
     export default {
         name: "SearchPage",
         components:{
-            ArtistList,PlayList,AlbumList,VideoList,RadioList
+            ArtistList,PlayList,AlbumList,VideoList,RadioList,UserList
         },
         data(){
             return{
@@ -65,6 +67,12 @@
                         value:1009,
                         active:''
                     },
+                    {
+                        name:"用户",
+                        type:"userprofiles",
+                        value:1002,
+                        active:''
+                    },
                 ],
                 loading:false,
                 nowSearchType:['songs',1],
@@ -74,7 +82,8 @@
                     playlists:[],
                     albums:[],
                     videos:[],
-                    djRadios:[]
+                    djRadios:[],
+                    userprofiles:[]
                 },
                 searchParams:{
                     songs:{

@@ -1,6 +1,6 @@
 <template>
     <div class="cm-page-detail-head">
-        <img v-lazy="poster" alt="" class="poster" draggable="false">
+        <img :src="poster" alt="" class="poster" draggable="false">
         <div class="content">
             <div class="content-head">
                 <div class="tag">{{tag}}</div>
@@ -54,10 +54,8 @@
                 nowMap:{},
             }
         },
-        watch:{
-            data:function () {
-                this.nowMap=this.dataMap[this.type];
-            }
+        mounted(){
+            this.nowMap=this.dataMap[this.type];
         },
         computed:{
             tag(){

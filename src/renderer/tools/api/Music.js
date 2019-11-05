@@ -11,7 +11,7 @@ export default {
     },
     getUserPlayList(id,callback,error){
         Ajax({
-            url:"/open/netase/user/playlist",
+            url:"/user/playlist",
             method:"get",
             data:{
                 uid:id,
@@ -22,7 +22,7 @@ export default {
     },
     search(data,callback,error){
         Ajax({
-            url:"/open/netase/search",
+            url:"/search",
             method:"get",
             data:data,
             success:callback,
@@ -31,7 +31,7 @@ export default {
     },
     searchSuggest(key,callback,error){
         Ajax({
-            url:"/open/netase/search/suggest",
+            url:"/search/suggest",
             method:"get",
             data:{
                 keywords:key,
@@ -42,7 +42,7 @@ export default {
     },
     simiMusic(id,callback,error){
         Ajax({
-            url: "/open/netase/simi/song",
+            url: "/simi/song",
             method: "get",
             data: {
                 id:id
@@ -53,7 +53,7 @@ export default {
     },
     simiPlayList(id,callback,error){
         Ajax({
-            url: "/open/netase/simi/playlist",
+            url: "/simi/playlist",
             method: "get",
             data: {
                 id:id
@@ -64,7 +64,7 @@ export default {
     },
     simiUser(id,callback,error){
         Ajax({
-            url: "/open/netase/simi/user",
+            url: "/simi/user",
             method: "get",
             data: {
                 id:id
@@ -84,7 +84,7 @@ export default {
         },
         radio(page,callback,error){
             Ajax({
-                url: "/open/netase/dj/sublist",
+                url: "/dj/sublist",
                 method:this.method,
                 data:this.sublistParams(page),
                 success: callback,
@@ -93,7 +93,7 @@ export default {
         },
         artist(page,callback,error){
             Ajax({
-                url: "/open/netase/artist/sublist",
+                url: "/artist/sublist",
                 method:this.method,
                 data:this.sublistParams(page),
                 success: callback,
@@ -102,7 +102,7 @@ export default {
         },
         album(page,callback,error){
             Ajax({
-                url: "/open/netase/album/sublist",
+                url: "/album/sublist",
                 method:this.method,
                 data:this.sublistParams(page),
                 success: callback,
@@ -111,7 +111,7 @@ export default {
         },
         mv(page,callback,error){
             Ajax({
-                url: "/open/netase/mv/sublist",
+                url: "/mv/sublist",
                 method:this.method,
                 data:this.sublistParams(page),
                 success: callback,
@@ -122,7 +122,7 @@ export default {
     subscribe:{
         playlist:(data,callback,error)=>{
             Ajax({
-                url: "/open/netase/playlist/subscribe",
+                url: "/playlist/subscribe",
                 method: "get",
                 data: data,
                 success: callback,
@@ -131,7 +131,7 @@ export default {
         },
         album:(data,callback,error)=>{
             Ajax({
-                url: "/open/netase/album/sub",
+                url: "/album/sub",
                 method: "get",
                 data: data,
                 success: callback,
@@ -140,7 +140,7 @@ export default {
         },
         radio:(data,callback,error)=>{
             Ajax({
-                url: "/open/netase/dj/sub",
+                url: "/dj/sub",
                 method: "get",
                 data: data,
                 success: callback,
@@ -151,7 +151,7 @@ export default {
     artist: {
         detail(id, callback, error) {
             Ajax({
-                url: "/open/netase/artist/desc",
+                url: "/artist/desc",
                 method: "get",
                 data: {
                     id: id,
@@ -162,7 +162,7 @@ export default {
         },
         music(id,offset,callback,error){
             Ajax({
-                url: "/open/netase/artists",
+                url: "/artists",
                 method: "get",
                 data: {
                     id: id,
@@ -175,7 +175,7 @@ export default {
         },
         mv(id,offset,callback,error){
             Ajax({
-                url: "/open/netase/artist/mv",
+                url: "/artist/mv",
                 method: "get",
                 data: {
                     id: id,
@@ -188,7 +188,7 @@ export default {
         },
         simi(id,offset,callback,error){
             Ajax({
-                url: "/open/netase/simi/artist",
+                url: "/simi/artist",
                 method: "get",
                 data: {
                     id: id,
@@ -203,7 +203,7 @@ export default {
     playlist: {
         subscribers(id,offset,callback,error){
             Ajax({
-                url: "/open/netase/playlist/subscribers",
+                url: "/playlist/subscribers",
                 method: "get",
                 data: {
                     id:id,
@@ -216,7 +216,7 @@ export default {
         },
         musicList(id,offset,callback,error){
             Ajax({
-                url: "/open/netase/playlist/detail",
+                url: "/playlist/detail",
                 method: "get",
                 data: {
                     id:id,
@@ -229,7 +229,7 @@ export default {
         },
         comment(id,offset,callback,error){
             Ajax({
-                url: "/open/netase/comment/playlist",
+                url: "/comment/playlist",
                 method: "get",
                 data: {
                     id:id,
@@ -242,7 +242,7 @@ export default {
         },
         recommend(callback, error) {
             Ajax({
-                url:"/open/netase/recommend/resource",
+                url:"/recommend/resource",
                 success:callback,
                 error:error
             })
@@ -251,7 +251,7 @@ export default {
     album:{
         musicList(id,offset,callback,error){
             Ajax({
-                url: "/open/netase/album",
+                url: "/album",
                 method: "get",
                 data: {
                     id:id,
@@ -264,7 +264,7 @@ export default {
         },
         comment(id,offset,callback,error){
             Ajax({
-                url: "/open/netase/comment/album",
+                url: "/comment/album",
                 method: "get",
                 data: {
                     limit:200,
@@ -277,7 +277,7 @@ export default {
         },
         dynamic(id,callback,error){
             Ajax({
-                url: "/open/netase/album/dynamic",
+                url: "/album/dynamic",
                 method: "get",
                 data: {
                     id:id
@@ -290,7 +290,7 @@ export default {
     mv:{
         getUrl(id,callback,error){
             Ajax({
-                url: "/open/netase/mv/url",
+                url: "/mv/url",
                 method: "get",
                 data: {
                     id: id,
@@ -301,7 +301,7 @@ export default {
         },
         comment(id,offset,callback,error){
             Ajax({
-                url: "/open/netase/comment/mv",
+                url: "/comment/mv",
                 method: "get",
                 data: {
                     limit:200,
@@ -314,7 +314,7 @@ export default {
         },
         detail(id,callback,error){
             Ajax({
-                url: "/open/netase/mv/detail",
+                url: "/mv/detail",
                 method: "get",
                 data: {
                     mvid: id,
@@ -327,7 +327,7 @@ export default {
     video:{
         getUrl(id,callback,error){
             Ajax({
-                url: "/open/netase/video/url",
+                url: "/video/url",
                 method: "get",
                 data: {
                     id: id,
@@ -338,7 +338,7 @@ export default {
         },
         detail(id,callback,error){
             Ajax({
-                url: "/open/netase/video/detail",
+                url: "/video/detail",
                 method: "get",
                 data: {
                     id: id,
@@ -349,7 +349,7 @@ export default {
         },
         comment(id,offset,callback,error){
             Ajax({
-                url: "/open/netase/comment/video",
+                url: "/comment/video",
                 method: "get",
                 data: {
                     limit:200,
@@ -362,7 +362,7 @@ export default {
         },
         related(id,callback,error){
             Ajax({
-                url: "/open/netase/related/allvideo",
+                url: "/related/allvideo",
                 method: "get",
                 data: {
                     id: id,
@@ -375,7 +375,7 @@ export default {
     radio:{
         programs(id,offset,callback,error){
             Ajax({
-                url: "/open/netase/dj/program",
+                url: "/dj/program",
                 method: "get",
                 data: {
                     limit:50,
@@ -388,7 +388,7 @@ export default {
         },
         detail(id,callback,error){
             Ajax({
-                url: "/open/netase/dj/program/detail",
+                url: "/dj/program/detail",
                 method: "get",
                 data: {
                     id:id
@@ -399,7 +399,7 @@ export default {
         },
         comment(id,offset,callback,error){
             Ajax({
-                url: "/open/netase/comment/dj",
+                url: "/comment/dj",
                 method: "get",
                 data: {
                     limit:200,
@@ -414,7 +414,7 @@ export default {
     song:{
         comment(id,offset,callback,error){
             Ajax({
-                url: "/open/netase/comment/music",
+                url: "/comment/music",
                 method: "get",
                 data: {
                     limit:200,
@@ -427,7 +427,7 @@ export default {
         },
         lrc(id,callback,error){
             Ajax({
-                url:"/open/netase/lyric",
+                url:"/lyric",
                 method:"get",
                 data:{
                     id:id,
@@ -438,7 +438,7 @@ export default {
         },
         detail(id,callback,error){
             Ajax({
-                url:"/open/netase/song/detail",
+                url:"/song/detail",
                 method:"get",
                 data:{
                     ids:id,
@@ -452,7 +452,7 @@ export default {
         },
         like(data,callback,error){
             Ajax({
-                url: "/open/netase/like",
+                url: "/like",
                 method: "get",
                 data: data,
                 success: callback,
@@ -463,7 +463,7 @@ export default {
             let time=setInterval(()=>{
                 if(User.UserId){
                     Ajax({
-                        url: "/open/netase/likelist",
+                        url: "/likelist",
                         method: "get",
                         data: {
                             uid:User.UserId
@@ -477,7 +477,7 @@ export default {
         },
         history(uid,callback,error){
             Ajax({
-                url: "/open/netase/user/record",
+                url: "/user/record",
                 method: "get",
                 data: {
                     type:1,
@@ -503,7 +503,7 @@ export default {
         addToList(data,callback,error){
             data.op='add';
             Ajax({
-                url: "/open/netase/playlist/tracks",
+                url: "/playlist/tracks",
                 method: "get",
                 data: data,
                 success: callback,
@@ -513,7 +513,7 @@ export default {
         removeFromList(data,callback,error){
             data.op='del';
             Ajax({
-                url: "/open/netase/playlist/tracks",
+                url: "/playlist/tracks",
                 method: "get",
                 data: data,
                 success: callback,
@@ -522,7 +522,7 @@ export default {
         },
         mate(data,callback,error) {
             Ajax({
-                url:"/service/open/mateMusic",
+                url:"https://api.zjinh.cn/service/open/mateMusic",
                 data:data,
                 success:callback,
                 error:error
@@ -530,7 +530,7 @@ export default {
         },
         url(id,callback,error){
             Ajax({
-                url: "/open/netase/song/url",
+                url: "/song/url",
                 method: "get",
                 data: {
                     id:id
@@ -541,7 +541,7 @@ export default {
         },
         recommend(callback,error){
             Ajax({
-                url:"/open/netase/recommend/songs",
+                url:"/recommend/songs",
                 success:callback,
                 error:error
             })
@@ -550,7 +550,7 @@ export default {
     comment:{
         like(data,callback,error){
             Ajax({
-                url: "/open/netase/comment/like",
+                url: "/comment/like",
                 method: "get",
                 data: data,
                 success: callback,
@@ -559,7 +559,7 @@ export default {
         },
         control(data,callback,error){
             Ajax({
-                url: "/open/netase/comment",
+                url: "/comment",
                 method: "get",
                 data: data,
                 success: callback,

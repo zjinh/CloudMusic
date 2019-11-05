@@ -143,7 +143,7 @@
                 }
             },
             getUserPlayList(){
-                this.$Api.Music.playlist.getByUser(this.$Api.User.UserId,(rs)=>{
+                this.$Api.User.playList(this.$Api.User.UserId,0,(rs)=>{
                     rs.playlist.forEach((item)=>{
                         item.data='/user-playlist/'+item.id;
                         item.active=false;

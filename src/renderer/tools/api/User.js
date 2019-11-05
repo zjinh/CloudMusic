@@ -4,7 +4,7 @@ export default {
     UserId:null,
     Login(data,callback,error) {
         Ajax({
-            url:"/open/netase/login/"+(data.phone?'cellphone':''),
+            url:"/login/"+(data.phone?'cellphone':''),
             method:"GET",
             data:data,
             success:(rs)=>{
@@ -21,7 +21,7 @@ export default {
     },
     refresh(data,callback,error) {
         Ajax({
-            url:"/open/netase/login/refresh",
+            url:"/login/refresh",
             data:data,
             success:callback,
             error:error
@@ -29,7 +29,7 @@ export default {
     },
     Register(data,callback,error) {
         Ajax({
-            url:"/open/netase/register/cellphone",
+            url:"/register/cellphone",
             method:"get",
             data:data,
             success:callback,
@@ -48,7 +48,7 @@ export default {
     },
     sendCode(phone,callback,error){
         Ajax({
-            url:"/open/netase/captcha/sent",
+            url:"/captcha/sent",
             method:"get",
             data:{
                 phone:phone
@@ -59,7 +59,7 @@ export default {
     },
     isRegister(phone,callback,error){
         Ajax({
-            url:"/open/netase/cellphone/existence/check",
+            url:"/cellphone/existence/check",
             method:"get",
             data:{
                 phone:phone,
@@ -71,7 +71,7 @@ export default {
     },
     verify(phone,captcha,callback,error){
         Ajax({
-            url:"/open/netase/captcha/verify",
+            url:"/captcha/verify",
             method:"get",
             data:{
                 captcha:captcha,
@@ -91,7 +91,7 @@ export default {
     },
     detail(id,callback,error){
         Ajax({
-            url:"/open/netase/user/detail",
+            url:"/user/detail",
             data:{
                 uid:id
             },
@@ -99,45 +99,76 @@ export default {
             error:error
         })
     },
-    playList(id,callback,error){
+    playList(id,offset,callback,error){
         Ajax({
-            url:"/open/netase/user/playlist",
+            url:"/user/playlist",
             method:"get",
             data:{
                 uid:id,
+                limit:100,
+                offset:offset*100,
             },
             success:callback,
             error:error
         })
     },
-    follows(id,callback,error){
+    follow(data,callback,error){
         Ajax({
-            url:"/open/netase/user/follows",
+            url:"/follow",
+            method:"get",
+            data:data,
+            success:callback,
+            error:error
+        })
+    },
+    follows(id,offset,callback,error){
+        Ajax({
+            url:"/user/follows",
             method:"get",
             data:{
                 uid:id,
+                limit:100,
+                offset:offset*100,
             },
             success:callback,
             error:error
         })
     },
-    followeds(id,callback,error){
+    followeds(id,offset,callback,error){
         Ajax({
-            url:"/open/netase/user/followeds",
+            url:"/user/followeds",
             method:"get",
             data:{
                 uid:id,
+                limit:100,
+                offset:offset*100,
+                _t:new Date().getTime()
             },
             success:callback,
             error:error
         })
     },
-    dj(id,callback,error){
+    audio(id,offset,callback,error){
         Ajax({
-            url:"/open/netase/user/dj",
+            url:"/user/audio",
             method:"get",
             data:{
                 uid:id,
+                limit:100,
+                offset:offset*100,
+            },
+            success:callback,
+            error:error
+        })
+    },
+    dj(id,offset,callback,error){
+        Ajax({
+            url:"/user/dj",
+            method:"get",
+            data:{
+                uid:id,
+                limit:100,
+                offset:offset*100,
             },
             success:callback,
             error:error

@@ -1,80 +1,109 @@
 <template>
-    <div class="cm-page-main" @scroll="loadMore">
-        <DetailPageHead :data="radioData" type="user">
+    <div class="cm-page-main" id="cm-user-detail" @scroll="loadMore">
+        <DetailPageHead :data="userData" type="user">
             <div class="cm-user-content">
                 <ul class="cm-user-detail">
                     <li>
                         <span>动态</span>
-                        <p>{{radioData.eventCount}}</p>
+                        <p>{{userData.eventCount||0}}</p>
                     </li>
                     <li>
                         <span>关注数</span>
-                        <p>{{radioData.follows}}</p>
+                        <p>{{userData.follows||0}}</p>
                     </li>
                     <li>
                         <span>粉丝</span>
-                        <p>{{radioData.followeds}}</p>
+                        <p>{{userData.followeds||0}}</p>
                     </li>
-
+                    <li>
+                        <span>歌单</span>
+                        <p>{{userData.playlistCount||0}}</p>
+                    </li>
                 </ul>
+                <ButtonArea>
+                    <button @click="subscribe" :class="userData.followed?'sf-icon-heart':'sf-icon-heart-o'">{{userData.followed?' 已':" "}}关注</button>
+                </ButtonArea>
             </div>
             <div class="cm-user-content">
-
+                <p class="signature">个人介绍：{{userData.signature||'暂无介绍'}}</p>
             </div>
         </DetailPageHead>
-        <TabBar :data="playlistDataType" align="left" @select="tabBarChange"></TabBar>
+        <TabBar :data="userDataType" align="left" @select="tabBarChange"></TabBar>
         <div class="cm-user-detail-main">
-            <RadioItem v-show="nowType.type==='programs'" :data="radioDetail.programs" :loading="loading"></RadioItem>
+            <PlayList v-show="nowType.type==='playList'" :data="userDetail.playList" :loading="loading"></PlayList>
+            <UserList v-show="nowType.type==='follows'" :data="userDetail.follows" :loading="loading" @callback="init"></UserList>
+            <UserList v-show="nowType.type==='followeds'" :data="userDetail.followeds" :loading="loading" @callback="init"></UserList>
+            <RadioList v-show="nowType.type==='audio'" :data="userDetail.audio" :loading="loading"></RadioList>
         </div>
         <BackToTop></BackToTop>
     </div>
 </template>
 
 <script>
+    import PlayList from "../MusicCom/ListCom/PlayList";
     import UserList from "../MusicCom/ListCom/UserList";
     import RadioItem from "../MusicCom/ListCom/RadioItem";
+    import RadioList from "../MusicCom/ListCom/RadioList";
     export default {
         name: "UserDetail",
         components:{
-            RadioItem,UserList
+            RadioList,
+            RadioItem,UserList,PlayList
         },
         data(){
             return{
                 userId:'',
-                radioData:{
-                    dj:{}
-                },
-                playlistDataType:[
+                userData:{},
+                userDataType:[
                     {
-                        name:"节目",
-                        type:"programs",
-                        value:'programs',
+                        name:"歌单",
+                        type:"playList",
+                        value:'playlist',
                         active:'active'
                     },
+                    {
+                        name:"关注",
+                        type:"follows",
+                        value:'follow',
+                        active:''
+                    },
+                    {
+                        name:"粉丝",
+                        type:"followeds",
+                        value:'followeds',
+                        active:''
+                    },
+                    {
+                        name:"创建的电台",
+                        type:"audio",
+                        value:'djRadios',
+                        active:''
+                    },
                 ],
-                radioDetail:{
-                    programs:[],
-                    subscribers:[]
+                userDetail:{
+                    playList:[],
+                    follows:[],
+                    audio:[],
                 },
-                radioDetailParams:{
-                    programs:{
+                userDetailParams:{
+                    playList:{
                         page:0,
                         hasMore:0
                     }
                 },
                 nowType:{
-                    type:"programs",
-                    value:'programs',
+                    type:"playList",
+                    value:'playlist',
                 },
                 subscribed:false,
                 loading:false
             }
         },
         created(){
-            /*this.playlistDataType.forEach((item)=>{
-                this.radioDetail[item.type]=[];
-                this.radioDetailParams[item.type]={page:0,hasMore:0}
-            })*/
+            this.userDataType.forEach((item)=>{
+                this.userDetail[item.type]=[];
+                this.userDetailParams[item.type]={page:0,hasMore:0}
+            })
         },
         activated() {
             this.init();
@@ -84,67 +113,82 @@
                 this.loading=true;
                 this.userId=this.$route.params.id;
                 if(this.$route.query.data) {
-                    this.radioData = JSON.parse(this.$route.query.data);
-                    console.log(this.radioData)
+                    this.userData = JSON.parse(this.$route.query.data);
                 }
-                for(let i in this.radioDetail){
-                    this.radioDetail[i]=[];
+                document.getElementById('cm-user-detail').scrollTo({
+                    top:0,
+                    behavior: "smooth"
+                });
+                for(let i in this.userDetail){
+                    this.userDetail[i]=[];
                 }
                 if(this.$route.params.id) {
-                    // this.getPlaylistData(1);
-                    this.getUserDetail();
+                    this.getUserData(0);
+                    if(this.userData.eventCount===undefined){
+                        this.getUserDetail();
+                    }
+                }
+                if(!this.userData.djStatus){
+                    this.userDataType.splice(this.userDataType.length-1,1)
                 }
             },
             subscribe(){
-                this.$Api.Music.user.subscribe({
-                    rid:this.$route.params.id,
-                    t:this.subscribed?2:1
+                this.$Api.User.follow({
+                    id:this.$route.params.id,
+                    t:this.userData.followed?2:1
                 },(rs)=>{
                     if(rs.code===200){
-                        if(this.subscribed){
-                            this.radioData.subCount--
+                        if(this.userData.followed){
+                            this.userData.followeds--
                         }else{
-                            this.radioData.subCount++
+                            this.userData.followeds++
                         }
-                        this.subscribed=!this.subscribed;
+                        this.userData.followed=!this.userData.followed;
+                    }else{
+                        this.$Message.info(rs.message)
                     }
                 },()=>{
                     this.$Message.error('出现错误，请稍后重试')
                 })
             },
             getUserDetail(){
-                this.$Api.User.detail(this.userId,(rs)=>{
-                    this.radioData=rs.profile;
+                this.$Api.User.detail(this.userData.userId,(rs)=>{
+                    for(let i in rs.profile){
+                        this.$nextTick(()=>{
+                            this.userData[i]=rs.profile[i]
+                        });
+                        this.$set(this.userData,i,rs.profile[i])
+                    }
                 })
             },
-            getPlaylistData(page){
+            getUserData(page){
                 let type=this.nowType.type;
                 this.loading=(page===0);
                 let key=this.nowType.value;
-                this.$Api.Music.user[type](this.$route.params.id,page,(rs)=>{
+                this.$Api.User[type](this.$route.params.id,page,(rs)=>{
                     this.loading=false;
-                    this.radioDetailParams[type].page=page;//记录页数
-                    this.radioDetailParams[type].hasMore=rs.hasMore||rs.more;//是否全部加载完
+                    this.userDetailParams[type].page=page;//记录页数
+                    this.userDetailParams[type].hasMore=rs.hasMore||rs.more;//是否全部加载完
                     let data=rs[key]||[];
                     if(page===0){
-                        this.radioDetail[type]=data;
+                        this.userDetail[type]=data;
                     }else{
-                        this.radioDetail[type] = [...this.radioDetail[type],...data];
+                        this.userDetail[type] = [...this.userDetail[type],...data];
                     }
                 })
             },
             tabBarChange(item){
                 this.nowType=item;
-                if(this.radioDetail[item.type].length===0){
-                    this.getPlaylistData(0)
+                if(this.userDetail[item.type].length===0){
+                    this.getUserData(0)
                 }
             },
             loadMore(e){
                 let type=this.nowType.type;
                 this.$scrollEnd(e,()=>{
-                    if(this.radioDetailParams[type].hasMore) {
-                        this.radioDetailParams[type].page++;
-                        this.getPlaylistData(this.radioDetailParams[type].page)
+                    if(this.userDetailParams[type].hasMore) {
+                        this.userDetailParams[type].page++;
+                        this.getUserData(this.userDetailParams[type].page)
                     }
                 })
             }
@@ -161,6 +205,17 @@
         width: 50%;
         height: 100%;
         position: relative;
+        overflow: auto;
+    }
+    .cm-user-content .cm-button-area{
+        position: absolute;
+        bottom: 0;
+    }
+    .cm-user-content .signature{
+        font-size: 13px;
+        line-height: 1.5;
+        text-indent: -66px;
+        padding-left: 69px;
     }
     .cm-user-detail{
         width: 100%;
