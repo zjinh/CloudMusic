@@ -188,7 +188,7 @@ button[disabled="disabled"]{
 }
 .cm-page-main{
 	width: 100%;
-	height: 100%;
+	height: calc(100% - 60px);
 	padding: 15px;
 	position: relative;
 	overflow: auto;
@@ -226,7 +226,7 @@ button[disabled="disabled"]{
 	border-radius         : 0;
 }
 *::-webkit-scrollbar-thumb:active,*::-webkit-scrollbar-thumb:hover{
-	background : rgba(0,0,0,.50);
+	background : rgba(0,0,0,.1);
 }
 *::-webkit-scrollbar-corner {
 	display:none;

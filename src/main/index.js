@@ -185,9 +185,9 @@ let MusicSystem= {
       data:data,
       title:'CloudMusic',
       width: 1022,
+      height: 670,
       minWidth:1022,
       minHeight:670,
-      height: 670,
       maximizable:false,
       resizable:false,
       onclose:()=>{

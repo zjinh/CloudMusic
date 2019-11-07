@@ -1,10 +1,10 @@
 <template>
-    <div class="cm-right-head">
-        <div :class="'cm-right-round '+(full?'full':'')">
+    <div :class="'cm-right-head '+(full?'full':'')">
+        <div class="cm-right-round">
             <button class="sf-icon-angle-left" @click="navBack"></button>
             <button class="sf-icon-angle-right" @click="$router.forward()"></button>
         </div>
-        <div :class="'cm-right-search-main '+(full?'full':'')">
+        <div class="cm-right-search-main">
             <i class="sf-icon-search"></i>
             <input type="text" v-model="SearchKey" placeholder="搜索歌曲..." @input="SearchInput" @keydown.enter="SearchSuggest=false" @keyup.enter="startSearch" @blur="closeSuggest">
         </div>
@@ -258,9 +258,9 @@
         -webkit-app-region: no-drag;
     }
     .cm-right-round button{
-        background: #c34343;
-        height: 23px;
-        line-height: 24px;
+        background: #eaeaea;
+        height: 25px;
+        line-height: 25px;
         font-size: 16px;
         padding: 0 12px;
         color: #e56464;
@@ -269,10 +269,10 @@
         color: #fff;
     }
     .cm-right-round button:first-child{
-        border-radius:45% 0 0 45%;
+        border-radius:5px 0 0 5px;
     }
     .cm-right-round button:last-child{
-        border-radius:0 45% 45% 0;
+        border-radius:0 5px 5px 0;
         margin-left: -2px;
     }
     .cm-right-search-main{
@@ -284,20 +284,20 @@
     .cm-right-search-main input{
         width: 100%;
         height: 30px;
-        border-radius: 20px;
-        background: #c34343;
-        color: #fff;
+        border-radius: 5px;
+        background: #eaeaea;
+        color: #333;
         line-height: 30px;
         padding-left: 10px;
         padding-right: 32px;
     }
     .cm-right-search-main input::-webkit-input-placeholder {
-        color: #e56464;
+        color: #a09d9d;
     }
     .cm-right-search-main i{
         position: absolute;
         right: 0;
-        color: #e56464;
+        color: #a09d9d;
         font-size: 16px;
         top: 0;
         width: 40px;
@@ -312,6 +312,9 @@
     }
     .full input::-webkit-input-placeholder{
         color: #e3e8ee;
+    }
+    .full .window-actions li,.full .user-actions{
+        color: #fff;
     }
     .cm-right-search-bubble{
         width: 280px;
@@ -451,7 +454,7 @@
         line-height: 30px;
         -webkit-app-region: no-drag;
         overflow: unset;
-        color: #fff;
+        color: #333;
     }
     .user-actions *{
         -webkit-app-region: no-drag;
@@ -494,7 +497,7 @@
         position: absolute;
         top: 15px;
         right: 0;
-        color: #fff
+        color: #333
     }
     .window-actions li{
         float: left;

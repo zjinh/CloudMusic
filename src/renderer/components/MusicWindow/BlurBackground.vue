@@ -38,7 +38,7 @@
     .cm-main-filter{
         width: 100%;
         height: 100%;
-        background: #828282;
+        background: #525050;
         opacity: .5;
     }
     .cm-main-background{

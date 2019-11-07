@@ -2,7 +2,7 @@
     <section class="cm-left">
         <div class="cm-left-head">
             <img draggable="false" class="logo" v-lazy="$static+'/img/bar/music.png'" alt="">
-            <span><img class="logo-text" v-lazy="$static+'/img/logo/c-music-white.png'" alt=""></span>
+            <div class="logo-text"></div>
             <p>愿每个人都被时光温柔以待</p>
         </div>
         <div class="cm-left-menu">
@@ -10,7 +10,7 @@
                 <p>{{item.name}}</p>
                 <ul>
                     <li v-for="(menu,m_index) in item.children" ripple :class="menu.active" @click="change(index,m_index)">
-                        <span class="sf-icon-music" v-if="index>1&&menu.icon==='sf-icon-bars'"></span>
+                        <span class="sf-icon-play-1" v-if="index>1&&menu.icon==='sf-icon-bars'"></span>
                         <i :class="menu.icon"></i>{{menu.name}}<div v-show="menu.count>0">{{menu.count}}</div>
                     </li>
                 </ul>
@@ -51,11 +51,11 @@
             return{
                 MenuData:[
                     {
-                        name:"发现音乐",
+                        name:"浏览音乐",
                         children:[
                             {
-                                name:"今日推荐",
-                                icon:"sf-icon-music",
+                                name:"发现音乐",
+                                icon:"sf-icon-globe",
                                 data:"/discover",
                                 active:'active'
                             },
@@ -72,14 +72,14 @@
                         children:[
                             {
                                 name:"本地音乐",
-                                icon:"sf-icon-hdd",
+                                icon:"sf-icon-tv",
                                 data:"/local",
                                 active:''
                             },
                             {
-                                name:"下载管理",
-                                icon:"sf-icon-arrow-to-bottom",
-                                data:"/download",
+                                name:"我的电台",
+                                icon:"sf-icon-headphones",
+                                data:"/my-radio",
                                 active:''
                             },
                             {
@@ -89,15 +89,15 @@
                                 active:''
                             },
                             {
-                                name:"我的电台",
-                                icon:"sf-icon-bullseye",
-                                data:"/my-radio",
-                                active:''
-                            },
-                            {
                                 name:"我的收藏",
                                 icon:"sf-icon-star-o",
                                 data:"/my-collect",
+                                active:''
+                            },
+                            {
+                                name:"下载管理",
+                                icon:"sf-icon-arrow-to-bottom",
+                                data:"/download",
                                 active:''
                             }
                         ],
@@ -167,8 +167,13 @@
         float: left;
         width:200px;
         height: calc(100% - 60px);
-        font-weight: 600;
         color: #4d515a;
+        background: #f5f6fa;
+    }
+    .full-page{
+        background: #fff!important;
+        position: relative!important;
+        top: 0!important;
     }
     .cm-left-head{
         width: 100%;
@@ -185,36 +190,46 @@
         height: 40px;
         box-shadow: 0 0 15px 0 rgba(0,0,0,.1);
         border-radius: 100%;
+        margin-right: 4px;
     }
-    .cm-left-head span{
-        line-height: 40px;
-        padding: 0 10px 0 0;
-        -webkit-app-region: drag;
-        font-size: 16px;
-        margin-left: 5px;
+    .cm-left-head p{
+        position: absolute;
+        left: 64px;
+        top: 33px;
+        font-size: 10px;
+        text-indent: 4px;
     }
     .cm-left-head .logo-text{
         width: 110px;
+        margin-top: -3px;
+        height: 26px;
+        background: url("../../../../static/img/logo/c-music.png");
+        background-size: contain!important;
+        background-repeat: no-repeat!important;
     }
-    .cm-left-head p{
-        margin-left: 11px;
-        font-size: 10px;
-        font-weight: normal;
-        color: #efefef;
+    .full .logo-text{
+        width: 120px;
+        margin-top: -2px;
+        margin-left: -3px;
+        background: url("../../../../static/img/logo/c-music-white.png");
+    }
+    .full p{
+        color: #fff;
     }
     /*左侧菜单*/
     .cm-left-menu{
         width: 100%;
         height: calc(100% - 60px);
         overflow: auto;
-        background: #f4f5f7;
-        border-top: 1px solid #eee;
         position: relative;
+    }
+    .cm-left-menu::-webkit-scrollbar-thumb{
+        display: none;
     }
     .cm-left-menu li{
         width: 100%;
-        height: 32px;
-        line-height: 32px;
+        height: 35px;
+        line-height: 35px;
         cursor: pointer;
         font-size: 12.5px;
         margin-top: 5px;
@@ -223,18 +238,20 @@
         border-left: 4px solid rgba(0,0,0,0);
         text-overflow: ellipsis;
         white-space: nowrap;
+        padding-left: 10px;
     }
     .cm-left-menu li:hover,.cm-left-menu .active{
         color: #e56464!important;
-        background-color: #EAECF0;
         border-left: 4px solid #e56464;
     }
     .cm-left-menu li span{
         position: absolute;
         width: 12px;
-        font-size: 20px;
-        left: 16px;
-        top: 7px;
+        font-size: 10px;
+        left: 26px;
+        top: 14px;
+        background: #f5f6fa;
+        padding: 2px;
     }
     .cm-left-menu i{
         float: left;
@@ -255,10 +272,10 @@
         padding: 0 6px;
     }
     .cm-left-menu-container p{
-        font-size: 12px;
-        color: #484848;
+        font-size: 13px;
+        color: #b3b3b3;
         font-weight: normal;
-        text-indent: 10px;
+        text-indent: 22px;
         line-height: 25px;
         padding-top: 5px;
     }

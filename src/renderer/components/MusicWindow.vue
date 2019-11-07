@@ -1,6 +1,6 @@
 <template>
     <div class="cm-main">
-        <MusicClassify :style="{height:mainHeight}"></MusicClassify>
+        <MusicClassify :style="{height:mainHeight}" :class="(showFull?'full':'')+(fullPage?' full-page':'')"></MusicClassify>
         <section class="cm-right" :style="{height:mainHeight}">
             <MusicHeader :UserInfo="UserInfo" :NowPlay="NowPlay" :full="showFull"></MusicHeader>
             <section :class="'cm-right-main '+(fullPage?'full-page':'')">
@@ -137,12 +137,12 @@
 
 <style scoped>
     .cm-main{
-        background: #e56464;
+        background: #fff;
     }
     .cm-right-main{
         float: left;
         width: 100%;
-        height: calc(100% - 60px);
+        height: 100%;
         border-top: 1px solid #eee;
         background: #Fff;
         -o-transition: all 350ms;

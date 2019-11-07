@@ -17,7 +17,7 @@
                 :page-mode="page"
                 @scroll.native.passive="scrollToLoad"
                 v-slot="{ item,index }">
-            <li @click="clickToPlay(item,index)" :class="item.play" ripple="">
+            <li @click="clickToPlay(item,index)" :class="item.play+(index%2===0?' cm-list-odd':'')" ripple="">
                 <span class="num" v-if="!item.play">
                     {{needZero(index+1)}}
                 </span>
@@ -237,14 +237,14 @@
     .cm-songlist li .control .sf-icon-heart{
         color: #e56464;
     }
-    .cm-songlist >div >div:nth-child(odd) li{
-        background: #f9f9f9;
-    }
     .cm-songlist li .sf-icon-volume-up{
         color: #e56464;
     }
     .cm-songlist li:hover,.playing{
         color: #333333!important;
         background: #efefef!important;
+    }
+    .cm-list-odd{
+        background: #f9f9f9;
     }
 </style>
