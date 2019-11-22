@@ -1,7 +1,14 @@
 # CloudMusic(C-Music)
 
 > C-Music
-
+## 体验
+- [点我下载](https://works.zjinh.cn/CloudMusic)
+## Cloud系列项目
+    - [CloudDisk](https://github.com/zjinh/ClouDisk)
+    - [CloudWeather](https://github.com/zjinh/CloudWeather)
+    - [Cloud-Web](https://cloud.zjinh.cn/)
+## 个人博客
+    - [Blog](https://blog.zjinh.cn/)
 ## 🖥 应用界面
 #### 主界面
    ![主界面](screen/music.png)
