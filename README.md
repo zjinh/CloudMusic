@@ -3,12 +3,13 @@
 > C-Music
 ## 体验
 - [点我下载](https://works.zjinh.cn/CloudMusic)
+（使用网易账户登录，不放心的请下载源码修复服务地址体验）
 ## Cloud系列项目
-    - [CloudDisk](https://github.com/zjinh/ClouDisk)
-    - [CloudWeather](https://github.com/zjinh/CloudWeather)
-    - [Cloud-Web](https://cloud.zjinh.cn/)
+- [CloudDisk](https://github.com/zjinh/ClouDisk)
+- [CloudWeather](https://github.com/zjinh/CloudWeather)
+- [Cloud-Web](https://cloud.zjinh.cn/)
 ## 个人博客
-    - [Blog](https://blog.zjinh.cn/)
+- [Blog](https://blog.zjinh.cn/)
 ## 🖥 应用界面
 #### 主界面
    ![主界面](screen/music.png)
