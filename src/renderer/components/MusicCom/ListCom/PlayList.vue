@@ -117,7 +117,7 @@
     .cm-playlist-recommend li{
         float: left;
         width: 145px;
-        height: 180px;
+        height: 190px;
         margin: 6px;
         cursor: pointer;
     }

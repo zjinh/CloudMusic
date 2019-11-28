@@ -124,9 +124,8 @@ let MusicSystem= {
       url:'login',
       data:data,
       title:'CloudMusic-欢迎',
-      width: 300,
-      height: 540,
-      alwaysOnTop:true,
+      width: 850,
+      height: 550,
       maximizable:false,
       resizable:false,
       onclose:()=>{

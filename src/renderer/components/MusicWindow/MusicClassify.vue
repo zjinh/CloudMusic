@@ -24,9 +24,6 @@
         name: "MusicClassify",
         inject:['fullControl'],
         props:{
-            DiskData:{
-                type:Object
-            },
             show:{
                 type:Boolean
             }
@@ -148,6 +145,10 @@
                         item.data='/user-playlist/'+item.id;
                         item.active=false;
                         item.icon=item.privacy===10?'sf-icon-lock-alt':(item.specialType===5?'sf-icon-heart-o':'sf-icon-bars');
+                        if(item.specialType===5){
+                            let subStr=new RegExp(this.$parent.UserInfo.nickname);//创建正则表达式对象
+                            item.name=item.name.replace(subStr,"我");
+                        }
                     });
                     this.MenuData[2].children=rs.playlist.filter((item)=>{
                         return item.creator.userId===this.$Api.User.UserId;

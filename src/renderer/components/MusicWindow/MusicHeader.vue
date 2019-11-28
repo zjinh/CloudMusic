@@ -65,7 +65,7 @@
             </Dropdown>
         </div>
         <ul class="window-actions">
-            <li class="sf-icon-cog"></li>
+            <li class="sf-icon-cog" @click="setting"></li>
             <li class="sf-icon-minus" style="font-size: 10px" @click="mini"></li>
             <li class="sf-icon-times" style="font-size:14px" @click="close"></li>
         </ul>
@@ -129,6 +129,11 @@
             });
         },
         methods:{
+            setting(){
+                this.$router.push({
+                    path:"/setting"
+                })
+            },
             mini () {
                 this.MusicWindow.minimize();
             },
@@ -263,10 +268,10 @@
         line-height: 25px;
         font-size: 16px;
         padding: 0 12px;
-        color: #e56464;
+        color: #8e8e8e;
     }
     .cm-right-round button:hover{
-        color: #fff;
+        color: #333;
     }
     .cm-right-round button:first-child{
         border-radius:5px 0 0 5px;

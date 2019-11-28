@@ -86,6 +86,11 @@ export default new Router({
           name: 'user-detail',
           component: require('@/components/MusicPage/UserDetail.vue').default
         },
+        {
+          path: '/setting',
+          name: 'setting',
+          component: require('@/components/MusicPage/SettingPage.vue').default
+        },
       ]
     },
     {
