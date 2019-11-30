@@ -8,6 +8,8 @@
 - [CloudDisk](https://github.com/zjinh/CloudDisk)
 - [CloudWeather](https://github.com/zjinh/CloudWeather)
 - [Cloud-Web](https://cloud.zjinh.cn/)
+## 基础框架
+- [electron-vue-cli3](https://github.com/zjinh/electron-vue-cli3)
 ## 个人博客
 - [Blog](https://blog.zjinh.cn/)
 ## 🖥 应用界面
