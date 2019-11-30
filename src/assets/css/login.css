@@ -1,0 +1,230 @@
+body,html {
+	margin: 0;
+	height: 100%;
+	overflow: hidden;
+}
+body {
+	z-index: -1;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	-khtml-user-select: none;
+	user-select: none;
+	padding: 0!important;
+}
+input[type="text"]:disabled{
+	background: none;
+	cursor: no-drop;
+}
+.CloudIndexSection{
+	width: 100%;
+	height: 30px;
+	z-index:1;
+	top: 0;
+	left: 0;
+	position: absolute;
+	-webkit-app-region: drag;
+}
+.CloudIndexSection section{
+	float: right;
+	height: 100%;
+	-webkit-app-region: no-drag;
+}
+.CloudIndexSection button{
+	float: left;
+	width: 40px;
+	height: 100%;
+	color: #333;
+	margin-left: 5px;
+	background: none;
+	font-size: 12px;
+}
+.CloudIndexSection button:hover{
+	background: rgba(0, 0, 0, 0.1);
+}
+.CloudIndexMain{
+	width: 100%;
+	height:100%;
+	background: #fff;
+}
+.CloudIndexLeft,.CloudIndexRight{
+	float: left;
+	height: 100%;
+}
+.CloudIndexLeft{
+	width: 300px;
+	padding: 45px 25px
+}
+/*表单样式开始*/
+.CloudIndexHead{
+	height: 80px;
+}
+.CloudIndexHead h1{
+	color: #e56464;
+	font-weight: lighter;
+	font-size: 25px;
+}
+.CloudIndexHead p{
+	margin-top: 5px;
+	color: #888888;
+	font-size: 14px;
+}
+.CloudIndexForm{
+	width: 100%;
+}
+.CloudIndex-Input{
+	width: 100%;
+	height: 40px;
+	position: relative;
+	border-bottom: 1px solid #eee;
+	margin-top: 20px;
+	overflow: unset!important;
+}
+.CloudIndex-Input span,.CloudIndex-Input label{
+	color: #b8b7b7;
+}
+.CloudIndex-Input span{
+	float: left;
+	width: 30px;
+	height: 40px;
+	position: absolute;
+	text-align: center;
+	line-height: 40px;
+	font-size: 14px;
+}
+.CloudIndex-Input input{
+	width: 100%;
+	height: 32px;
+	padding-left: 35px;
+	margin-top: 4px;
+}
+.CloudIndex-Input label{
+	position: absolute;
+	left: 35px;
+	font-size: 14px;
+	top: 10px;
+	cursor: text;
+	-webkit-transition:all .35s;
+	-moz-transition:all .35s;
+	-o-transition:all .35s;
+}
+.CloudIndex-Input .ivu-tooltip{
+	height: 40px;
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+.CloudIndex-Input button{
+	width: 100%;
+	height: 32px;
+	cursor: pointer;
+	background: none;
+	color: #e56464;
+}
+.Input-Focus label{
+	top: -10px!important;
+	color: #e56464!important;
+	font-size: 12px!important;
+}
+.CloudIndex-LineContainer{
+	margin-top: 15px;
+	padding:10px 5px;
+}
+.CloudIndex-LineContainer label,.CloudIndex-LineContainer span,.CloudIndex-LineContainer p{
+	font-size: 12px;
+	color: #b8b7b7;
+}
+.CloudIndex-LineContainer a{
+	float: right;
+	font-size: 12px;
+	color: #888888;
+	cursor: pointer;
+	line-height: 22px;
+}
+.CloudIndex-postBut{
+	margin-top: 25px;
+	padding-bottom: 20px;
+}
+.CloudIndex-postBut button{
+	width: 250px;
+	height: 40px;
+	border-radius: 100px;
+	color: #fff;
+	background: #e56464;
+	-webkit-transition: background 0.1s ease-in-out;
+	-moz-transition: background 0.1s ease-in-out;
+	-o-transition: background 0.1s ease-in-out;
+	transition: background 0.1s ease-in-out;
+}
+@keyframes animate_bg {
+	0%,100% {
+		background-position: 50%, 50%;
+	}
+
+	50% {
+		background-position:-100%, 50%;
+	}
+}
+.CloudIndex-posting{
+	animation: animate_bg 5s infinite;
+}
+.CloudIndex-LineContainer{
+	margin-top: 15px;
+	padding:10px 5px;
+}
+.CloudIndex-LineContainer label,.CloudIndex-LineContainer span,.CloudIndex-LineContainer p{
+	font-size: 12px;
+	color: #b8b7b7;
+}
+.CloudIndex-LineContainer a{
+	float: right;
+	font-size: 12px;
+	color: #888888;
+	cursor: pointer;
+	line-height: 22px;
+}
+/*第三方登录*/
+.CloudIndex-OtherLogin{
+	text-align: center;
+}
+.CloudIndex-OtherLogin label{
+	font-size: 12px;
+	color: #b8b7b7;
+}
+.CloudIndex-OtherLogin ul{
+	width: 100%;
+	height: 35px;
+	margin-top: 5px;
+}
+.CloudIndex-OtherLogin ul *{
+	float: left;
+	height: 35px;
+	line-height: 35px;
+}
+.CloudIndex-OtherLogin ul li{
+	width: 124px;
+	cursor: pointer;
+	font-size: 14px;
+	color: #3d4f4f;
+}
+.CloudIndex-OtherLogin ul li span{
+	float: unset;
+	color: #6e6e6e;
+}
+.CloudIndex-OtherLogin div{
+	width: 1px;
+	background: #eee;
+}
+/*提示*/
+.CloudIndex-Tips{
+	margin-top: 30px;
+	text-align: center;
+	font-size: 12px;
+}
+.CloudIndex-Tips p{
+	color: #b8b7b7;
+}
+.CloudIndex-Tips span{
+	color: #e56464;
+	cursor: pointer;
+}
