@@ -185,7 +185,7 @@ let MusicSystem = {
     if (MainWindow) {
       return windowControl.active(MainWindow, data);
     }
-    appTray = new Tray(path.join(__static, "icon/tray.ico"));
+    appTray = new Tray(path.join(__static, "icon/tray@2x.png")); //加@2x可解决mac显示异常问题
     //图标的上下文菜单
     let trayMenuTemplate = [
       //托盘菜单
