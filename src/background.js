@@ -17,7 +17,6 @@ protocol.registerSchemesAsPrivileged([
   { scheme: "app", privileges: { secure: true, standard: true } }
 ]);
 import LocalFile from "./tools/api/LocalFile";
-import User from "./tools/api/User";
 const path = require("path");
 let TransDownFolder = process.env.USERPROFILE;
 let DownloadList = {};
