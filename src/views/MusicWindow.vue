@@ -126,18 +126,24 @@ export default {
   },
   created() {
     this.$ipc.on("win-data", (event, data) => {
-      this.$Api.User.Login(data, () => {
-        this.$getLikeList(() => {
-          this.login = true;
-        });
-        this.$Api.LocalFile.read("user", data => {
-          if (data.userId) {
-            this.$nextTick(() => {
-              this.UserInfo = data;
-            });
-          }
-        });
-      });
+      this.$Api.User.Login(
+        data,
+        () => {
+          this.$getLikeList(() => {
+            this.login = true;
+          });
+          this.$Api.LocalFile.read("user", data => {
+            if (data.userId) {
+              this.$nextTick(() => {
+                this.UserInfo = data;
+              });
+            }
+          });
+        },
+        () => {
+          this.$ipc.send("system", "logoff");
+        }
+      );
     });
   },
   methods: {

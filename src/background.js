@@ -413,15 +413,7 @@ if (!gotTheLock) {
         if (err) {
           MusicSystem.LoginWindow();
         } else {
-          User.Login(
-            data,
-            () => {
-              MusicSystem.MainWindow(data);
-            },
-            () => {
-              MusicSystem.LoginWindow(data);
-            }
-          );
+          MusicSystem.MainWindow(data);
         }
       },
       true
