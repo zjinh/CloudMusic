@@ -42,7 +42,7 @@
               <img v-lazy="item.img1v1Url" alt="" draggable="false" />
             </li>
           </ul>
-          <NoData v-else></NoData>
+          <NoData v-else/>
           <span class="key">Artist</span>
         </div>
         <div class="songs">
@@ -56,7 +56,7 @@
               {{ item.name }}
             </li>
           </ul>
-          <NoData v-else></NoData>
+          <NoData v-else/>
         </div>
         <div class="album">
           <p>专辑</p>
@@ -71,14 +71,14 @@
               <span>{{ item.name }}</span>
             </li>
           </ul>
-          <NoData v-else></NoData>
+          <NoData v-else/>
         </div>
       </div>
       <div class="cm-right-search-blur">
         <BlurBackground
           :url="NowPlay.picture"
           style="height: 100%"
-        ></BlurBackground>
+        />
       </div>
     </div>
     <div class="user-actions">
@@ -105,9 +105,9 @@
       </Dropdown>
     </div>
     <ul class="window-actions">
-      <li class="sf-icon-cog" @click="setting"></li>
-      <li class="sf-icon-minus" style="font-size: 10px" @click="mini"></li>
-      <li class="sf-icon-times" style="font-size:14px" @click="close"></li>
+      <li class="sf-icon-cog" @click="setting"/>
+      <li class="sf-icon-minus" style="font-size: 10px" @click="mini"/>
+      <li class="sf-icon-times" style="font-size:14px" @click="close"/>
     </ul>
   </div>
 </template>
@@ -152,7 +152,7 @@ export default {
   mounted() {
     this.MusicWindow = this.$electron.remote.getCurrentWindow();
     window.onbeforeunload = () => {
-      if (this.LastCommand === "logoff") {
+      if (this.LastCommand === "logoff" || this.$parent.login) {
         this.QuitFlag = true;
         this.MusicWindow.close();
       }

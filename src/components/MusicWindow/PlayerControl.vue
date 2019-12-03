@@ -17,13 +17,13 @@
     </section>
     <div class="cm-control-button">
       <button @click="PlayerCommend('prev')">
-        <i class="sf-icon-step-backward"></i>
+        <i class="sf-icon-step-backward"/>
       </button>
       <button @click="PlayerCommend('play')">
-        <i :class="PlayButtonState"></i>
+        <i :class="PlayButtonState"/>
       </button>
       <button @click="PlayerCommend('next')">
-        <i class="sf-icon-step-forward"></i>
+        <i class="sf-icon-step-forward"/>
       </button>
       <div class="cm-volume-container" @mousedown="ChangeVolume" ref="volume">
         <div class="cm-volume-slider"></div>
@@ -44,19 +44,19 @@
         @click="changePlayMethod('random')"
         ripple=""
         title="随机播放"
-      ></li>
+      />
       <li
         :class="'sf-icon-repeat ' + (playMethod === 'repeat' ? 'active' : '')"
         @click="changePlayMethod('repeat')"
         ripple=""
         title="单曲循环"
-      ></li>
+      />
       <li
         :class="'sf-icon-list ' + (playMethod === 'list' ? 'active' : '')"
         @click="changePlayMethod('list')"
         ripple=""
         title="顺序播放"
-      ></li>
+      />
     </ul>
     <canvas width="600" height="240" id="canvas"></canvas>
     <audio
@@ -70,7 +70,7 @@
       @seeking="PlayButtonState = 'sf-icon-circle-notch sf-spin'"
       @canplay="PlayerCommend('play')"
       :src="NowPlay.url"
-    ></audio>
+    />
   </section>
 </template>
 
