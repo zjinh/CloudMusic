@@ -7,7 +7,7 @@
   "scripts": {
     "lint": "vue-cli-service lint",
     "dev": "vue-cli-service lint && vue-cli-service electron:serve",
-    "build": "vue-cli-service electron:build",
+    "build": "vue-cli-service lint && vue-cli-service electron:build",
     "dev:web": "vue-cli-service serve",
     "build:web": "vue-cli-service build",
     "postinstall": "electron-builder install-app-deps",

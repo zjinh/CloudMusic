@@ -1,15 +1,18 @@
-import { Ajax, severAddress, updateServer } from "./request";
+import { Ajax, severAddress, updateServer } from './request';
 export default {
-  Check(url, callback, error) {
-    Ajax({
-      url: url,
-      data: [],
-      success: callback,
-      error: error
-    });
-  },
-  VerifyCode() {
-    return severAddress() + "/service/verifyCode" + "?" + Math.random();
-  },
-  updateServer
+	Check(url, callback, error) {
+		Ajax({
+			url: url,
+			data: [],
+			success: callback,
+			error: error
+		});
+	},
+	/**
+	 * @return {string}
+	 */
+	VerifyCode() {
+		return severAddress() + '/service/verifyCode' + '?' + Math.random();
+	},
+	updateServer
 };

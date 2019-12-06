@@ -1,94 +1,49 @@
-/*用户登录界面input*/
 <template>
-  <div
-    :class="
-      data.disabled || data.value ? 'CloudIndex-Input Input-Focus' : focusState
-    "
-  >
-    <span :class="data.icon"></span>
-    <input
-      :id="id"
-      :type="data.type ? data.type : 'text'"
-      v-model="data.value"
-      autocomplete="off"
-      spellcheck="false"
-      @change="change"
-      @focus="focusState = 'CloudIndex-Input Input-Focus'"
-      @blur="blur"
-      :disabled="data.disabled ? data.disabled : false"
-    />
-    <label :for="id">{{ data.text }}</label>
-    <Tooltip
-      v-if="data.state === 'verify'"
-      content="点击获取"
-      placement="bottom-end"
-      :transfer="true"
-    >
-      <button @click="getVerifyCode" :disabled="lock">
-        {{ verifyState }}
-      </button>
-    </Tooltip>
-  </div>
+	<div :class="data.disabled || data.value ? 'cd-index-input input-focus' : focusState">
+		<span :class="data.icon" />
+		<input
+			:id="id"
+			:type="data.type ? data.type : 'text'"
+			v-model="data.value"
+			autocomplete="off"
+			spellcheck="false"
+			@focus="focusState = 'cd-index-input input-focus'"
+			@blur="blur"
+			:disabled="data.disabled ? data.disabled : false"
+		/>
+		<label :for="id">{{ data.text }}</label>
+		<Tooltip v-if="data.state === 'verify'" content="点击刷新" placement="bottom-end" :transfer="true">
+			<img draggable="false" :src="url" @click="refresh" alt="" />
+		</Tooltip>
+	</div>
 </template>
 
 <script>
-let time = null;
 export default {
-  name: "l-input",
-  props: {
-    data: {
-      type: Object
-    }
-  },
-  data() {
-    return {
-      id: "Input-" + Math.random(),
-      focusState: "CloudIndex-Input",
-      url: this.$Api.Public.VerifyCode(),
-      verifyState: "获取验证码",
-      lock: false
-    };
-  },
-  methods: {
-    blur() {
-      if (this.data.value) {
-        this.focusState = "CloudIndex-Input Input-Focus";
-      } else {
-        this.focusState = "CloudIndex-Input";
-      }
-    },
-    change() {
-      this.$emit("on-change", this.data.value);
-    },
-    refresh() {
-      this.url = this.$Api.Public.VerifyCode();
-    },
-    getVerifyCode() {
-      this.$Api.User.sendCode(
-        this.data.phone,
-        rs => {
-          if (rs.code === 200) {
-            let count = 60;
-            time = setInterval(() => {
-              if (count !== 0) {
-                count--;
-                this.verifyState = count + "秒后重发";
-                this.lock = true;
-              } else {
-                this.verifyState = "获取验证码";
-                this.lock = false;
-                clearInterval(time);
-              }
-            }, 1000);
-          }
-        },
-        rs => {
-          this.$Message.error(rs.message);
-        }
-      );
-    }
-  }
+	name: 'l-input',
+	props: {
+		data: Object
+	},
+	data() {
+		return {
+			id: 'input-' + Math.random(),
+			focusState: 'cd-index-input',
+			url: this.$Api.Public.VerifyCode()
+		};
+	},
+	methods: {
+		blur() {
+			if (this.data.value) {
+				this.focusState = 'cd-index-input input-focus';
+			} else {
+				this.focusState = 'cd-index-input';
+			}
+		},
+		refresh() {
+			this.url = this.$Api.Public.VerifyCode();
+		}
+	}
 };
 </script>
 
-<style scoped></style>
+<style scoped />

@@ -1,13 +1,13 @@
 <template>
-  <div class="cm-page-main">
-    FM
-  </div>
+	<div class="cm-page-main">
+		FM
+	</div>
 </template>
 
 <script>
 export default {
-  name: "FmMusic"
+	name: 'FmMusic'
 };
 </script>
 
-<style scoped></style>
+<style scoped />

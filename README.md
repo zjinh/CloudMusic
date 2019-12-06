@@ -77,9 +77,9 @@ npm config set ELECTRON_MIRROR='https://npm.taobao.org/mirrors/electron/'
 
 ### 修改服务器地址
 ```bash
-    前往CloudMusic\src\tools\api\request.js
-    修改severAddress中的return值
-    可修改为自己部署的 NeteaseCloudMusicApi 地址
+前往CloudMusic\src\tools\api\request.js
+修改severAddress中的return值
+可修改为自己部署的 NeteaseCloudMusicApi 地址
 ```
 
 ### 运行项目
