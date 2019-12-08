@@ -1,4 +1,5 @@
 'use strict';
+import packageInfo from '../package';
 import { app, protocol, ipcMain, Tray, nativeImage, screen, session, BrowserWindow, Menu } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib';
@@ -393,6 +394,7 @@ if (!gotTheLock) {
 	app.on('ready', function() {
 		bindIpc();
 		createProtocol('app');
+		app.setAppUserModelId(packageInfo.appId);
 		app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required');
 		LocalFile.read(
 			'login',

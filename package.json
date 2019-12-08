@@ -2,6 +2,7 @@
   "name": "c-music",
   "author": "ZJINH",
   "description": "CloudMusic",
+  "appId": "com.zjinh.app.CloudMusic",
   "version": "1.0.0",
   "private": true,
   "scripts": {

@@ -4,18 +4,18 @@
 		<div class="cloudSeries-about-main">
 			<div class="app-version">
 				<div class="logo"></div>
-				<span>Version&nbsp;&nbsp;{{ version }}</span>
+				<span>Version{{ version }}</span>
 				<span style="color: #E83C3C;">{{ NewVersion }}</span>
 			</div>
 			<div class="app-icon"></div>
 			<div class="engine-info">
-				<h4>引擎版本&nbsp;&nbsp;{{ electron }}</h4>
+				<h4>核心版本{{ electron }}</h4>
 				<ul>
-					<li v-for="(item, index) in InfoList" :key="index">{{ index }}&nbsp;&nbsp;{{ item }}</li>
+					<li v-for="(item, index) in InfoList" :key="index">{{ index }}<span />{{ item }}</li>
 				</ul>
 			</div>
 			<div class="update-info">
-				<p class="tips">{{ message }}&nbsp;</p>
+				<p class="tips">{{ message }}</p>
 				<div class="process">
 					<Progress :percent="percent" v-show="percent > 0" />
 				</div>
@@ -54,9 +54,13 @@ export default {
 				color: '#666',
 				title: '',
 				resize: false,
-				mini: false
+				mini: false,
+				close: () => {
+					this.$electron.remote.getCurrentWindow().hide();
+					return true;
+				}
 			},
-			electron: process.versions.electron,
+			electron: ' ' + process.versions.electron,
 			InfoList: {
 				Author: 'ZJINH',
 				Email: '2665229856@qq.com',
@@ -127,9 +131,6 @@ export default {
 			this.$ipc.send('system', 'check-for-update', this.$Api.Public.updateServer());
 			this.loading = true;
 		},
-		close() {
-			this.$electron.remote.getCurrentWindow().hide();
-		},
 		OpenLink() {
 			this.$electron.shell.openExternal('https://github.com/zjinh/CloudMusic/');
 		},
@@ -162,10 +163,11 @@ export default {
 	vertical-align: bottom;
 	font-size: 30px;
 	color: #4c4c4c;
-	font-family: 'Mistral', serif;
+	font-family: 'Mistral';
 	font-weight: bold;
+	background: url('../assets/img/logo/c-music.png');
 	background-size: contain;
-	background: url(../assets/img/logo/c-music.png) no-repeat;
+	background-repeat: no-repeat;
 }
 .app-version span {
 	display: inline-block;
@@ -205,6 +207,9 @@ export default {
 .engine-info ul li {
 	float: left;
 	width: 50%;
+}
+.engine-info ul li span {
+	padding: 5px;
 }
 .update-info {
 	width: 100%;
