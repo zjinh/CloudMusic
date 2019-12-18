@@ -511,6 +511,8 @@ export default {
 }
 .user-actions .item span {
 	padding-left: 5px;
+	max-width: 69px;
+	text-overflow: ellipsis;
 }
 .ivu-dropdown-item img {
 	float: left;
