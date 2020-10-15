@@ -10,7 +10,7 @@ axios.interceptors.response.use(
 	}
 );
 function severAddress() {
-	return '';
+	return 'https://api.zjinh.cn/netase';
 }
 function updateServer() {
 	return 'https://update.zjinh.cn/c-music';
