@@ -1,5 +1,5 @@
 # CloudMusic(C-Music)
-
+# 即日起，C-MUSIC开始重构，尽情期待全新的C-MUSIC
 > C-Music
 ## 体验
 - [点我下载](https://works.zjinh.cn/CloudMusic)
