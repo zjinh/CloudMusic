@@ -218,7 +218,7 @@ Vue.component('BackToTop', BackToTop);
 Vue.component('ButtonArea', ButtonArea);
 Vue.component('CountTag', CountTag);
 /*音乐*/
-const jsmediatags = require('jsmediatags');
+const musicMetadata = require('music-metadata');
 import Api from './api/index';
 Vue.api = Vue.prototype.$Api = Api; //请求接口
 Vue.defaultAlbum = Vue.prototype.$defaultAlbum = 'http://p1.music.126.net/oCnACmhB6CM5oZyWmNfmTg==/109951163051142326.jpg';
@@ -238,14 +238,11 @@ Vue.getMusicInfo = Vue.prototype.$getMusicInfo = (file, cb) => {
 	if (path.extname(name).Exist('flac')) {
 		return cb(getMusicInfoCallback(file, { tags: {} }));
 	}
-	jsmediatags.read('file://' + file, {
-		onSuccess: function(tag) {
-			cb(getMusicInfoCallback(file, tag));
-		},
-		onError: function() {
-			cb(getMusicInfoCallback(file, { tags: {} }));
-		}
-	});
+	musicMetadata.parseFile(file).then(metadata => {
+			cb(getMusicInfoCallback(file, {tags: metadata.common}));
+		}, () => {
+			cb(getMusicInfoCallback(file, { tags: {} })); // error
+		});
 }; //音乐解析
 Vue.handleListData = Vue.prototype.$handleListData = (data, parent, flag) => {
 	if (flag) {
@@ -259,10 +256,6 @@ Vue.handleListData = Vue.prototype.$handleListData = (data, parent, flag) => {
 		let artist = item.artists ? item.artists : item.ar;
 		let album = item.album ? item.album : item.al;
 		let time = item.duration || (item.mMusic ? item.mMusic.playTime : 0) || item.dt;
-		let artist_text = '';
-		artist.forEach((item, index) => {
-			artist_text = artist_text + item.name + (index !== artist.length - 1 ? '/' : '');
-		});
 		list = {
 			id: item.id,
 			playList: parent,
@@ -274,7 +267,7 @@ Vue.handleListData = Vue.prototype.$handleListData = (data, parent, flag) => {
 			type: 'online',
 			title: item.name,
 			name: item.name,
-			artist: artist_text,
+			artist: item.artist,
 			album: album.name,
 			time: time,
 			mvid: item.mvid || item.mv,

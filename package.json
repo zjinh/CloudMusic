@@ -22,7 +22,7 @@
     "electron-updater": "^4.2.0",
     "element-ui": "^2.10.1",
     "iview": "3.3.0",
-    "jsmediatags": "^3.9.3",
+    "music-metadata": "^5.1.1",
     "vue": "^2.6.10",
     "vue-lazyload": "^1.3.3",
     "vue-router": "^3.0.3",
